@@ -6,5 +6,6 @@ namespace ChurchSchool.Domain.Entities
 {
     public class Student : Person
     {
+        
     }
 }

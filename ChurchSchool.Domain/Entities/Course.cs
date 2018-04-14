@@ -2,6 +2,6 @@
 {
     public class Course : BaseEntity
     {
-        public string Description { get; set; }
+        public string Name { get; set; }
     }
 }

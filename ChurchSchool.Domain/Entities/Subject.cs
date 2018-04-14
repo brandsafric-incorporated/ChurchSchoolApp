@@ -1,6 +1,7 @@
 ﻿namespace ChurchSchool.Domain.Entities
 {
-    public class Subject
+    public class Subject : BaseEntity
     {
+        public string Name { get; set; }
     }
 }

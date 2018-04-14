@@ -9,36 +9,66 @@ namespace ChurchSchool.Repository
 {
     public class StudentRepository : IRepository<Student>
     {
-        private IDatabase _database;
+        private RepositoryContext _repositoryContext;
 
-        public StudentRepository(IDatabase database)
+        public StudentRepository(RepositoryContext repositoryContext)
         {
-            _database = database;
+            _repositoryContext = repositoryContext;
         }
 
         public Student Add(Student model)
         {
-            throw new NotImplementedException();
+            _repositoryContext.Students.Add(model);
+            _repositoryContext.SaveChanges();
+            return model;
         }
 
         public IQueryable<Student> Filter(Student model)
         {
-            throw new NotImplementedException();
+            return _repositoryContext.Students.Where(x => x == model);
         }
 
         public IQueryable<Student> GetAll()
         {
-            throw new NotImplementedException();
+            return _repositoryContext.Students;
         }
 
         public bool Remove(Guid key)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var itemToRemove = _repositoryContext.Students.Find(key);
+
+                _repositoryContext.Students.Remove(itemToRemove);
+
+                _repositoryContext.SaveChanges();
+
+                return true;
+            }
+            catch (Exception)
+            {
+                //TODO ADD LOG HERE
+                return false;
+            }
         }
 
         public bool Update(Student model)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var itemToUpdate = _repositoryContext.Students.Find(model.Id);
+
+                itemToUpdate = model;
+
+                _repositoryContext.SaveChanges();
+
+                return true;
+            }
+            catch (Exception)
+            {
+                //TODO - ADD LOG HERE
+                return false;
+            }
         }
     }
 }

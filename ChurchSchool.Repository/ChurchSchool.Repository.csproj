@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ChurchSchool.Domain\ChurchSchool.Domain.csproj" />
+    <ProjectReference Include="..\ChurchSchoolApp.Tools\ChurchSchoolApp.Tools.csproj" />
   </ItemGroup>
 
   <ItemGroup>

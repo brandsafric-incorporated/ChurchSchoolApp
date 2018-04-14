@@ -29,7 +29,8 @@ namespace ChurchSchool.API.Controllers
         [HttpGet("{id}")]
         public Student Get(Guid id)
         {
-            return _studentRepository.Filter(new Student { Id = id }).FirstOrDefault();
+            return _studentRepository.Filter(new Student { Id = id })
+                                     .FirstOrDefault();
         }
 
         // POST api/values
@@ -50,7 +51,7 @@ namespace ChurchSchool.API.Controllers
         [HttpDelete("{id}")]
         public bool Delete(Guid id)
         {
-
+            return _studentRepository.Remove(id);
         }
     }
 }
