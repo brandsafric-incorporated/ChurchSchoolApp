@@ -12,8 +12,6 @@ namespace ChurchSchool.Repository.ModelSettings
         public void Configure(ModelBuilder builder)
         {
             builder.Entity<Domain.Entities.GradeHistory>().HasKey(x => x.Id);
-            builder.Entity<Domain.Entities.GradeHistory>().Property(x => x.CurrentGrade.Date).HasColumnType("datetime").IsRequired();
-            builder.Entity<Domain.Entities.GradeHistory>().Property(x => x.CurrentGrade.Value).IsRequired();
         }
     }
 }

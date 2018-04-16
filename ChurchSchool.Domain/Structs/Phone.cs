@@ -1,8 +1,9 @@
-﻿using System.Text.RegularExpressions;
+﻿using ChurchSchool.Domain.Entities;
+using System.Text.RegularExpressions;
 
 namespace ChurchSchool.Domain.Structs
 {
-    public struct Phone
+    public class Phone : BaseEntity
     {
         private const string REGEX_BRAZILIAN_NUMBER = @"[\(?0-9\)?]{2,4}\s{1}?9?[0-9]{4}-?[0-9]{4}";
         public string AreaCode { get; set; }

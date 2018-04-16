@@ -4,7 +4,7 @@ using System.Net.Mail;
 
 namespace ChurchSchool.Domain.Entities
 {
-    public class Email : IValidateObject
+    public class Email : BaseEntity, IValidateObject
     {
         public string Address { get; set; }
 

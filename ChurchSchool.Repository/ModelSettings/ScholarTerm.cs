@@ -12,7 +12,7 @@ namespace ChurchSchool.Repository.ModelSettings
         public void Configure(ModelBuilder builder)
         {
             builder.Entity<Domain.Entities.ScholarTerm>().HasKey(x => x.Id);
-            builder.Entity<Domain.Entities.ScholarTerm>().Property(x => x.Description).HasColumnType("varchar").HasMaxLength(500).IsRequired();
+            builder.Entity<Domain.Entities.ScholarTerm>().Property(x => x.Description).HasColumnType("varchar(500)").IsRequired();
             builder.Entity<Domain.Entities.ScholarTerm>().Property(x => x.StartDate).IsRequired();
         }
 

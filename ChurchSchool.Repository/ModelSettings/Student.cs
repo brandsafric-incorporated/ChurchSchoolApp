@@ -8,7 +8,7 @@ namespace ChurchSchool.Repository.ModelSettings
         public void Configure(ModelBuilder builder)
         {
             builder.Entity<Domain.Entities.Student>().HasKey(x => x.Id);
-            builder.Entity<Domain.Entities.Student>().Property(x => x.Name).HasColumnType("varchar").HasMaxLength(200).IsRequired();
+            builder.Entity<Domain.Entities.Student>().Property(x => x.Name).HasColumnType("varchar(200)").IsRequired();
         }
 
     }

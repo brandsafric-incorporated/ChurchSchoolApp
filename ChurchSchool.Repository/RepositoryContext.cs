@@ -16,7 +16,7 @@ namespace ChurchSchool.Repository
                                                           level == LogLevel.Information,true)
         });
 
-        private static string SqlServerConnectionString = @"Data Source=(local)\HOME_XPS;Integrated Security=False;User ID=sa;Password=#gt512M4a1;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
+        private static string SqlServerConnectionString = @"Data Source=(local)\HOME_XPS;Integrated Security=False;Initial Catalog=DB_SEMINARIO;User ID=sa;Password=#gt512M4a1;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
 
         #endregion
 
@@ -50,8 +50,6 @@ namespace ChurchSchool.Repository
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-
-
             new ModelSettings.Course().Configure(modelBuilder);
 
             new ModelSettings.CourseClass().Configure(modelBuilder);

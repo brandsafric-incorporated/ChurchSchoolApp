@@ -2,7 +2,7 @@
 
 namespace ChurchSchool.Domain.Entities
 {
-    public class Address
+    public class Address : BaseEntity
     {
         public string StreetName { get; set; }
         public int StreetNumber { get; set; }
