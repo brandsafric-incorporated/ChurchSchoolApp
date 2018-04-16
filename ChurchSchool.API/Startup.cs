@@ -21,7 +21,7 @@ namespace ChurchSchool.API
         {
             services.AddMvc();
             services.AddDbContext<RepositoryContext>(
-                        options => options.UseSqlServer(Configuration.GetConnectionString("Repository"))
+                options => options.UseSqlServer(Configuration.GetConnectionString("Repository"))
             );
         }
 

@@ -78,8 +78,7 @@ namespace ChurchSchool.Repository
 
             new ModelSettings.Student().Configure(modelBuilder);
 
-            new ModelSettings.Subject().Configure(modelBuilder);
-            
+            new ModelSettings.Subject().Configure(modelBuilder);            
         }
 
         #endregion  
