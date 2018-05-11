@@ -1,6 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
-using System;
-using System.Collections.Generic;
 
 namespace ChurchSchool.Repository.Migrations
 {
@@ -9,7 +7,7 @@ namespace ChurchSchool.Repository.Migrations
         private string _addressTypeTable = "AddressType";
         private string _sexTable = "Sex";
         private string _enrollmentStatusTable = "EnrollmentStatus";
-
+        
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(

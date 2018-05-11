@@ -12,7 +12,9 @@ namespace ChurchSchool.Repository.ModelSettings
         public void Configure(ModelBuilder builder)
         {
             builder.Entity<Domain.Entities.CourseClass>().HasKey(x => new { x.ScholarTermId, x.CurriculumId });
+            builder.Entity<Domain.Entities.CourseClass>().Property(x => x.Id).HasDefaultValueSql("NEWID()");
             builder.Entity<Domain.Entities.CourseClass>().Property(x => x.Description).HasColumnType("varchar(500)").IsRequired();
+            builder.Entity<Domain.Entities.CourseClass>().Property(x => x.InsertedDate).HasDefaultValueSql("GETDATE()");
         }
     }
 }

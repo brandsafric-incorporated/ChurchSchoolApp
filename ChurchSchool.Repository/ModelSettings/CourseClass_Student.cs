@@ -12,6 +12,8 @@ namespace ChurchSchool.Repository.ModelSettings
         public void Configure(ModelBuilder builder)
         {
             builder.Entity<Domain.Entities.CourseClass_Student>().HasKey(k => new { k.CourseClassId, k.EnrolledStudentId });
+            builder.Entity<Domain.Entities.CourseClass_Student>().Property(x => x.Id).HasDefaultValueSql("NEWID()");
+            builder.Entity<Domain.Entities.CourseClass_Student>().Property(x => x.InsertedDate).HasDefaultValueSql("GETDATE()");
         }
     }
 }

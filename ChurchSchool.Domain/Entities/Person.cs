@@ -21,6 +21,8 @@ namespace ChurchSchool.Domain.Entities
 
         public Email Email { get; set; }
 
+        public IEnumerable<PersonDocument> PersonDocuments { get; set; }
+
         public virtual bool IsValid()
         {
             return !string.IsNullOrEmpty(Name) &&

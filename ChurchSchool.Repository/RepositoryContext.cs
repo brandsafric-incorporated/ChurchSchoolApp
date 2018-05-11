@@ -21,7 +21,7 @@ namespace ChurchSchool.Repository
         #endregion
 
         #region DbSets
-        
+
         public DbSet<Domain.Entities.Subject> Subjects { get; set; }
         public DbSet<Domain.Entities.Student> Students { get; set; }
         public DbSet<Domain.Entities.ScholarTerm> ScholarTerms { get; set; }
@@ -33,6 +33,9 @@ namespace ChurchSchool.Repository
         public DbSet<Domain.Entities.Enrollment> Enrollments { get; set; }
         public DbSet<Domain.Entities.Curriculum> Curriculums { get; set; }
         public DbSet<Domain.Entities.Professor> Professors { get; set; }
+        public DbSet<Domain.Entities.CourseConfiguration> Configurations { get; set; }
+        public DbSet<Domain.Entities.Person> Person { get; set; }
+
         #endregion
 
         #region Overrides
@@ -78,7 +81,7 @@ namespace ChurchSchool.Repository
 
             new ModelSettings.Student().Configure(modelBuilder);
 
-            new ModelSettings.Subject().Configure(modelBuilder);            
+            new ModelSettings.Subject().Configure(modelBuilder);
         }
 
         #endregion  

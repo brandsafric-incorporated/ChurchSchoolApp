@@ -1,16 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.Threading.Tasks;
 
 namespace ChurchSchool.Repository.Contracts
 {
     public interface IRepository<T> where T : class
     {
-        IQueryable<T> GetAll();
-        IQueryable<T> Filter(T model);
-        T Add(T model);
-        bool Update(T model);
-        bool Remove(Guid key);
+        IEnumerable<T> GetAll();
+        IEnumerable<T> Filter(T model);
+        Task<T> Add(T model);
+        Task<bool> Update(T model);
+        Task<bool> Remove(Guid key);
     }
 }

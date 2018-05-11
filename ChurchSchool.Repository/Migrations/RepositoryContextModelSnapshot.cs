@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.EntityFrameworkCore.Storage.Internal;
+using Microsoft.EntityFrameworkCore.ValueGeneration;
 using System;
 
 namespace ChurchSchool.Repository.Migrations
@@ -18,12 +19,12 @@ namespace ChurchSchool.Repository.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.0.2-rtm-10011")
+                .HasAnnotation("ProductVersion", "2.0.3-rtm-10026")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("ChurchSchool.Domain.Entities.Address", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<Guid?>("Id")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("City");
@@ -34,9 +35,9 @@ namespace ChurchSchool.Repository.Migrations
 
                     b.Property<string>("Neighborhood");
 
-                    b.Property<Guid?>("ProfessorId");
+                    b.Property<Guid?>("PersonId");
 
-                    b.Property<DateTime>("RemovedDate");
+                    b.Property<DateTime?>("RemovedDate");
 
                     b.Property<string>("State");
 
@@ -44,37 +45,36 @@ namespace ChurchSchool.Repository.Migrations
 
                     b.Property<int>("StreetNumber");
 
-                    b.Property<Guid?>("StudentId");
-
                     b.Property<int>("Type");
 
-                    b.Property<DateTime>("UpdatedDate");
+                    b.Property<DateTime?>("UpdatedDate");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ProfessorId");
-
-                    b.HasIndex("StudentId");
+                    b.HasIndex("PersonId");
 
                     b.ToTable("Address");
                 });
 
             modelBuilder.Entity("ChurchSchool.Domain.Entities.Course", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
+                    b.Property<Guid?>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("NEWID()");
 
                     b.Property<Guid?>("CourseConfigurationId");
 
-                    b.Property<DateTime>("InsertedDate");
+                    b.Property<DateTime>("InsertedDate")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("GETDATE()");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("varchar(200)");
 
-                    b.Property<DateTime>("RemovedDate");
+                    b.Property<DateTime?>("RemovedDate");
 
-                    b.Property<DateTime>("UpdatedDate");
+                    b.Property<DateTime?>("UpdatedDate");
 
                     b.HasKey("Id");
 
@@ -93,13 +93,17 @@ namespace ChurchSchool.Repository.Migrations
                         .IsRequired()
                         .HasColumnType("varchar(500)");
 
-                    b.Property<Guid>("Id");
+                    b.Property<Guid?>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("NEWID()");
 
-                    b.Property<DateTime>("InsertedDate");
+                    b.Property<DateTime>("InsertedDate")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("GETDATE()");
 
-                    b.Property<DateTime>("RemovedDate");
+                    b.Property<DateTime?>("RemovedDate");
 
-                    b.Property<DateTime>("UpdatedDate");
+                    b.Property<DateTime?>("UpdatedDate");
 
                     b.HasKey("ScholarTermId", "CurriculumId");
 
@@ -116,17 +120,21 @@ namespace ChurchSchool.Repository.Migrations
 
                     b.Property<Guid?>("EnrollmentId");
 
-                    b.Property<Guid>("Id");
+                    b.Property<Guid?>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("NEWID()");
 
-                    b.Property<DateTime>("InsertedDate");
+                    b.Property<DateTime>("InsertedDate")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("GETDATE()");
 
                     b.Property<Guid?>("RelatedClassCurriculumId");
 
                     b.Property<Guid?>("RelatedClassScholarTermId");
 
-                    b.Property<DateTime>("RemovedDate");
+                    b.Property<DateTime?>("RemovedDate");
 
-                    b.Property<DateTime>("UpdatedDate");
+                    b.Property<DateTime?>("UpdatedDate");
 
                     b.HasKey("CourseClassId", "EnrolledStudentId");
 
@@ -145,17 +153,21 @@ namespace ChurchSchool.Repository.Migrations
 
                     b.Property<Guid>("ProfessorId");
 
-                    b.Property<Guid>("Id");
+                    b.Property<Guid?>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("NEWID()");
 
-                    b.Property<DateTime>("InsertedDate");
+                    b.Property<DateTime>("InsertedDate")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("GETDATE()");
 
                     b.Property<Guid?>("RelatedClassCurriculumId");
 
                     b.Property<Guid?>("RelatedClassScholarTermId");
 
-                    b.Property<DateTime>("RemovedDate");
+                    b.Property<DateTime?>("RemovedDate");
 
-                    b.Property<DateTime>("UpdatedDate");
+                    b.Property<DateTime?>("UpdatedDate");
 
                     b.HasKey("CourseClassId", "SubjectId", "ProfessorId");
 
@@ -170,42 +182,48 @@ namespace ChurchSchool.Repository.Migrations
 
             modelBuilder.Entity("ChurchSchool.Domain.Entities.CourseConfiguration", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
+                    b.Property<Guid?>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("NEWID()");
 
                     b.Property<Guid>("CourseId");
 
                     b.Property<Guid>("CurriculumId");
 
-                    b.Property<DateTime>("InsertedDate");
+                    b.Property<DateTime>("InsertedDate")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("GETDATE()");
 
                     b.Property<bool>("IsCurrentConfiguration");
 
-                    b.Property<DateTime>("RemovedDate");
+                    b.Property<DateTime?>("RemovedDate");
 
-                    b.Property<DateTime>("UpdatedDate");
+                    b.Property<DateTime?>("UpdatedDate");
 
                     b.HasKey("Id");
 
                     b.HasIndex("CurriculumId");
 
-                    b.ToTable("CourseConfiguration");
+                    b.ToTable("Configurations");
                 });
 
             modelBuilder.Entity("ChurchSchool.Domain.Entities.Curriculum", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
+                    b.Property<Guid?>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("NEWID()");
 
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("varchar(500)");
 
-                    b.Property<DateTime>("InsertedDate");
+                    b.Property<DateTime>("InsertedDate")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("GETDATE()");
 
-                    b.Property<DateTime>("RemovedDate");
+                    b.Property<DateTime?>("RemovedDate");
 
-                    b.Property<DateTime>("UpdatedDate");
+                    b.Property<DateTime?>("UpdatedDate");
 
                     b.HasKey("Id");
 
@@ -218,13 +236,17 @@ namespace ChurchSchool.Repository.Migrations
 
                     b.Property<Guid>("SubjectId");
 
-                    b.Property<Guid>("Id");
+                    b.Property<Guid?>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("NEWID()");
 
-                    b.Property<DateTime>("InsertedDate");
+                    b.Property<DateTime>("InsertedDate")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("GETDATE()");
 
-                    b.Property<DateTime>("RemovedDate");
+                    b.Property<DateTime?>("RemovedDate");
 
-                    b.Property<DateTime>("UpdatedDate");
+                    b.Property<DateTime?>("UpdatedDate");
 
                     b.HasKey("CurriculumId", "SubjectId");
 
@@ -235,16 +257,16 @@ namespace ChurchSchool.Repository.Migrations
 
             modelBuilder.Entity("ChurchSchool.Domain.Entities.Email", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<Guid?>("Id")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("Address");
 
                     b.Property<DateTime>("InsertedDate");
 
-                    b.Property<DateTime>("RemovedDate");
+                    b.Property<DateTime?>("RemovedDate");
 
-                    b.Property<DateTime>("UpdatedDate");
+                    b.Property<DateTime?>("UpdatedDate");
 
                     b.HasKey("Id");
 
@@ -253,24 +275,27 @@ namespace ChurchSchool.Repository.Migrations
 
             modelBuilder.Entity("ChurchSchool.Domain.Entities.Enrollment", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
+                    b.Property<Guid?>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("NEWID()");
 
                     b.Property<Guid?>("CourseId");
 
                     b.Property<DateTime>("EnrollmentDate")
                         .HasColumnType("datetime");
 
-                    b.Property<DateTime>("InsertedDate");
+                    b.Property<DateTime>("InsertedDate")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("GETDATE()");
 
-                    b.Property<DateTime>("RemovedDate");
+                    b.Property<DateTime?>("RemovedDate");
 
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
                     b.Property<Guid?>("StudentId");
 
-                    b.Property<DateTime>("UpdatedDate");
+                    b.Property<DateTime?>("UpdatedDate");
 
                     b.HasKey("Id");
 
@@ -292,13 +317,17 @@ namespace ChurchSchool.Repository.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime");
 
-                    b.Property<Guid>("Id");
+                    b.Property<Guid?>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("NEWID()");
 
-                    b.Property<DateTime>("InsertedDate");
+                    b.Property<DateTime>("InsertedDate")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("GETDATE()");
 
-                    b.Property<DateTime>("RemovedDate");
+                    b.Property<DateTime?>("RemovedDate");
 
-                    b.Property<DateTime>("UpdatedDate");
+                    b.Property<DateTime?>("UpdatedDate");
 
                     b.HasKey("ScholarTermId", "SubjectId", "EnrollmentId");
 
@@ -311,23 +340,26 @@ namespace ChurchSchool.Repository.Migrations
 
             modelBuilder.Entity("ChurchSchool.Domain.Entities.Grade", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
+                    b.Property<Guid?>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("NEWID()");
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime");
 
                     b.Property<Guid?>("EnrollmentId");
 
-                    b.Property<DateTime>("InsertedDate");
+                    b.Property<DateTime>("InsertedDate")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("GETDATE()");
 
-                    b.Property<DateTime>("RemovedDate");
+                    b.Property<DateTime?>("RemovedDate");
 
                     b.Property<Guid?>("ScholarTermId");
 
                     b.Property<Guid?>("SubjectId");
 
-                    b.Property<DateTime>("UpdatedDate");
+                    b.Property<DateTime?>("UpdatedDate");
 
                     b.Property<decimal>("Value");
 
@@ -344,16 +376,19 @@ namespace ChurchSchool.Repository.Migrations
 
             modelBuilder.Entity("ChurchSchool.Domain.Entities.GradeHistory", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
+                    b.Property<Guid?>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("NEWID()");
 
                     b.Property<Guid?>("CurrentGradeId");
 
-                    b.Property<DateTime>("InsertedDate");
+                    b.Property<DateTime>("InsertedDate")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("GETDATE()");
 
-                    b.Property<DateTime>("RemovedDate");
+                    b.Property<DateTime?>("RemovedDate");
 
-                    b.Property<DateTime>("UpdatedDate");
+                    b.Property<DateTime?>("UpdatedDate");
 
                     b.HasKey("Id");
 
@@ -362,38 +397,77 @@ namespace ChurchSchool.Repository.Migrations
                     b.ToTable("GradeHistory");
                 });
 
-            modelBuilder.Entity("ChurchSchool.Domain.Entities.Professor", b =>
+            modelBuilder.Entity("ChurchSchool.Domain.Entities.Person", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
+                    b.Property<Guid?>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("NEWID()");
 
                     b.Property<DateTime>("BirthDate");
 
+                    b.Property<string>("Discriminator")
+                        .IsRequired();
+
                     b.Property<Guid?>("EmailId");
 
-                    b.Property<DateTime>("InsertedDate");
+                    b.Property<DateTime>("InsertedDate")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("GETDATE()");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("varchar(200)");
 
-                    b.Property<DateTime>("RemovedDate");
+                    b.Property<DateTime?>("RemovedDate");
 
                     b.Property<int>("Sex");
 
-                    b.Property<DateTime>("UpdatedDate");
+                    b.Property<DateTime?>("UpdatedDate");
 
                     b.HasKey("Id");
 
                     b.HasIndex("EmailId");
 
-                    b.ToTable("Professors");
+                    b.ToTable("Person");
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("Person");
+                });
+
+            modelBuilder.Entity("ChurchSchool.Domain.Entities.PersonDocument", b =>
+                {
+                    b.Property<Guid?>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("DocumentNumber");
+
+                    b.Property<int>("DocumentTypeId");
+
+                    b.Property<DateTime>("InsertedDate");
+
+                    b.Property<bool>("IsRequired");
+
+                    b.Property<DateTime>("IssuingDate");
+
+                    b.Property<string>("IssuingEntity");
+
+                    b.Property<Guid?>("PersonId");
+
+                    b.Property<DateTime?>("RemovedDate");
+
+                    b.Property<DateTime?>("UpdatedDate");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PersonId");
+
+                    b.ToTable("PersonDocument");
                 });
 
             modelBuilder.Entity("ChurchSchool.Domain.Entities.ScholarTerm", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
+                    b.Property<Guid?>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("NEWID()");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -401,61 +475,38 @@ namespace ChurchSchool.Repository.Migrations
 
                     b.Property<DateTime>("FinishDate");
 
-                    b.Property<DateTime>("InsertedDate");
+                    b.Property<DateTime>("InsertedDate")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("GETDATE()");
 
-                    b.Property<DateTime>("RemovedDate");
+                    b.Property<DateTime?>("RemovedDate");
 
                     b.Property<DateTime>("StartDate");
 
-                    b.Property<DateTime>("UpdatedDate");
+                    b.Property<DateTime?>("UpdatedDate");
 
                     b.HasKey("Id");
 
                     b.ToTable("ScholarTerms");
                 });
 
-            modelBuilder.Entity("ChurchSchool.Domain.Entities.Student", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<DateTime>("BirthDate");
-
-                    b.Property<Guid?>("EmailId");
-
-                    b.Property<DateTime>("InsertedDate");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("varchar(200)");
-
-                    b.Property<DateTime>("RemovedDate");
-
-                    b.Property<int>("Sex");
-
-                    b.Property<DateTime>("UpdatedDate");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("EmailId");
-
-                    b.ToTable("Students");
-                });
-
             modelBuilder.Entity("ChurchSchool.Domain.Entities.Subject", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
+                    b.Property<Guid?>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("NEWID()");
 
-                    b.Property<DateTime>("InsertedDate");
+                    b.Property<DateTime>("InsertedDate")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("GETDATE()");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("varchar(200)");
 
-                    b.Property<DateTime>("RemovedDate");
+                    b.Property<DateTime?>("RemovedDate");
 
-                    b.Property<DateTime>("UpdatedDate");
+                    b.Property<DateTime?>("UpdatedDate");
 
                     b.HasKey("Id");
 
@@ -464,7 +515,7 @@ namespace ChurchSchool.Repository.Migrations
 
             modelBuilder.Entity("ChurchSchool.Domain.Structs.Phone", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<Guid?>("Id")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("AreaCode");
@@ -473,32 +524,44 @@ namespace ChurchSchool.Repository.Migrations
 
                     b.Property<string>("Number");
 
-                    b.Property<Guid?>("ProfessorId");
+                    b.Property<Guid?>("PersonId");
 
-                    b.Property<DateTime>("RemovedDate");
+                    b.Property<DateTime?>("RemovedDate");
 
-                    b.Property<Guid?>("StudentId");
-
-                    b.Property<DateTime>("UpdatedDate");
+                    b.Property<DateTime?>("UpdatedDate");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ProfessorId");
-
-                    b.HasIndex("StudentId");
+                    b.HasIndex("PersonId");
 
                     b.ToTable("Phone");
                 });
 
+            modelBuilder.Entity("ChurchSchool.Domain.Entities.Professor", b =>
+                {
+                    b.HasBaseType("ChurchSchool.Domain.Entities.Person");
+
+
+                    b.ToTable("Professor");
+
+                    b.HasDiscriminator().HasValue("Professor");
+                });
+
+            modelBuilder.Entity("ChurchSchool.Domain.Entities.Student", b =>
+                {
+                    b.HasBaseType("ChurchSchool.Domain.Entities.Person");
+
+
+                    b.ToTable("Student");
+
+                    b.HasDiscriminator().HasValue("Student");
+                });
+
             modelBuilder.Entity("ChurchSchool.Domain.Entities.Address", b =>
                 {
-                    b.HasOne("ChurchSchool.Domain.Entities.Professor")
+                    b.HasOne("ChurchSchool.Domain.Entities.Person")
                         .WithMany("Addresses")
-                        .HasForeignKey("ProfessorId");
-
-                    b.HasOne("ChurchSchool.Domain.Entities.Student")
-                        .WithMany("Addresses")
-                        .HasForeignKey("StudentId");
+                        .HasForeignKey("PersonId");
                 });
 
             modelBuilder.Entity("ChurchSchool.Domain.Entities.Course", b =>
@@ -621,29 +684,25 @@ namespace ChurchSchool.Repository.Migrations
                         .HasForeignKey("CurrentGradeId");
                 });
 
-            modelBuilder.Entity("ChurchSchool.Domain.Entities.Professor", b =>
+            modelBuilder.Entity("ChurchSchool.Domain.Entities.Person", b =>
                 {
                     b.HasOne("ChurchSchool.Domain.Entities.Email", "Email")
                         .WithMany()
                         .HasForeignKey("EmailId");
                 });
 
-            modelBuilder.Entity("ChurchSchool.Domain.Entities.Student", b =>
+            modelBuilder.Entity("ChurchSchool.Domain.Entities.PersonDocument", b =>
                 {
-                    b.HasOne("ChurchSchool.Domain.Entities.Email", "Email")
-                        .WithMany()
-                        .HasForeignKey("EmailId");
+                    b.HasOne("ChurchSchool.Domain.Entities.Person")
+                        .WithMany("PersonDocuments")
+                        .HasForeignKey("PersonId");
                 });
 
             modelBuilder.Entity("ChurchSchool.Domain.Structs.Phone", b =>
                 {
-                    b.HasOne("ChurchSchool.Domain.Entities.Professor")
+                    b.HasOne("ChurchSchool.Domain.Entities.Person")
                         .WithMany("Phones")
-                        .HasForeignKey("ProfessorId");
-
-                    b.HasOne("ChurchSchool.Domain.Entities.Student")
-                        .WithMany("Phones")
-                        .HasForeignKey("StudentId");
+                        .HasForeignKey("PersonId");
                 });
 #pragma warning restore 612, 618
         }
