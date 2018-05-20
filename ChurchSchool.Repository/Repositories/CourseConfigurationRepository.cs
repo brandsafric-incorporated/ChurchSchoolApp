@@ -1,4 +1,5 @@
-﻿using ChurchSchool.Domain.Entities;
+﻿using ChurchSchool.Domain.Contracts;
+using ChurchSchool.Domain.Entities;
 using ChurchSchool.Repository.Contracts;
 using System;
 using System.Collections.Generic;
@@ -17,17 +18,18 @@ namespace ChurchSchool.Repository.Repositories
             _repositoryContext = repositoryContext;
         }
 
-        public async Task<CourseConfiguration> Add(CourseConfiguration model)
+        public CourseConfiguration Add(CourseConfiguration model)
         {
             _repositoryContext.Configurations.Add(model);
 
-            await _repositoryContext.SaveChangesAsync();
+            _repositoryContext.SaveChangesAsync();
 
             return model;
         }
 
         public IEnumerable<CourseConfiguration> Filter(CourseConfiguration model)
         {
+
             return _repositoryContext.Configurations.Where(x => x == model);
         }
 
@@ -36,29 +38,38 @@ namespace ChurchSchool.Repository.Repositories
             return _repositoryContext.Configurations;
         }
 
-        public async Task<bool> Remove(Guid key)
+        public bool Remove(Guid key)
         {
 
-            var itemToRemove = await _repositoryContext.Configurations.FindAsync(key);
+            var itemToRemove = _repositoryContext.Configurations.FirstOrDefault(x => x.Id == key);
 
-            _repositoryContext.Configurations.Remove(itemToRemove);
+            if (itemToRemove != null)
+            {
+                itemToRemove.RemovedDate = DateTime.Now;
 
-            _repositoryContext.SaveChanges();
+                _repositoryContext.SaveChanges();
 
-            return true;
+                return true;
+            }
+
+            return false;
         }
 
-        public async Task<bool> Update(CourseConfiguration model)
+        public bool Update(CourseConfiguration model)
         {
+            if (model.IsCurrentConfiguration)
+            {
+                foreach (var item in _repositoryContext.Configurations.Where(r => r.CourseId == model.CourseId))
+                {
+                    item.IsCurrentConfiguration = false;
+                }
+            }
 
-            var itemToUpdate = await _repositoryContext.Configurations.FindAsync(model.Id);
-
-            itemToUpdate = model;
+            _repositoryContext.Update(model);
 
             _repositoryContext.SaveChanges();
 
             return true;
-
         }
 
 

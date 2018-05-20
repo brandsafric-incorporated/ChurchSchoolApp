@@ -8,6 +8,8 @@ namespace ChurchSchool.Domain.Entities
     {
         public string Address { get; set; }
 
+        public Person Person { get; set; }
+
         public bool IsValid()
         {
             try

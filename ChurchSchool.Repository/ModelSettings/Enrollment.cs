@@ -8,11 +8,16 @@ namespace ChurchSchool.Repository.ModelSettings
     {
         public void Configure(ModelBuilder builder)
         {
-            builder.Entity<Domain.Entities.Enrollment>().HasKey(x => x.Id);
-            builder.Entity<Domain.Entities.Enrollment>().Property(x => x.Id).HasDefaultValueSql("NEWID()");
-            builder.Entity<Domain.Entities.Enrollment>().Property(x => x.Status).HasColumnType("int").IsRequired();
-            builder.Entity<Domain.Entities.Enrollment>().Property(x => x.EnrollmentDate).HasColumnType("datetime").IsRequired();
-            builder.Entity<Domain.Entities.Enrollment>().Property(x => x.InsertedDate).HasDefaultValueSql("GETDATE()");
+            builder.Entity<Domain.Entities.Enrollment>(x =>
+            {
+                x.HasKey(q => q.Id);
+                x.Property(q => q.Id).HasDefaultValueSql("NEWID()");
+                x.Property(q => q.Status).HasColumnType("int").IsRequired();
+                x.Property(q => q.EnrollmentDate).HasColumnType("datetime").IsRequired();
+                x.Property(q => q.InsertedDate).HasColumnType("datetime").IsRequired().HasDefaultValueSql("GETDATE()");
+                x.Property(q => q.UpdatedDate).HasColumnType("datetime");
+                x.Property(q => q.RemovedDate).HasColumnType("datetime");
+            });
         }
     }
 }

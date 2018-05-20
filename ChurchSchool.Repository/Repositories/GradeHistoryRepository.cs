@@ -1,5 +1,5 @@
 ﻿using ChurchSchool.Domain.Entities;
-using ChurchSchool.Repository.Contracts;
+using ChurchSchool.Domain.Contracts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,8 +8,9 @@ using System.Threading.Tasks;
 
 namespace ChurchSchool.Repository.Repositories
 {
-    public class GradeHistoryRepository : IGradeHistoryRepository
+    public class GradeHistoryRepository //: IGradeHistoryRepository
     {
+        /*
         private RepositoryContext _repositoryContext;
 
         public GradeHistoryRepository(RepositoryContext repositoryContext)
@@ -60,7 +61,7 @@ namespace ChurchSchool.Repository.Repositories
             return true;
 
         }
-
+        */
 
     }
 }

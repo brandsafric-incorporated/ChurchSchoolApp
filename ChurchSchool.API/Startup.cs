@@ -1,6 +1,8 @@
 ﻿using ChurchSchool.API.Models;
+using ChurchSchool.Application;
+using ChurchSchool.Application.Contracts;
+using ChurchSchool.Domain.Contracts;
 using ChurchSchool.Repository;
-using ChurchSchool.Repository.Contracts;
 using ChurchSchool.Repository.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -17,30 +19,30 @@ namespace ChurchSchool.API
 
         public Startup(IConfiguration configuration)
         {
-            Configuration = configuration;
+            _configuration = configuration;
             _apiInfo = SwaggerInfoHelper.GetSwaggerInformation();
         }
 
-        public IConfiguration Configuration { get; }
+        public IConfiguration _configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<RepositoryContext>(
-                   options => options.UseSqlServer(Configuration.GetConnectionString("LocalConnection"))
-               );
+            services.AddDbContext<RepositoryContext>(options =>
+            {
+                options.UseSqlServer(_configuration.GetConnectionString("LocalConnection"));
+                options.EnableSensitiveDataLogging(sensitiveDataLoggingEnabled: true);
+            });
 
-            services.AddScoped<IStudentRepository, StudentRepository>();
+            //Application DI
+            services.AddScoped<ICourse, Course>();
+            services.AddScoped<IEnrollment, Enrollment>();
+
+            //Repository DI            
             services.AddScoped<ICourseRepository, CourseRepository>();
-            services.AddScoped<IProfessorRepository, ProfessorRepository>();
-            services.AddScoped<ISubjectRepository, SubjectRepository>();
-            services.AddScoped<IGradeRepository, GradeRepository>();
-            services.AddScoped<IGradeHistoryRepository, GradeHistoryRepository>();
-            services.AddScoped<IEnrollmentRepository, EnrollmentRepository>();
             services.AddScoped<ICourseConfigurationRepository, CourseConfigurationRepository>();
-            services.AddScoped<ICurriculumRepository, CurriculumRepository>();
-            services.AddScoped<IFrequencyRepository, FrequencyRepository>();
-            
+
+
             services.AddMvc();
 
             services.AddSwaggerGen(c =>
@@ -58,7 +60,7 @@ namespace ChurchSchool.API
             // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.), specifying the Swagger JSON endpoint.
             app.UseSwaggerUI(c =>
             {
-                
+
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", _apiInfo.Title);
             });
 
@@ -71,4 +73,3 @@ namespace ChurchSchool.API
         }
     }
 }
-

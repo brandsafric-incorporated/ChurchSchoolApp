@@ -6,6 +6,8 @@
 
   <ItemGroup>
     <Compile Remove="Migrations\20180508235425_AddingDocumentTables.cs" />
+    <Compile Remove="Migrations\20180520200956_StartProject.cs" />
+    <Compile Remove="Migrations\20180520202949_StartProject.cs" />
   </ItemGroup>
 
   <ItemGroup>

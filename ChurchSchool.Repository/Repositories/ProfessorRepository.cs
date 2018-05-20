@@ -1,18 +1,20 @@
 ﻿using ChurchSchool.Domain.Entities;
-using ChurchSchool.Repository.Contracts;
+using ChurchSchool.Domain.Contracts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ChurchSchool.Domain.Enum;
 
 namespace ChurchSchool.Repository.Repositories
 {
-    public class ProfessorRepository : IProfessorRepository
+    /*
+    public class ProfessorRepository : PersonBaseRepository, IProfessorRepository
     {
         private RepositoryContext _repositoryContext;
 
-        public ProfessorRepository(RepositoryContext repositoryContext)
+        public ProfessorRepository(IPersonRepository personRepository, RepositoryContext repositoryContext) : base(personRepository, repositoryContext)
         {
             _repositoryContext = repositoryContext;
         }
@@ -61,6 +63,11 @@ namespace ChurchSchool.Repository.Repositories
 
         }
 
-
+        public Person FindbyDocument(Document document)
+        {
+            return base.FindByDocument(document, ERole.PROFESSOR);
+        }
     }
+
+    */
 }

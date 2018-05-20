@@ -8,6 +8,6 @@ namespace ChurchSchool.Domain.Entities
         public Guid EnrolledStudentId { get; set; }
 
         public CourseClass RelatedClass { get; set; }
-        public Enrollment Enrollment { get; set; }
+        public Student Student { get; set; }
     }
 }

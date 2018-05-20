@@ -11,17 +11,17 @@ namespace ChurchSchool.Domain.Entities
     {
         public string Name { get; set; }
 
-        public IEnumerable<Phone> Phones { get; set; }
+        public IList<Phone> Phones { get; set; }
 
-        public Sex Sex { get; set; }
+        public ESex Sex { get; set; }
 
-        public IEnumerable<Address> Addresses { get; set; }
+        public IList<Address> Addresses { get; set; }
 
         public DateTime BirthDate { get; set; }
 
         public Email Email { get; set; }
 
-        public IEnumerable<PersonDocument> PersonDocuments { get; set; }
+        public IList<PersonDocument> PersonDocuments { get; set; }
 
         public virtual bool IsValid()
         {

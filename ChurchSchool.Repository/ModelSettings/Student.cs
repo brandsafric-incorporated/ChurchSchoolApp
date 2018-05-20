@@ -8,9 +8,13 @@ namespace ChurchSchool.Repository.ModelSettings
     {
         public void Configure(ModelBuilder builder)
         {
-            builder.Entity<Domain.Entities.Student>().Property(x => x.Id).HasDefaultValueSql("NEWID()");
-            builder.Entity<Domain.Entities.Student>().Property(x => x.InsertedDate).HasDefaultValueSql("GETDATE()");
-            builder.Entity<Domain.Entities.Student>().Property(x => x.Name).HasColumnType("varchar(200)").IsRequired();
+            builder.Entity<Domain.Entities.Student>(y =>
+            {
+                y.Property(x => x.Id).HasDefaultValueSql("NEWID()");
+                y.Property(x => x.InsertedDate).HasColumnType("datetime").HasDefaultValueSql("GETDATE()");
+                y.Property(x => x.UpdatedDate).HasColumnType("datetime").IsRequired(required: false);
+                y.Property(x => x.RemovedDate).HasColumnType("datetime").IsRequired(required: false);
+            });
         }
 
     }

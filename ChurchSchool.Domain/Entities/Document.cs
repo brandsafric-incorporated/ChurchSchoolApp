@@ -19,6 +19,11 @@ namespace ChurchSchool.Domain.Entities
         /// </summary>
         public DateTime IssuingDate { get; set; }
 
+        /// <summary>
+        /// Tipo de Documento
+        /// </summary>
         public EDocumentType DocumentTypeId { get; set; }
+
+        
     }
 }

@@ -1,10 +1,10 @@
 ﻿using ChurchSchool.Domain.Entities;
-using ChurchSchool.Repository.Contracts;
+using ChurchSchool.Domain.Contracts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace ChurchSchool.Repository.Repositories
 {
@@ -17,48 +17,43 @@ namespace ChurchSchool.Repository.Repositories
             _repositoryContext = repositoryContext;
         }
 
-        public async Task<Course> Add(Course model)
+        public Course Add(Course model)
         {
             _repositoryContext.Courses.Add(model);
 
-            await _repositoryContext.SaveChangesAsync();
+            _repositoryContext.SaveChanges();
 
             return model;
         }
 
         public IEnumerable<Course> Filter(Course model)
         {
-            return _repositoryContext.Courses.Where(x => x == model);
+            return _repositoryContext.Courses.AsNoTracking().Where(x => x == model);
         }
 
         public IEnumerable<Course> GetAll()
         {
-            return _repositoryContext.Courses;
+            return _repositoryContext.Courses.AsNoTracking();
         }
 
-        public async Task<bool> Remove(Guid key)
+        public bool Remove(Guid key)
         {
+            var itemToRemove = _repositoryContext.Courses.FirstOrDefault(y => y.Id == key);
 
-            var itemToRemove = await _repositoryContext.Students.FindAsync(key);
-
-            _repositoryContext.Students.Remove(itemToRemove);
+            itemToRemove.RemovedDate = DateTime.Now;
 
             _repositoryContext.SaveChanges();
 
             return true;
         }
 
-        public async Task<bool> Update(Course model)
+        public bool Update(Course model)
         {
-
-            var itemToUpdate = await _repositoryContext.Courses.FindAsync(model.Id);
-
-            itemToUpdate = model;
+            _repositoryContext.Courses.Update(model);
 
             _repositoryContext.SaveChanges();
 
             return true;
-
         }
 
 

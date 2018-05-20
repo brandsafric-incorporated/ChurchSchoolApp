@@ -1,5 +1,5 @@
 ﻿using ChurchSchool.Domain.Entities;
-using ChurchSchool.Repository.Contracts;
+using ChurchSchool.Domain.Contracts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace ChurchSchool.Repository.Repositories
 {
+    /*
     public class StudentRepository : IStudentRepository
     {
         private RepositoryContext _repositoryContext;
@@ -31,6 +32,20 @@ namespace ChurchSchool.Repository.Repositories
             return _repositoryContext.Students.Where(x => x == model);
         }
 
+        public Person FindbyDocument(Document document)
+        {
+            if (document == null)
+                throw new ArgumentNullException("Document Information not provided, object received is null");
+
+
+            var result = _repositoryContext.People.SingleOrDefault(p =>
+                        p.PersonDocuments.Any(pd => pd.DocumentNumber.Trim().ToLower() == document.DocumentNumber
+                                                 && pd.DocumentTypeId == document.DocumentTypeId)
+            );
+
+            return result;
+        }
+
         public IEnumerable<Student> GetAll()
         {
             return _repositoryContext.Students;
@@ -38,7 +53,6 @@ namespace ChurchSchool.Repository.Repositories
 
         public async Task<bool> Remove(Guid key)
         {
-
             var itemToRemove = await _repositoryContext.Students.FindAsync(key);
 
             _repositoryContext.Students.Remove(itemToRemove);
@@ -60,7 +74,6 @@ namespace ChurchSchool.Repository.Repositories
             return true;
 
         }
-
-
     }
+    */
 }

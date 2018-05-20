@@ -4,4 +4,8 @@
     <TargetFramework>netcoreapp2.0</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\ChurchSchool.Shared\ChurchSchool.Shared.csproj" />
+  </ItemGroup>
+
 </Project>

@@ -21,6 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\ChurchSchool.App\ChurchSchool.Application.csproj" />
     <ProjectReference Include="..\ChurchSchool.Repository\ChurchSchool.Repository.csproj" />
   </ItemGroup>
 

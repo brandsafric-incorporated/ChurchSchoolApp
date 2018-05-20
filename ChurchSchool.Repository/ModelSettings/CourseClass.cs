@@ -1,9 +1,5 @@
-﻿using ChurchSchool.Domain.Entities;
-using ChurchSchool.Repository.Contracts;
+﻿using ChurchSchool.Repository.Contracts;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace ChurchSchool.Repository.ModelSettings
 {
@@ -11,10 +7,15 @@ namespace ChurchSchool.Repository.ModelSettings
     {
         public void Configure(ModelBuilder builder)
         {
-            builder.Entity<Domain.Entities.CourseClass>().HasKey(x => new { x.ScholarTermId, x.CurriculumId });
-            builder.Entity<Domain.Entities.CourseClass>().Property(x => x.Id).HasDefaultValueSql("NEWID()");
-            builder.Entity<Domain.Entities.CourseClass>().Property(x => x.Description).HasColumnType("varchar(500)").IsRequired();
-            builder.Entity<Domain.Entities.CourseClass>().Property(x => x.InsertedDate).HasDefaultValueSql("GETDATE()");
+            builder.Entity<Domain.Entities.CourseClass>(h =>
+            {
+                h.HasKey(x => x.Id);
+                h.Property(x => x.Id).HasDefaultValueSql("NEWID()");
+                h.Property(x => x.Description).HasColumnType("varchar(500)").IsRequired();
+                h.Property(x => x.InsertedDate).HasColumnType("datetime").HasDefaultValueSql("GETDATE()");
+                h.Property(x => x.UpdatedDate).HasColumnType("datetime");
+                h.Property(x => x.RemovedDate).HasColumnType("datetime");
+            });
         }
     }
 }

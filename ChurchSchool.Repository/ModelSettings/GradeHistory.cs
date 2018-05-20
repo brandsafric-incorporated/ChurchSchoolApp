@@ -11,9 +11,14 @@ namespace ChurchSchool.Repository.ModelSettings
     {
         public void Configure(ModelBuilder builder)
         {
-            builder.Entity<Domain.Entities.GradeHistory>().HasKey(x => x.Id);
-            builder.Entity<Domain.Entities.GradeHistory>().Property(x => x.Id).HasDefaultValueSql("NEWID()");
-            builder.Entity<Domain.Entities.GradeHistory>().Property(x => x.InsertedDate).HasDefaultValueSql("GETDATE()");
+            builder.Entity<Domain.Entities.GradeHistory>(x =>
+            {
+                x.HasKey(y => y.Id);
+                x.Property(y => y.Id).HasDefaultValueSql("NEWID()");
+                x.Property(y => y.InsertedDate).HasColumnType("datetime").HasDefaultValueSql("GETDATE()");
+                x.Property(y => y.UpdatedDate).HasColumnType("datetime");
+                x.Property(y => y.RemovedDate).HasColumnType("datetime");
+            });
         }
     }
 }

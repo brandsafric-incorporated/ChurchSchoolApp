@@ -45,7 +45,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChurchSchool.Logging", "Chu
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChurchSchoolApp.Tools", "ChurchSchoolApp.Tools\ChurchSchoolApp.Tools.csproj", "{7EE3A7ED-E9B5-4C5E-9D3F-8A29DE7171D1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChurchSchool.API", "ChurchSchool.API\ChurchSchool.API.csproj", "{762F929F-C6B2-4CE0-B1D1-DF673E46E904}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChurchSchool.API", "ChurchSchool.API\ChurchSchool.API.csproj", "{762F929F-C6B2-4CE0-B1D1-DF673E46E904}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChurchSchool.Shared", "ChurchSchool.Shared\ChurchSchool.Shared.csproj", "{696E569E-0BD9-4272-94D9-2D551BCDD359}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -89,6 +91,10 @@ Global
 		{762F929F-C6B2-4CE0-B1D1-DF673E46E904}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{762F929F-C6B2-4CE0-B1D1-DF673E46E904}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{762F929F-C6B2-4CE0-B1D1-DF673E46E904}.Release|Any CPU.Build.0 = Release|Any CPU
+		{696E569E-0BD9-4272-94D9-2D551BCDD359}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{696E569E-0BD9-4272-94D9-2D551BCDD359}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{696E569E-0BD9-4272-94D9-2D551BCDD359}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{696E569E-0BD9-4272-94D9-2D551BCDD359}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
