@@ -49,6 +49,8 @@ namespace ChurchSchool.Repository.Repositories
 
         public bool Update(Course model)
         {
+            model.UpdatedDate = DateTime.Now;
+
             _repositoryContext.Courses.Update(model);
 
             _repositoryContext.SaveChanges();

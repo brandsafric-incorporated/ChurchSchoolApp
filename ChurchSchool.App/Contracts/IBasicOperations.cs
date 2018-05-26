@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ChurchSchool.Domain.Entities;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,7 +11,7 @@ namespace ChurchSchool.Application.Contracts
         IEnumerable<T> GetAll();
         T GetById(Guid id);
         T Add(T entity);
-        bool Update(T entity);
-        bool Remove(Guid id);
+        ValidationResult Update(T entity);
+        ValidationResult Remove(Guid id);
     }
 }

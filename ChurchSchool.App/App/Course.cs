@@ -1,10 +1,8 @@
 ﻿using ChurchSchool.Application.Contracts;
 using ChurchSchool.Domain.Contracts;
-using ChurchSchool.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace ChurchSchool.Application
 {
@@ -34,10 +32,8 @@ namespace ChurchSchool.Application
 
         public Domain.Entities.Course GetById(Guid id)
         {
-
             var result = _courseRepository.Filter(new Domain.Entities.Course { Id = id })
-                                    .FirstOrDefault();
-
+                                          .FirstOrDefault();
             return result;
         }
 

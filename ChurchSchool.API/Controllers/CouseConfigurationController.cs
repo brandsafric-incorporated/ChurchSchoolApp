@@ -1,15 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using ChurchSchool.Application.Contracts;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ChurchSchool.API.Controllers
 {
     [Produces("application/json")]
-    [Route("api/[controller]")]
+    [Route("api/Course/Settings")]
     public class CouseConfigurationController : Controller
     {
         private readonly ICourseConfiguration _courseConfiguration;
@@ -19,9 +16,8 @@ namespace ChurchSchool.API.Controllers
             _courseConfiguration = courseConfiguration;
         }
 
-
         [HttpGet]
-        [Route("Course/Configurations")]
+        [Route("")]
         public IActionResult Get()
         {
             try
@@ -39,9 +35,8 @@ namespace ChurchSchool.API.Controllers
             }
         }
 
-
         [HttpGet]
-        [Route("Course/Configurations/{couse}")]
+        [Route("{couse}")]
         public IActionResult GetByCourse(Guid course)
         {
             try
@@ -63,8 +58,34 @@ namespace ChurchSchool.API.Controllers
             }
         }
 
+        [HttpPost]
+        public IActionResult Post([FromBody]Domain.Entities.CourseConfiguration configuration)
+        {
+            try
+            {
+                if (configuration == null)
+                {
+                    return BadRequest();
+                }
+
+                var createdConfiguration = _courseConfiguration.Add(configuration);
+
+                if (createdConfiguration.Errors.Any())
+                {
+                    return BadRequest(createdConfiguration.Errors);
+                }
+                else
+                {
+                    return Ok(createdConfiguration);
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex);
+            }
+        }
+
         [HttpPut]
-        [Route("Course/Configurations/")]
         public IActionResult Put(Guid key, [FromBody]Domain.Entities.CourseConfiguration configuration)
         {
             try
@@ -74,13 +95,13 @@ namespace ChurchSchool.API.Controllers
                 if (relatedItem == null)
                     return NotFound(key);
 
-                if (!relatedItem.Id.HasValue)
-                    relatedItem.Id = key;
+                if (!configuration.Id.HasValue)
+                    configuration.Id = key;
 
                 var result = _courseConfiguration.Update(configuration);
 
-                if (result)
-                    return Ok(result);
+                if (!result.Errors.Any())
+                    return Ok();
                 else
                     return BadRequest(configuration);
             }
@@ -97,10 +118,10 @@ namespace ChurchSchool.API.Controllers
             {
                 var result = _courseConfiguration.Remove(key);
 
-                if (result)
+                if (!result.Errors.Any())
                     return Ok();
                 else
-                    return BadRequest();
+                    return BadRequest(result);
             }
             catch (Exception ex)
             {

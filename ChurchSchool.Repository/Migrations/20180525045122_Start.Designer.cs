@@ -12,9 +12,10 @@ using System;
 namespace ChurchSchool.Repository.Migrations
 {
     [DbContext(typeof(RepositoryContext))]
-    partial class RepositoryContextModelSnapshot : ModelSnapshot
+    [Migration("20180525045122_Start")]
+    partial class Start
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -46,7 +47,8 @@ namespace ChurchSchool.Repository.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ConfigurationId");
+                    b.HasIndex("ConfigurationId")
+                        .IsUnique();
 
                     b.HasIndex("CurriculumId");
 
@@ -58,6 +60,8 @@ namespace ChurchSchool.Repository.Migrations
                     b.Property<Guid?>("Id")
                         .ValueGeneratedOnAdd()
                         .HasDefaultValueSql("NEWID()");
+
+                    b.Property<Guid?>("CurrentConfigurationId");
 
                     b.Property<string>("Description")
                         .HasColumnType("varchar(max)");
@@ -78,6 +82,8 @@ namespace ChurchSchool.Repository.Migrations
                         .HasColumnType("datetime");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CurrentConfigurationId");
 
                     b.ToTable("Courses");
                 });
@@ -104,9 +110,6 @@ namespace ChurchSchool.Repository.Migrations
                         .HasColumnType("datetime");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CourseId")
-                        .IsUnique();
 
                     b.ToTable("Configurations");
                 });
@@ -164,22 +167,21 @@ namespace ChurchSchool.Repository.Migrations
             modelBuilder.Entity("ChurchSchool.Domain.Entities.ConfigurationCurriculum", b =>
                 {
                     b.HasOne("ChurchSchool.Domain.Entities.CourseConfiguration", "Configuration")
-                        .WithMany("ConfigCurriculumns")
-                        .HasForeignKey("ConfigurationId")
+                        .WithOne("RelatedCurriculum")
+                        .HasForeignKey("ChurchSchool.Domain.Entities.ConfigurationCurriculum", "ConfigurationId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("ChurchSchool.Domain.Entities.Curriculum", "Curriculum")
-                        .WithMany("ConfigCurriculumns")
+                        .WithMany()
                         .HasForeignKey("CurriculumId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("ChurchSchool.Domain.Entities.CourseConfiguration", b =>
+            modelBuilder.Entity("ChurchSchool.Domain.Entities.Course", b =>
                 {
-                    b.HasOne("ChurchSchool.Domain.Entities.Course", "RelatedCourse")
-                        .WithOne("CurrentConfiguration")
-                        .HasForeignKey("ChurchSchool.Domain.Entities.CourseConfiguration", "CourseId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                    b.HasOne("ChurchSchool.Domain.Entities.CourseConfiguration", "CurrentConfiguration")
+                        .WithMany("RelatedCourses")
+                        .HasForeignKey("CurrentConfigurationId");
                 });
 
             modelBuilder.Entity("ChurchSchool.Domain.Entities.CourseDocuments", b =>

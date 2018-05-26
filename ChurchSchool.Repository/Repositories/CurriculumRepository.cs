@@ -3,65 +3,56 @@ using ChurchSchool.Domain.Contracts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace ChurchSchool.Repository.Repositories
 {
-    /*
     public class CurriculumRepository : ICurriculumRepository
     {
-        
-        private RepositoryContext _repositoryContext;
+        private readonly RepositoryContext _repository;
 
-        public CurriculumRepository(RepositoryContext repositoryContext)
+        public CurriculumRepository(RepositoryContext repository)
         {
-            _repositoryContext = repositoryContext;
+            _repository = repository;
         }
 
-        public async Task<Curriculum> Add(Curriculum model)
+        public Curriculum Add(Curriculum model)
         {
-            _repositoryContext.Curriculums.Add(model);
+            _repository.Curriculums.Add(model);
 
-            await _repositoryContext.SaveChangesAsync();
+            _repository.SaveChanges();
 
             return model;
         }
 
         public IEnumerable<Curriculum> Filter(Curriculum model)
         {
-            return _repositoryContext.Curriculums.Where(x => x == model);
+            return _repository.Curriculums.AsNoTracking().Where(y => y == model);
         }
 
         public IEnumerable<Curriculum> GetAll()
         {
-            return _repositoryContext.Curriculums;
+            return _repository.Curriculums.AsNoTracking();
         }
 
-        public async Task<bool> Remove(Guid key)
+        public bool Remove(Guid key)
         {
+            var itemToRemove = _repository.Curriculums.FirstOrDefault(y => y.Id == key);
 
-            var itemToRemove = await _repositoryContext.Students.FindAsync(key);
+            itemToRemove.RemovedDate = DateTime.Now;
 
-            _repositoryContext.Students.Remove(itemToRemove);
-
-            _repositoryContext.SaveChanges();
+            _repository.SaveChanges();
 
             return true;
         }
 
-        public async Task<bool> Update(Curriculum model)
+        public bool Update(Curriculum model)
         {
-
-            var itemToUpdate = await _repositoryContext.Curriculums.FindAsync(model.Id);
-
-            itemToUpdate = model;
-
-            _repositoryContext.SaveChanges();
+            model.UpdatedDate = DateTime.Now;
+            _repository.Curriculums.Update(model);
+            _repository.SaveChanges();
 
             return true;
-
         }
     }
-    */
 }

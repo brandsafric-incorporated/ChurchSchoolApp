@@ -1,5 +1,6 @@
 ﻿using ChurchSchool.API.Models;
 using ChurchSchool.Application;
+using ChurchSchool.Application.App;
 using ChurchSchool.Application.Contracts;
 using ChurchSchool.Domain.Contracts;
 using ChurchSchool.Repository;
@@ -36,11 +37,14 @@ namespace ChurchSchool.API
 
             //Application DI
             services.AddScoped<ICourse, Course>();
+            services.AddScoped<ICourseConfiguration, CourseConfiguration>();
             services.AddScoped<IEnrollment, Enrollment>();
+            services.AddScoped<ICurriculum, Curriculum>();
 
             //Repository DI            
             services.AddScoped<ICourseRepository, CourseRepository>();
             services.AddScoped<ICourseConfigurationRepository, CourseConfigurationRepository>();
+            services.AddScoped<ICurriculumRepository, CurriculumRepository>();
 
 
             services.AddMvc();

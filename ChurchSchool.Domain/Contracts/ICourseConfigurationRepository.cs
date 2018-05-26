@@ -7,5 +7,6 @@ namespace ChurchSchool.Domain.Contracts
 {
     public interface ICourseConfigurationRepository : IRepository<CourseConfiguration>
     {
+        IEnumerable<CourseConfiguration> GetByCourse(Guid courseId);
     }
 }

@@ -1,16 +1,27 @@
-﻿using System;
+﻿using ChurchSchool.Domain.Contracts;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace ChurchSchool.Domain.Entities
 {
-    public class CourseConfiguration : BaseEntity
+    public class CourseConfiguration : BaseEntity, IValidateObject
     {
-        public Guid CourseId { get; set; }
-        //public Guid CurriculumId { get; set; }
+        public Guid CourseId { get; set; }        
         public bool IsCurrentConfiguration { get; set; }
+        public Course RelatedCourse { get; set; }
 
+        public IEnumerable<ConfigurationCurriculum> ConfigCurriculumns { get; set; }
+        public IEnumerable<CourseDocuments> EnrollDocuments { get; set; }
 
-        public IEnumerable<Course> RelatedCourses { get; set; }
-        //public Curriculum RelatedCurriculum { get; set; }
+        public bool IsValid()
+        {
+            if (CourseId == Guid.Empty)
+            {
+                AddError(new Shared.Validations.Error { Message = "Id do curso não fornecido." });
+            }            
+
+            return !Errors.Any();
+        }
     }
 }

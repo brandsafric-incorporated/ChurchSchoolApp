@@ -1,11 +1,9 @@
 ﻿using ChurchSchool.Domain.Contracts;
 using ChurchSchool.Domain.Entities;
-using ChurchSchool.Repository.Contracts;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ChurchSchool.Repository.Repositories
 {
@@ -29,13 +27,17 @@ namespace ChurchSchool.Repository.Repositories
 
         public IEnumerable<CourseConfiguration> Filter(CourseConfiguration model)
         {
+            return _repositoryContext.Configurations.AsNoTracking().Where(x => x == model);
+        }
 
-            return _repositoryContext.Configurations.Where(x => x == model);
+        public IEnumerable<CourseConfiguration> GetByCourse(Guid courseId)
+        {
+            return _repositoryContext.Configurations.AsNoTracking().Where(x => x.CourseId == courseId);
         }
 
         public IEnumerable<CourseConfiguration> GetAll()
         {
-            return _repositoryContext.Configurations;
+            return _repositoryContext.Configurations.AsNoTracking();
         }
 
         public bool Remove(Guid key)

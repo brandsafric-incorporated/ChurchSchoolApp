@@ -5,19 +5,15 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ChurchSchool.Domain.Entities
 {
-    public abstract class BaseEntity
+    public abstract class BaseEntity : ValidationResult
     {
         public Guid? Id { get; set; }
         public DateTime InsertedDate { get; set; }
         public DateTime? UpdatedDate { get; set; }
         public DateTime? RemovedDate { get; set; }
 
-        [NotMapped]
-        public IEnumerable<Error> Errors { get; set; }
-
-        public BaseEntity()
+        public BaseEntity() : base()
         {
-            this.Errors = new List<Error>();
         }
     }
 }
