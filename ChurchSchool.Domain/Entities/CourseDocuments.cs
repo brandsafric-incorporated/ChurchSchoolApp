@@ -9,5 +9,6 @@ namespace ChurchSchool.Domain.Entities
     {
         public EDocumentType Type { get; set; }
         public bool IsRequired { get; set; }
+        public Guid CourseConfigurationId { get; set; }
     }
 }

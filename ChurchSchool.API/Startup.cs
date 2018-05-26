@@ -45,7 +45,7 @@ namespace ChurchSchool.API
             services.AddScoped<ICourseRepository, CourseRepository>();
             services.AddScoped<ICourseConfigurationRepository, CourseConfigurationRepository>();
             services.AddScoped<ICurriculumRepository, CurriculumRepository>();
-
+            services.AddScoped<ICourseDocumentRepository, CourseDocumentRepository>();
 
             services.AddMvc();
 

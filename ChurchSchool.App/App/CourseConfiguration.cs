@@ -13,10 +13,15 @@ namespace ChurchSchool.Application.App
 
         private ICourseRepository _courseRepository;
 
-        public CourseConfiguration(ICourseConfigurationRepository courseConfigurationRepository, ICourseRepository courseRepository)
+        private ICourseDocumentRepository _courseDocumentRepository;
+
+        public CourseConfiguration(ICourseConfigurationRepository courseConfigurationRepository,
+                                   ICourseRepository courseRepository,
+                                   ICourseDocumentRepository courseDocumentRepository)
         {
             _courseConfigurationRepository = courseConfigurationRepository;
             _courseRepository = courseRepository;
+            _courseDocumentRepository = courseDocumentRepository;
         }
 
         public IEnumerable<Domain.Entities.CourseConfiguration> GetAll()
@@ -98,10 +103,14 @@ namespace ChurchSchool.Application.App
 
             entity.UpdatedDate = DateTime.Now;
 
+            _courseDocumentRepository.RemoveByCourseConfiguration(entity.Id.Value);
+
             _courseConfigurationRepository.Update(entity);
 
             return new ValidationResult();
         }
+
+
 
         private bool VerifyRelatedCourses(Guid id)
         {

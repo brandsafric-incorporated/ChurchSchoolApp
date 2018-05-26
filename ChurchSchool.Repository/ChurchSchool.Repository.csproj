@@ -9,6 +9,7 @@
     <Compile Remove="Migrations\20180520200956_StartProject.cs" />
     <Compile Remove="Migrations\20180520202949_StartProject.cs" />
     <Compile Remove="Migrations\20180526010937_CourseConfigurationCorretion.cs" />
+    <Compile Remove="Migrations\20180526025648_LoadDocumentTypeTable.cs" />
   </ItemGroup>
 
   <ItemGroup>

@@ -73,7 +73,5 @@ namespace ChurchSchool.Repository.Repositories
 
             return true;
         }
-
-
     }
 }

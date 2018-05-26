@@ -28,6 +28,8 @@ namespace ChurchSchool.Repository
         public DbSet<Domain.Entities.Course> Courses { get; set; }
         public DbSet<Domain.Entities.CourseConfiguration> Configurations { get; set; }
         public DbSet<Domain.Entities.Curriculum> Curriculums { get; set; }
+        public DbSet<Domain.Entities.CourseDocuments> CourseDocuments { get; set; }
+
 
         /*
         public DbSet<Domain.Entities.Address> Addresses { get; set; }
@@ -72,8 +74,10 @@ namespace ChurchSchool.Repository
             new ModelSettings.Course().Configure(modelBuilder);
             new ModelSettings.CourseConfiguration().Configure(modelBuilder);
             new ModelSettings.Curriculum().Configure(modelBuilder);
+            new ModelSettings.CourseDocuments().Configure(modelBuilder);
         }
 
         #endregion
     }
 }
+
