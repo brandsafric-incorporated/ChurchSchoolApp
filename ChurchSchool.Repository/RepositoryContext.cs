@@ -29,11 +29,11 @@ namespace ChurchSchool.Repository
         public DbSet<Domain.Entities.CourseConfiguration> Configurations { get; set; }
         public DbSet<Domain.Entities.Curriculum> Curriculums { get; set; }
         public DbSet<Domain.Entities.CourseDocuments> CourseDocuments { get; set; }
-
+        public DbSet<Domain.Entities.Subject> Subjects { get; set; }
 
         /*
         public DbSet<Domain.Entities.Address> Addresses { get; set; }
-        public DbSet<Domain.Entities.Subject> Subjects { get; set; }
+        
         public DbSet<Domain.Entities.Student> Students { get; set; }
         public DbSet<Domain.Entities.Email> Emails { get; set; }
 
@@ -75,9 +75,11 @@ namespace ChurchSchool.Repository
             new ModelSettings.CourseConfiguration().Configure(modelBuilder);
             new ModelSettings.Curriculum().Configure(modelBuilder);
             new ModelSettings.CourseDocuments().Configure(modelBuilder);
+            new ModelSettings.Subject().Configure(modelBuilder);
         }
 
         #endregion
     }
 }
+
 

@@ -3,12 +3,10 @@ using ChurchSchool.Domain.Contracts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace ChurchSchool.Repository.Repositories
 {
-    /*
     public class SubjectRepository : ISubjectRepository
     {
         private RepositoryContext _repositoryContext;
@@ -18,18 +16,18 @@ namespace ChurchSchool.Repository.Repositories
             _repositoryContext = repositoryContext;
         }
 
-        public async Task<Subject> Add(Subject model)
+        public Subject Add(Subject model)
         {
             _repositoryContext.Subjects.Add(model);
 
-            await _repositoryContext.SaveChangesAsync();
+            _repositoryContext.SaveChanges();
 
             return model;
         }
 
         public IEnumerable<Subject> Filter(Subject model)
         {
-            return _repositoryContext.Subjects.Where(x => x == model);
+            return _repositoryContext.Subjects.AsNoTracking().Where(x => x.Id == model.Id);
         }
 
         public IEnumerable<Subject> GetAll()
@@ -37,30 +35,37 @@ namespace ChurchSchool.Repository.Repositories
             return _repositoryContext.Subjects;
         }
 
-        public async Task<bool> Remove(Guid key)
+        public bool Remove(Guid key)
         {
+            var itemToRemove = _repositoryContext.Subjects.AsNoTracking().FirstOrDefault(x => x.Id == key);
 
-            var itemToRemove = await _repositoryContext.Subjects.FindAsync(key);
+            if (itemToRemove != null)
+            {
+                _repositoryContext.Subjects.Remove(itemToRemove);
 
-            _repositoryContext.Subjects.Remove(itemToRemove);
+                _repositoryContext.SaveChanges();
 
-            _repositoryContext.SaveChanges();
+                return true;
+            }
 
-            return true;
+            return false;
         }
 
-        public async Task<bool> Update(Subject model)
+        public bool Update(Subject model)
         {
+            var itemToUpdate = _repositoryContext.Subjects.AsNoTracking().FirstOrDefault(x => x.Id == model.Id);
 
-            var itemToUpdate = await _repositoryContext.Subjects.FindAsync(model.Id);
+            if (itemToUpdate != null)
+            {
+                itemToUpdate = model;
 
-            itemToUpdate = model;
+                _repositoryContext.Update(itemToUpdate);
+                _repositoryContext.SaveChanges();
 
-            _repositoryContext.SaveChanges();
+                return true;
+            }
 
-            return true;
-
+            return false;
         }
     }
-    */
 }
