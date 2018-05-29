@@ -12,9 +12,10 @@ using System;
 namespace ChurchSchool.Repository.Migrations
 {
     [DbContext(typeof(RepositoryContext))]
-    partial class RepositoryContextModelSnapshot : ModelSnapshot
+    [Migration("20180529022540_UpdatePersonModel")]
+    partial class UpdatePersonModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -77,8 +78,7 @@ namespace ChurchSchool.Repository.Migrations
             modelBuilder.Entity("ChurchSchool.Domain.Entities.ConfigurationCurriculum", b =>
                 {
                     b.Property<Guid?>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasDefaultValueSql("NEWID()");
+                        .ValueGeneratedOnAdd();
 
                     b.Property<Guid>("ConfigurationId");
 
@@ -86,22 +86,17 @@ namespace ChurchSchool.Repository.Migrations
 
                     b.Property<DateTime?>("FinishDate");
 
-                    b.Property<DateTime>("InsertedDate")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime")
-                        .HasDefaultValueSql("GETDATE()");
+                    b.Property<DateTime>("InsertedDate");
 
                     b.Property<bool>("IsActive");
 
                     b.Property<bool>("IsCurrentConfiguration");
 
-                    b.Property<DateTime?>("RemovedDate")
-                        .HasColumnType("datetime");
+                    b.Property<DateTime?>("RemovedDate");
 
                     b.Property<DateTime>("StartDate");
 
-                    b.Property<DateTime?>("UpdatedDate")
-                        .HasColumnType("datetime");
+                    b.Property<DateTime?>("UpdatedDate");
 
                     b.HasKey("Id");
 
@@ -289,23 +284,17 @@ namespace ChurchSchool.Repository.Migrations
             modelBuilder.Entity("ChurchSchool.Domain.Entities.Curriculum_Subject", b =>
                 {
                     b.Property<Guid?>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasDefaultValueSql("NEWID()");
+                        .ValueGeneratedOnAdd();
 
                     b.Property<Guid>("CurriculumId");
 
-                    b.Property<DateTime>("InsertedDate")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime")
-                        .HasDefaultValueSql("GETDATE()");
+                    b.Property<DateTime>("InsertedDate");
 
-                    b.Property<DateTime?>("RemovedDate")
-                        .HasColumnType("datetime");
+                    b.Property<DateTime?>("RemovedDate");
 
                     b.Property<Guid>("SubjectId");
 
-                    b.Property<DateTime?>("UpdatedDate")
-                        .HasColumnType("datetime");
+                    b.Property<DateTime?>("UpdatedDate");
 
                     b.HasKey("Id");
 
@@ -321,20 +310,13 @@ namespace ChurchSchool.Repository.Migrations
                     b.Property<Guid?>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Address")
-                        .IsRequired()
-                        .HasColumnType("varchar(256)");
+                    b.Property<string>("Address");
 
-                    b.Property<DateTime>("InsertedDate")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime")
-                        .HasDefaultValueSql("GETDATE()");
+                    b.Property<DateTime>("InsertedDate");
 
-                    b.Property<DateTime?>("RemovedDate")
-                        .HasColumnType("datetime");
+                    b.Property<DateTime?>("RemovedDate");
 
-                    b.Property<DateTime?>("UpdatedDate")
-                        .HasColumnType("datetime");
+                    b.Property<DateTime?>("UpdatedDate");
 
                     b.HasKey("Id");
 
@@ -531,26 +513,17 @@ namespace ChurchSchool.Repository.Migrations
                     b.Property<Guid?>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("AreaCode")
-                        .IsRequired()
-                        .HasColumnType("varchar(4)");
+                    b.Property<string>("AreaCode");
 
-                    b.Property<DateTime>("InsertedDate")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime")
-                        .HasDefaultValueSql("GETDATE()");
+                    b.Property<DateTime>("InsertedDate");
 
-                    b.Property<string>("Number")
-                        .IsRequired()
-                        .HasColumnType("varchar(10)");
+                    b.Property<string>("Number");
 
                     b.Property<Guid?>("PersonId");
 
-                    b.Property<DateTime?>("RemovedDate")
-                        .HasColumnType("datetime");
+                    b.Property<DateTime?>("RemovedDate");
 
-                    b.Property<DateTime?>("UpdatedDate")
-                        .HasColumnType("datetime");
+                    b.Property<DateTime?>("UpdatedDate");
 
                     b.HasKey("Id");
 
@@ -581,12 +554,12 @@ namespace ChurchSchool.Repository.Migrations
 
             modelBuilder.Entity("ChurchSchool.Domain.Entities.CourseClass", b =>
                 {
-                    b.HasOne("ChurchSchool.Domain.Entities.Curriculum_Subject", "Curriculum_Subject")
+                    b.HasOne("ChurchSchool.Domain.Entities.Curriculum_Subject", "RelatedSubject")
                         .WithMany()
                         .HasForeignKey("Curriculum_SubjectId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("ChurchSchool.Domain.Entities.Professor", "Professor")
+                    b.HasOne("ChurchSchool.Domain.Entities.Professor", "RelatedProfessor")
                         .WithMany()
                         .HasForeignKey("ProfessorId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -623,7 +596,7 @@ namespace ChurchSchool.Repository.Migrations
 
             modelBuilder.Entity("ChurchSchool.Domain.Entities.Curriculum_Subject", b =>
                 {
-                    b.HasOne("ChurchSchool.Domain.Entities.Curriculum", "Curriculum")
+                    b.HasOne("ChurchSchool.Domain.Entities.Curriculum", "RelatedCurriculum")
                         .WithMany()
                         .HasForeignKey("CurriculumId")
                         .OnDelete(DeleteBehavior.Cascade);

@@ -6,6 +6,6 @@ namespace ChurchSchool.Domain.Entities
     {
         public string EnrollmentID { get; set; }
         public Person Person { get; set; }
-        public IEnumerable<Subject> RelatedSubjects { get; set; }
+        public IEnumerable<ProfessorSubject> RelatedSubjects { get; set; }
     }
 }

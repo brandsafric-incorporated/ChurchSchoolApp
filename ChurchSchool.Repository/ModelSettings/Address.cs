@@ -14,6 +14,7 @@ namespace ChurchSchool.Repository.ModelSettings
                 o.Property(x => x.CityId).IsRequired();
                 o.Property(x => x.State).HasColumnType("varchar(2)").IsRequired();
                 o.Property(x => x.StreetName).HasColumnType("varchar(500)").IsRequired();
+                o.Property(x => x.StreetNumber).HasColumnType("varchar(10)").IsRequired();
                 o.Property(x => x.Neighborhood).HasColumnType("varchar(500)").IsRequired();
                 o.Property(x => x.PostalCode).HasColumnType("varchar(8)").IsRequired();
                 o.Property(x => x.Details).HasColumnType("varchar(max)").IsRequired(required: false);

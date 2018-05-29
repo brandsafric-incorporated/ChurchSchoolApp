@@ -11,6 +11,14 @@
     <Compile Remove="Migrations\20180526010937_CourseConfigurationCorretion.cs" />
     <Compile Remove="Migrations\20180526025648_LoadDocumentTypeTable.cs" />
     <Compile Remove="Migrations\20180526223421_AddingPeopleTable.cs" />
+    <Compile Remove="Migrations\20180529014642_IncludingProfessorModel.cs" />
+    <Compile Remove="Migrations\20180529015210_IncludingProfessorModel.cs" />
+    <Compile Remove="Migrations\20180529015636_IncludingProfessorModel.cs" />
+    <Compile Remove="Migrations\20180529020622_IncludingProfessorModel.cs" />
+    <Compile Remove="Migrations\20180529020803_IncludingProfessorModel.cs" />
+    <Compile Remove="Migrations\20180529023311_UpdateMultipleModels.cs" />
+    <Compile Remove="Migrations\20180529023701_UpdateMultipleModels.cs" />
+    <Compile Remove="Migrations\20180529023820_UpdateMultipleModels.cs" />
   </ItemGroup>
 
   <ItemGroup>

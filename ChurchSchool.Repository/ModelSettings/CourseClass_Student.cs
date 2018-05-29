@@ -13,9 +13,11 @@ namespace ChurchSchool.Repository.ModelSettings
         {
             builder.Entity<Domain.Entities.CourseClass_Student>(w =>
             {
-                w.HasKey(k => new { k.CourseClassId, k.EnrolledStudentId });
-                w.Property(x => x.Id).HasDefaultValueSql("NEWID()");
-                w.Property(x => x.InsertedDate).HasDefaultValueSql("GETDATE()");
+                w.HasKey(k => new { k.CourseClassId, k.StudentId });
+                w.Property(x => x.Id).HasDefaultValueSql("NEWID()");                
+                w.Property(x => x.InsertedDate).HasColumnType("datetime").HasDefaultValueSql("GETDATE()");
+                w.Property(x => x.UpdatedDate).HasColumnType("datetime").IsRequired(required: false);
+                w.Property(x => x.RemovedDate).HasColumnType("datetime").IsRequired(required: false);
             });
 
             builder.Entity<Domain.Entities.CourseClass_Student>().Ignore(q => q.Id);

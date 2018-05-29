@@ -11,7 +11,8 @@ namespace ChurchSchool.Repository.ModelSettings
             {
                 p.HasKey(x => x.Id);
                 p.Property(x => x.Id).HasDefaultValueSql("NEWID()");
-                p.Property(x => x.Name).HasColumnType("varchar(200)").IsRequired();                
+                p.Property(x => x.Name).HasColumnType("varchar(200)").IsRequired();
+                p.Property(x => x.BirthDate).HasColumnType("datetime").IsRequired(required: true);
                 p.Property(x => x.InsertedDate).HasColumnType("datetime").HasDefaultValueSql("GETDATE()");
                 p.Property(x => x.UpdatedDate).HasColumnType("datetime").IsRequired(required: false);
                 p.Property(x => x.RemovedDate).HasColumnType("datetime").IsRequired(required: false);

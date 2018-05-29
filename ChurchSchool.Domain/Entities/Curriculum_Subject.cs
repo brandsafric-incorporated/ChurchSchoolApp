@@ -6,8 +6,8 @@ namespace ChurchSchool.Domain.Entities
     {
         public Guid CurriculumId { get; set; }
         public Guid SubjectId { get; set; }
-        
-        public Curriculum RelatedCurriculum { get; set; }        
+
+        public Curriculum Curriculum { get; set; }
         public Subject Subject { get; set; }
     }
 }
