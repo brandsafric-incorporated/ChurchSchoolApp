@@ -12,9 +12,10 @@ using System;
 namespace ChurchSchool.Repository.Migrations
 {
     [DbContext(typeof(RepositoryContext))]
-    partial class RepositoryContextModelSnapshot : ModelSnapshot
+    [Migration("20180526225254_AddingPeopleTable")]
+    partial class AddingPeopleTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -46,7 +47,7 @@ namespace ChurchSchool.Repository.Migrations
 
                     b.Property<string>("StreetName");
 
-                    b.Property<string>("StreetNumber");
+                    b.Property<int>("StreetNumber");
 
                     b.Property<DateTime?>("UpdatedDate");
 
@@ -290,32 +291,23 @@ namespace ChurchSchool.Repository.Migrations
             modelBuilder.Entity("ChurchSchool.Domain.Entities.Student", b =>
                 {
                     b.Property<Guid?>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasDefaultValueSql("NEWID()");
+                        .ValueGeneratedOnAdd();
 
-                    b.Property<Guid>("CourseId");
+                    b.Property<Guid?>("CourseId");
 
-                    b.Property<DateTime?>("EnrollmentDate")
-                        .HasColumnType("datetime");
+                    b.Property<DateTime>("EnrollmentDate");
 
-                    b.Property<string>("EnrollmentID")
-                        .IsRequired()
-                        .HasColumnType("varchar(15)");
+                    b.Property<string>("EnrollmentID");
 
-                    b.Property<DateTime>("InsertedDate")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime")
-                        .HasDefaultValueSql("GETDATE()");
+                    b.Property<DateTime>("InsertedDate");
 
                     b.Property<Guid>("PersonId");
 
-                    b.Property<DateTime?>("RemovedDate")
-                        .HasColumnType("datetime");
+                    b.Property<DateTime?>("RemovedDate");
 
                     b.Property<int>("Status");
 
-                    b.Property<DateTime?>("UpdatedDate")
-                        .HasColumnType("datetime");
+                    b.Property<DateTime?>("UpdatedDate");
 
                     b.HasKey("Id");
 
@@ -432,8 +424,7 @@ namespace ChurchSchool.Repository.Migrations
                 {
                     b.HasOne("ChurchSchool.Domain.Entities.Course", "Course")
                         .WithMany()
-                        .HasForeignKey("CourseId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("CourseId");
 
                     b.HasOne("ChurchSchool.Domain.Entities.Person")
                         .WithOne("Student")

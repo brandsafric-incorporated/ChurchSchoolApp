@@ -2,7 +2,7 @@
 
 namespace ChurchSchool.Domain.Contracts
 {
-    public interface IStudentRepository : IRepository<Student>, IPersonRepository
+    public interface IStudentRepository : IRepository<Student>
     {
     }
 }

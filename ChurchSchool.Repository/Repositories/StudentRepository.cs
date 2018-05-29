@@ -5,10 +5,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace ChurchSchool.Repository.Repositories
 {
-    /*
     public class StudentRepository : IStudentRepository
     {
         private RepositoryContext _repositoryContext;
@@ -18,42 +18,28 @@ namespace ChurchSchool.Repository.Repositories
             _repositoryContext = repositoryContext;
         }
 
-        public async Task<Student> Add(Student model)
+        public Student Add(Student model)
         {
             _repositoryContext.Students.Add(model);
 
-            await _repositoryContext.SaveChangesAsync();
+            _repositoryContext.SaveChanges();
 
             return model;
         }
 
         public IEnumerable<Student> Filter(Student model)
         {
-            return _repositoryContext.Students.Where(x => x == model);
-        }
-
-        public Person FindbyDocument(Document document)
-        {
-            if (document == null)
-                throw new ArgumentNullException("Document Information not provided, object received is null");
-
-
-            var result = _repositoryContext.People.SingleOrDefault(p =>
-                        p.PersonDocuments.Any(pd => pd.DocumentNumber.Trim().ToLower() == document.DocumentNumber
-                                                 && pd.DocumentTypeId == document.DocumentTypeId)
-            );
-
-            return result;
+            return _repositoryContext.Students.AsNoTracking().Where(x => x == model);
         }
 
         public IEnumerable<Student> GetAll()
         {
-            return _repositoryContext.Students;
+            return _repositoryContext.Students.AsNoTracking();
         }
 
-        public async Task<bool> Remove(Guid key)
+        public bool Remove(Guid key)
         {
-            var itemToRemove = await _repositoryContext.Students.FindAsync(key);
+            var itemToRemove = _repositoryContext.Students.Find(key);
 
             _repositoryContext.Students.Remove(itemToRemove);
 
@@ -62,12 +48,9 @@ namespace ChurchSchool.Repository.Repositories
             return true;
         }
 
-        public async Task<bool> Update(Student model)
+        public bool Update(Student model)
         {
-
-            var itemToUpdate = await _repositoryContext.Students.FindAsync(model.Id);
-
-            itemToUpdate = model;
+            _repositoryContext.Update(model);
 
             _repositoryContext.SaveChanges();
 
@@ -75,5 +58,4 @@ namespace ChurchSchool.Repository.Repositories
 
         }
     }
-    */
 }

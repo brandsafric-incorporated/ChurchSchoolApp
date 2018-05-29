@@ -12,9 +12,10 @@ using System;
 namespace ChurchSchool.Repository.Migrations
 {
     [DbContext(typeof(RepositoryContext))]
-    partial class RepositoryContextModelSnapshot : ModelSnapshot
+    [Migration("20180528233009_UpdatingStudentModel")]
+    partial class UpdatingStudentModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -298,9 +299,7 @@ namespace ChurchSchool.Repository.Migrations
                     b.Property<DateTime?>("EnrollmentDate")
                         .HasColumnType("datetime");
 
-                    b.Property<string>("EnrollmentID")
-                        .IsRequired()
-                        .HasColumnType("varchar(15)");
+                    b.Property<string>("EnrollmentID");
 
                     b.Property<DateTime>("InsertedDate")
                         .ValueGeneratedOnAdd()

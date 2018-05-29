@@ -23,12 +23,34 @@ namespace ChurchSchool.Domain.Entities
 
         public IList<PersonDocument> PersonDocuments { get; set; }
 
+        public Student Student { get; set; }
+
         public virtual bool IsValid()
         {
-            return !string.IsNullOrEmpty(Name) &&
-                   !Phones.Any(phone => !phone.ValidateBrazilianNumber()) &&
-                   !Addresses.Any(address => !address.IsValid()) &&
-                   BirthDate != default(DateTime);
+            if (string.IsNullOrEmpty(Name))
+            {
+                AddError("Nome é obrigatório");
+            }
+
+            foreach (var phone in Phones)
+            {
+                if (!phone.ValidateBrazilianNumber())
+                    AddError($"Número {phone.ToString()} com formato inválido.");
+            }
+
+            foreach (var address in Addresses)
+            {
+                if (address.IsValid())
+                    AddError(address.Errors.ToArray());
+            }
+
+            if (!PersonDocuments.Any(x => x.DocumentTypeId == EDocumentType.CPF))
+                AddError($"CPF é Obrigatório");
+
+            if (BirthDate == default(DateTime))
+                AddError($"Data de Nascimento inválida. Data Informada:{BirthDate.ToShortDateString()}");
+
+            return !Errors.Any();
         }
     }
 }

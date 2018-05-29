@@ -30,31 +30,23 @@ namespace ChurchSchool.Repository
         public DbSet<Domain.Entities.Curriculum> Curriculums { get; set; }
         public DbSet<Domain.Entities.CourseDocuments> CourseDocuments { get; set; }
         public DbSet<Domain.Entities.Subject> Subjects { get; set; }
-
-        /*
-        public DbSet<Domain.Entities.Address> Addresses { get; set; }
-        
         public DbSet<Domain.Entities.Student> Students { get; set; }
-        public DbSet<Domain.Entities.Email> Emails { get; set; }
-
-        public DbSet<Domain.Entities.Grade> Grades { get; set; }
-        public DbSet<Domain.Entities.GradeHistory> GradeHistory { get; set; }
-        public DbSet<Domain.Entities.Frequency> Frequencies { get; set; }
-
-        public DbSet<Domain.Entities.CourseClass> Classes { get; set; }
-
-
-        public DbSet<Domain.Entities.Professor> Professors { get; set; }
-
         public DbSet<Domain.Entities.Person> People { get; set; }
-        public DbSet<Domain.Entities.PersonDocument> PersonDocuments { get; set; }
-        */
+
         /*
+            public DbSet<Domain.Entities.Address> Addresses { get; set; }
+            public DbSet<Domain.Entities.Email> Emails { get; set; }
+            public DbSet<Domain.Entities.Grade> Grades { get; set; }
+            public DbSet<Domain.Entities.GradeHistory> GradeHistory { get; set; }
+            public DbSet<Domain.Entities.Frequency> Frequencies { get; set; }
+            public DbSet<Domain.Entities.CourseClass> Classes { get; set; }
+            public DbSet<Domain.Entities.Professor> Professors { get; set; }
+            public DbSet<Domain.Entities.PersonDocument> PersonDocuments { get; set; }
+
             //Disabled Entities
             public DbSet<Domain.Entities.Enrollment> Enrollments { get; set; }
             public DbSet<Domain.Entities.ScholarTerm> ScholarTerms { get; set; }
-         */
-
+        */
         #endregion
 
         #region Overrides
@@ -76,10 +68,10 @@ namespace ChurchSchool.Repository
             new ModelSettings.Curriculum().Configure(modelBuilder);
             new ModelSettings.CourseDocuments().Configure(modelBuilder);
             new ModelSettings.Subject().Configure(modelBuilder);
+            new ModelSettings.Person().Configure(modelBuilder);
+            new ModelSettings.Student().Configure(modelBuilder);
         }
 
         #endregion
     }
 }
-
-

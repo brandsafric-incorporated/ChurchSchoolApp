@@ -5,8 +5,8 @@ using System.Text;
 
 namespace ChurchSchool.Domain.Contracts
 {
-    public interface IPersonRepository
+    public interface IPersonRepository : IRepository<Person>
     {
-        Person FindbyDocument(Document document);
+        Domain.Entities.Person GetByCPF(string cpfNumber);
     }
 }

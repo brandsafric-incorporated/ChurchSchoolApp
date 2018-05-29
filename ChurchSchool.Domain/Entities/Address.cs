@@ -1,12 +1,13 @@
 ﻿using ChurchSchool.Domain.Enum;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
 
 namespace ChurchSchool.Domain.Entities
 {
     public class Address : BaseEntity
     {
         public string StreetName { get; set; }
-        public int StreetNumber { get; set; }
+        public string StreetNumber { get; set; }
         public string Neighborhood { get; set; }
         public int CityId { get; set; }
         public string State { get; set; }
@@ -20,11 +21,19 @@ namespace ChurchSchool.Domain.Entities
 
         public bool IsValid()
         {
-            return !string.IsNullOrEmpty(StreetName) &&
-                   StreetNumber > 0 &&
-                   !string.IsNullOrEmpty(Neighborhood) &&
-                   !string.IsNullOrEmpty(State) &&
-                   Type != EAddressType.UNDEFINED;
+            if (string.IsNullOrEmpty(StreetName))
+                AddError("Nome da Rua não informado.");
+
+            if (string.IsNullOrEmpty(Neighborhood))
+                AddError("Bairro não informado.");
+
+            if (string.IsNullOrEmpty(State))
+                AddError("Estado não informado");
+
+            if (Type == EAddressType.UNDEFINED)
+                AddError("Tipo de residência não informado.");
+
+            return !Errors.Any();
         }
     }
 }

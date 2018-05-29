@@ -1,7 +1,5 @@
 ﻿using ChurchSchool.Domain.Enum;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace ChurchSchool.Domain.Entities
 {
@@ -22,8 +20,6 @@ namespace ChurchSchool.Domain.Entities
         /// <summary>
         /// Tipo de Documento
         /// </summary>
-        public EDocumentType DocumentTypeId { get; set; }
-
-        
+        public EDocumentType DocumentTypeId { get; set; }        
     }
 }
