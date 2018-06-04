@@ -259,3 +259,8 @@ paket-files/
 # Python Tools for Visual Studio (PTVS)
 __pycache__/
 *.pyc
+
+
+#Ignoring the configuration file
+appsettings.json
+appsettings.Development.json
