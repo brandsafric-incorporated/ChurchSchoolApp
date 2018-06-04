@@ -3,59 +3,64 @@ using ChurchSchool.Domain.Contracts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
 
 namespace ChurchSchool.Repository.Repositories
 {
     public class StudentRepository : IStudentRepository
     {
-        private RepositoryContext _repositoryContext;
+        private RepositoryContext _context;
+        private IPersonRepository _personRepository;
 
-        public StudentRepository(RepositoryContext repositoryContext)
+        public StudentRepository(RepositoryContext context, IPersonRepository personRepository)
         {
-            _repositoryContext = repositoryContext;
+            _context = context;
+            _personRepository = personRepository;
         }
 
         public Student Add(Student model)
         {
-            _repositoryContext.Students.Add(model);
-
-            _repositoryContext.SaveChanges();
-
+            model.InsertedDate = DateTime.Now;
+            _context.Students.Add(model);
             return model;
         }
 
         public IEnumerable<Student> Filter(Student model)
         {
-            return _repositoryContext.Students.AsNoTracking().Where(x => x == model);
+            return _context.Students.Where(x => x == model)
+                                    .ToList();
+
         }
 
-        public IEnumerable<Student> GetAll()
-        {
-            return _repositoryContext.Students.AsNoTracking();
-        }
+        public IEnumerable<Student> GetAll() => _context.Students.ToList();
 
         public bool Remove(Guid key)
         {
-            var itemToRemove = _repositoryContext.Students.Find(key);
+            var itemToRemove = _context.Students.Find(key);
 
-            _repositoryContext.Students.Remove(itemToRemove);
-
-            _repositoryContext.SaveChanges();
+            _context.Students.Remove(itemToRemove);
 
             return true;
         }
 
         public bool Update(Student model)
         {
-            _repositoryContext.Update(model);
-
-            _repositoryContext.SaveChanges();
-
+            model.UpdatedDate = DateTime.Now;
+            _context.Update(model);
             return true;
+        }
 
+        public bool VerifyStudentAlreadyEnrolled(string cpf, Guid courseId)
+        {
+            var person = _personRepository.GetByCPF(cpf);
+
+            if (person == null)
+                return false;
+
+            var exists = (from x in _context.Students
+                          where x.PersonId == person.Id
+                          select x).Any();
+
+            return exists;
         }
     }
 }

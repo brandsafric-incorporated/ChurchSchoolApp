@@ -1,20 +1,27 @@
-﻿using ChurchSchool.Domain.Enum;
+﻿using ChurchSchool.Domain.Contracts;
+using ChurchSchool.Domain.Enum;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
 
 namespace ChurchSchool.Domain.Entities
 {
-    public class Student : BaseEntity
+    public class Student : BaseEntity, IValidateObject
     {
         public Guid PersonId { get; set; }
         public Guid CourseId { get; set; }
-        public string EnrollmentID { get; set; }        
-        public DateTime? EnrollmentDate { get; set; }        
+        public string EnrollmentID { get; set; }
+        public DateTime? EnrollmentDate { get; set; }
 
         public EEnrollmentStatus Status { get; set; }
         public Course Course { get; set; }
-
-        [NotMapped]
         public Person Person { get; set; }
+        public IList<StudentDocument> Documents { get; set; }
+
+        public bool IsValid()
+        {
+            return !Errors.Any();
+        }
     }
 }

@@ -5,16 +5,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 namespace ChurchSchool.Repository.Repositories
 {
     public class CourseDocumentRepository : ICourseDocumentRepository
     {
-        private RepositoryContext _repositoryContext;
+        private readonly RepositoryContext _context;
 
-        public CourseDocumentRepository(RepositoryContext repositoryContext)
+        public CourseDocumentRepository(RepositoryContext context)
         {
-            _repositoryContext = repositoryContext;
+            _context = context;
         }
 
         public CourseDocuments Add(CourseDocuments model)
@@ -24,8 +25,7 @@ namespace ChurchSchool.Repository.Repositories
 
         public bool AddCourseDocumentRage(IEnumerable<CourseDocuments> documents)
         {
-            _repositoryContext.AddRange(documents);
-            _repositoryContext.SaveChanges();
+            _context.AddRange(documents);
             return true;
         }
 
@@ -46,12 +46,8 @@ namespace ChurchSchool.Repository.Repositories
 
         public bool RemoveByCourseConfiguration(Guid courseConfigurationId)
         {
-            var documents = _repositoryContext.CourseDocuments.Where(t => t.CourseConfigurationId == courseConfigurationId);
-
-            _repositoryContext.RemoveRange(documents.ToArray());
-
-            _repositoryContext.SaveChanges();
-
+            var documents = _context.CourseDocuments.Where(t => t.CourseConfigurationId == courseConfigurationId);
+            _context.RemoveRange(documents.ToArray());
             return true;
         }
 

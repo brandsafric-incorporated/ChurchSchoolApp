@@ -1,6 +1,7 @@
 ﻿using ChurchSchool.Domain.Contracts;
 using ChurchSchool.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,68 +10,50 @@ namespace ChurchSchool.Repository.Repositories
 {
     public class CourseConfigurationRepository : ICourseConfigurationRepository
     {
-        private RepositoryContext _repositoryContext;
+        private readonly RepositoryContext _context;
 
-        public CourseConfigurationRepository(RepositoryContext repositoryContext)
+        public CourseConfigurationRepository(RepositoryContext context)
         {
-            _repositoryContext = repositoryContext;
+            _context = context;
         }
 
         public CourseConfiguration Add(CourseConfiguration model)
         {
-            _repositoryContext.Configurations.Add(model);
-
-            _repositoryContext.SaveChangesAsync();
-
+            _context.Configurations.Add(model);
             return model;
         }
 
-        public IEnumerable<CourseConfiguration> Filter(CourseConfiguration model)
-        {
-            return _repositoryContext.Configurations.AsNoTracking().Where(x => x == model);
-        }
+        public IEnumerable<CourseConfiguration> Filter(CourseConfiguration model) => _context.Configurations.Where(x => x == model);
 
-        public IEnumerable<CourseConfiguration> GetByCourse(Guid courseId)
-        {
-            return _repositoryContext.Configurations.AsNoTracking().Where(x => x.CourseId == courseId);
-        }
+        public IEnumerable<CourseConfiguration> GetByCourse(Guid courseId) => _context.Configurations.Where(x => x.CourseId == courseId);
 
-        public IEnumerable<CourseConfiguration> GetAll()
-        {
-            return _repositoryContext.Configurations.AsNoTracking();
-        }
+        public IEnumerable<CourseConfiguration> GetAll() => _context.Configurations;
 
         public bool Remove(Guid key)
         {
-
-            var itemToRemove = _repositoryContext.Configurations.FirstOrDefault(x => x.Id == key);
+            var itemToRemove = _context.Configurations.FirstOrDefault(x => x.Id == key);
 
             if (itemToRemove != null)
             {
                 itemToRemove.RemovedDate = DateTime.Now;
-
-                _repositoryContext.SaveChanges();
-
                 return true;
             }
 
             return false;
+
         }
 
         public bool Update(CourseConfiguration model)
         {
             if (model.IsCurrentConfiguration)
             {
-                foreach (var item in _repositoryContext.Configurations.Where(r => r.CourseId == model.CourseId))
+                foreach (var item in GetByCourse(model.CourseId))
                 {
                     item.IsCurrentConfiguration = false;
                 }
             }
 
-            _repositoryContext.Update(model);
-
-            _repositoryContext.SaveChanges();
-
+            _context.Update(model);
             return true;
         }
     }

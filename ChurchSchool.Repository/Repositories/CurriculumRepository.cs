@@ -4,54 +4,37 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 namespace ChurchSchool.Repository.Repositories
 {
     public class CurriculumRepository : ICurriculumRepository
     {
-        private readonly RepositoryContext _repository;
+        private readonly RepositoryContext _context;
 
-        public CurriculumRepository(RepositoryContext repository)
-        {
-            _repository = repository;
-        }
+        public CurriculumRepository(RepositoryContext context) => _context = context;
 
         public Curriculum Add(Curriculum model)
         {
-            _repository.Curriculums.Add(model);
-
-            _repository.SaveChanges();
-
+            _context.Curriculums.Add(model);
             return model;
         }
 
-        public IEnumerable<Curriculum> Filter(Curriculum model)
-        {
-            return _repository.Curriculums.AsNoTracking().Where(y => y == model);
-        }
+        public IEnumerable<Curriculum> Filter(Curriculum model) => _context.Curriculums.Where(y => y == model);
+        public IEnumerable<Curriculum> GetAll() => _context.Curriculums;
 
-        public IEnumerable<Curriculum> GetAll()
-        {
-            return _repository.Curriculums.AsNoTracking();
-        }
 
         public bool Remove(Guid key)
         {
-            var itemToRemove = _repository.Curriculums.FirstOrDefault(y => y.Id == key);
-
+            var itemToRemove = _context.Curriculums.FirstOrDefault(y => y.Id == key);
             itemToRemove.RemovedDate = DateTime.Now;
-
-            _repository.SaveChanges();
-
             return true;
         }
 
         public bool Update(Curriculum model)
         {
             model.UpdatedDate = DateTime.Now;
-            _repository.Curriculums.Update(model);
-            _repository.SaveChanges();
-
+            _context.Curriculums.Update(model);
             return true;
         }
     }

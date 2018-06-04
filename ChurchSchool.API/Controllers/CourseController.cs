@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ChurchSchool.Application.Contracts;
 using ChurchSchool.Domain.Entities;
+using ChurchSchool.Repository.Contracts;
+using ChurchSchool.Repository;
 
 namespace ChurchSchool.API.Controllers
 {
@@ -15,10 +17,12 @@ namespace ChurchSchool.API.Controllers
     public class CourseController : Controller
     {
         private readonly ICourse _course;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public CourseController(ICourse course)
+        public CourseController(ICourse course, IUnitOfWork unitOfWork)
         {
             _course = course;
+            _unitOfWork = unitOfWork;
         }
 
         [HttpGet]
@@ -64,6 +68,11 @@ namespace ChurchSchool.API.Controllers
             try
             {
                 var result = _course.Add(course);
+                
+                _unitOfWork.Commit();
+
+                if (result.Errors.Any())
+                    return BadRequest(result.Errors);
 
                 return Ok(result);
             }
@@ -87,6 +96,7 @@ namespace ChurchSchool.API.Controllers
                     course.Id = key;
 
                 var result = _course.Update(course);
+                _unitOfWork.Commit();
 
                 if (result)
                     return Ok();
@@ -110,7 +120,7 @@ namespace ChurchSchool.API.Controllers
                 if (relatedItem == null)
                     return NotFound();
 
-                var result =  _course.Remove(key);
+                var result = _course.Remove(key);
 
                 return Ok(result);
             }

@@ -3,46 +3,30 @@ using ChurchSchool.Domain.Contracts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
 
 namespace ChurchSchool.Repository.Repositories
 {
     public class CourseRepository : ICourseRepository
     {
-        private RepositoryContext _repositoryContext;
+        private readonly RepositoryContext _context;
 
-        public CourseRepository(RepositoryContext repositoryContext)
-        {
-            _repositoryContext = repositoryContext;
-        }
+        public CourseRepository(RepositoryContext context) => _context = context;
 
         public Course Add(Course model)
         {
-            _repositoryContext.Courses.Add(model);
-
-            _repositoryContext.SaveChanges();
-
+            _context.Courses.Add(model);
             return model;
         }
 
-        public IEnumerable<Course> Filter(Course model)
-        {
-            return _repositoryContext.Courses.AsNoTracking().Where(x => x == model);
-        }
+        public IEnumerable<Course> Filter(Course model) => _context.Courses.Where(x => x == model);
 
-        public IEnumerable<Course> GetAll()
-        {
-            return _repositoryContext.Courses.AsNoTracking();
-        }
+        public IEnumerable<Course> GetAll() => _context.Courses;
 
         public bool Remove(Guid key)
         {
-            var itemToRemove = _repositoryContext.Courses.FirstOrDefault(y => y.Id == key);
+            var itemToRemove = _context.Courses.FirstOrDefault(y => y.Id == key);
 
             itemToRemove.RemovedDate = DateTime.Now;
-
-            _repositoryContext.SaveChanges();
 
             return true;
         }
@@ -51,13 +35,9 @@ namespace ChurchSchool.Repository.Repositories
         {
             model.UpdatedDate = DateTime.Now;
 
-            _repositoryContext.Courses.Update(model);
-
-            _repositoryContext.SaveChanges();
+            _context.Courses.Update(model);
 
             return true;
         }
-
-
     }
 }

@@ -12,8 +12,8 @@ using System;
 namespace ChurchSchool.Repository.Migrations
 {
     [DbContext(typeof(RepositoryContext))]
-    [Migration("20180529022058_UpdateAddressModel")]
-    partial class UpdateAddressModel
+    [Migration("20180604104223_LoadingModelStructure")]
+    partial class LoadingModelStructure
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -44,7 +44,7 @@ namespace ChurchSchool.Repository.Migrations
                         .IsRequired()
                         .HasColumnType("varchar(500)");
 
-                    b.Property<Guid?>("PersonId");
+                    b.Property<Guid>("PersonId");
 
                     b.Property<string>("PostalCode")
                         .IsRequired()
@@ -61,7 +61,9 @@ namespace ChurchSchool.Repository.Migrations
                         .IsRequired()
                         .HasColumnType("varchar(500)");
 
-                    b.Property<string>("StreetNumber");
+                    b.Property<string>("StreetNumber")
+                        .IsRequired()
+                        .HasColumnType("varchar(10)");
 
                     b.Property<DateTime?>("UpdatedDate")
                         .HasColumnType("datetime");
@@ -70,13 +72,14 @@ namespace ChurchSchool.Repository.Migrations
 
                     b.HasIndex("PersonId");
 
-                    b.ToTable("Address");
+                    b.ToTable("Addresses");
                 });
 
             modelBuilder.Entity("ChurchSchool.Domain.Entities.ConfigurationCurriculum", b =>
                 {
                     b.Property<Guid?>("Id")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("NEWID()");
 
                     b.Property<Guid>("ConfigurationId");
 
@@ -84,17 +87,22 @@ namespace ChurchSchool.Repository.Migrations
 
                     b.Property<DateTime?>("FinishDate");
 
-                    b.Property<DateTime>("InsertedDate");
+                    b.Property<DateTime>("InsertedDate")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime")
+                        .HasDefaultValueSql("GETDATE()");
 
                     b.Property<bool>("IsActive");
 
                     b.Property<bool>("IsCurrentConfiguration");
 
-                    b.Property<DateTime?>("RemovedDate");
+                    b.Property<DateTime?>("RemovedDate")
+                        .HasColumnType("datetime");
 
                     b.Property<DateTime>("StartDate");
 
-                    b.Property<DateTime?>("UpdatedDate");
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime");
 
                     b.HasKey("Id");
 
@@ -282,17 +290,23 @@ namespace ChurchSchool.Repository.Migrations
             modelBuilder.Entity("ChurchSchool.Domain.Entities.Curriculum_Subject", b =>
                 {
                     b.Property<Guid?>("Id")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("NEWID()");
 
                     b.Property<Guid>("CurriculumId");
 
-                    b.Property<DateTime>("InsertedDate");
+                    b.Property<DateTime>("InsertedDate")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime")
+                        .HasDefaultValueSql("GETDATE()");
 
-                    b.Property<DateTime?>("RemovedDate");
+                    b.Property<DateTime?>("RemovedDate")
+                        .HasColumnType("datetime");
 
                     b.Property<Guid>("SubjectId");
 
-                    b.Property<DateTime?>("UpdatedDate");
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime");
 
                     b.HasKey("Id");
 
@@ -308,7 +322,91 @@ namespace ChurchSchool.Repository.Migrations
                     b.Property<Guid?>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Address");
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasColumnType("varchar(256)");
+
+                    b.Property<DateTime>("InsertedDate")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime")
+                        .HasDefaultValueSql("GETDATE()");
+
+                    b.Property<Guid>("PersonId");
+
+                    b.Property<DateTime?>("RemovedDate")
+                        .HasColumnType("datetime");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PersonId")
+                        .IsUnique();
+
+                    b.ToTable("Emails");
+                });
+
+            modelBuilder.Entity("ChurchSchool.Domain.Entities.Frequency", b =>
+                {
+                    b.Property<Guid?>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("Date");
+
+                    b.Property<DateTime>("InsertedDate");
+
+                    b.Property<Guid>("ProfessorId");
+
+                    b.Property<DateTime?>("RemovedDate");
+
+                    b.Property<Guid>("StudentId");
+
+                    b.Property<Guid>("SubjectId");
+
+                    b.Property<DateTime?>("UpdatedDate");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProfessorId");
+
+                    b.HasIndex("StudentId");
+
+                    b.HasIndex("SubjectId");
+
+                    b.ToTable("Frequencies");
+                });
+
+            modelBuilder.Entity("ChurchSchool.Domain.Entities.Grade", b =>
+                {
+                    b.Property<Guid?>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("Date");
+
+                    b.Property<DateTime>("InsertedDate");
+
+                    b.Property<DateTime?>("RemovedDate");
+
+                    b.Property<Guid?>("SubjectId");
+
+                    b.Property<DateTime?>("UpdatedDate");
+
+                    b.Property<decimal>("Value");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SubjectId");
+
+                    b.ToTable("Grades");
+                });
+
+            modelBuilder.Entity("ChurchSchool.Domain.Entities.GradeHistory", b =>
+                {
+                    b.Property<Guid?>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<Guid?>("CurrentGradeId");
 
                     b.Property<DateTime>("InsertedDate");
 
@@ -318,7 +416,9 @@ namespace ChurchSchool.Repository.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Email");
+                    b.HasIndex("CurrentGradeId");
+
+                    b.ToTable("GradeHistory");
                 });
 
             modelBuilder.Entity("ChurchSchool.Domain.Entities.Person", b =>
@@ -327,9 +427,8 @@ namespace ChurchSchool.Repository.Migrations
                         .ValueGeneratedOnAdd()
                         .HasDefaultValueSql("NEWID()");
 
-                    b.Property<DateTime>("BirthDate");
-
-                    b.Property<Guid?>("EmailId");
+                    b.Property<DateTime>("BirthDate")
+                        .HasColumnType("datetime");
 
                     b.Property<DateTime>("InsertedDate")
                         .ValueGeneratedOnAdd()
@@ -350,10 +449,6 @@ namespace ChurchSchool.Repository.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("EmailId")
-                        .IsUnique()
-                        .HasFilter("[EmailId] IS NOT NULL");
-
                     b.ToTable("People");
                 });
 
@@ -362,29 +457,38 @@ namespace ChurchSchool.Repository.Migrations
                     b.Property<Guid?>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("DocumentNumber");
+                    b.Property<string>("DocumentNumber")
+                        .IsRequired()
+                        .HasColumnType("varchar(30)");
 
-                    b.Property<int>("DocumentTypeId");
+                    b.Property<int>("DocumentTypeId")
+                        .HasColumnType("int");
 
-                    b.Property<DateTime>("InsertedDate");
+                    b.Property<DateTime>("InsertedDate")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime")
+                        .HasDefaultValueSql("GETDATE()");
 
-                    b.Property<bool>("IsRequired");
+                    b.Property<DateTime>("IssuingDate")
+                        .HasColumnType("datetime");
 
-                    b.Property<DateTime>("IssuingDate");
-
-                    b.Property<string>("IssuingEntity");
+                    b.Property<string>("IssuingEntity")
+                        .IsRequired()
+                        .HasColumnType("varchar(30)");
 
                     b.Property<Guid>("PersonId");
 
-                    b.Property<DateTime?>("RemovedDate");
+                    b.Property<DateTime?>("RemovedDate")
+                        .HasColumnType("datetime");
 
-                    b.Property<DateTime?>("UpdatedDate");
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime");
 
                     b.HasKey("Id");
 
                     b.HasIndex("PersonId");
 
-                    b.ToTable("PersonDocument");
+                    b.ToTable("PersonDocuments");
                 });
 
             modelBuilder.Entity("ChurchSchool.Domain.Entities.Professor", b =>
@@ -400,7 +504,7 @@ namespace ChurchSchool.Repository.Migrations
                         .HasColumnType("datetime")
                         .HasDefaultValueSql("GETDATE()");
 
-                    b.Property<Guid?>("PersonId");
+                    b.Property<Guid>("PersonId");
 
                     b.Property<DateTime?>("RemovedDate")
                         .HasColumnType("datetime");
@@ -473,10 +577,48 @@ namespace ChurchSchool.Repository.Migrations
 
                     b.HasIndex("CourseId");
 
-                    b.HasIndex("PersonId")
-                        .IsUnique();
+                    b.HasIndex("PersonId");
 
                     b.ToTable("Students");
+                });
+
+            modelBuilder.Entity("ChurchSchool.Domain.Entities.StudentDocument", b =>
+                {
+                    b.Property<Guid?>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("DocumentNumber")
+                        .IsRequired()
+                        .HasColumnType("varchar(30)");
+
+                    b.Property<int>("DocumentTypeId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("InsertedDate")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime")
+                        .HasDefaultValueSql("GETDATE()");
+
+                    b.Property<DateTime>("IssuingDate")
+                        .HasColumnType("datetime");
+
+                    b.Property<string>("IssuingEntity")
+                        .IsRequired()
+                        .HasColumnType("varchar(30)");
+
+                    b.Property<DateTime?>("RemovedDate")
+                        .HasColumnType("datetime");
+
+                    b.Property<Guid>("StudentId");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("StudentId");
+
+                    b.ToTable("StudentDocuments");
                 });
 
             modelBuilder.Entity("ChurchSchool.Domain.Entities.Subject", b =>
@@ -510,17 +652,26 @@ namespace ChurchSchool.Repository.Migrations
                     b.Property<Guid?>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("AreaCode");
+                    b.Property<string>("AreaCode")
+                        .IsRequired()
+                        .HasColumnType("varchar(4)");
 
-                    b.Property<DateTime>("InsertedDate");
+                    b.Property<DateTime>("InsertedDate")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime")
+                        .HasDefaultValueSql("GETDATE()");
 
-                    b.Property<string>("Number");
+                    b.Property<string>("Number")
+                        .IsRequired()
+                        .HasColumnType("varchar(10)");
 
-                    b.Property<Guid?>("PersonId");
+                    b.Property<Guid>("PersonId");
 
-                    b.Property<DateTime?>("RemovedDate");
+                    b.Property<DateTime?>("RemovedDate")
+                        .HasColumnType("datetime");
 
-                    b.Property<DateTime?>("UpdatedDate");
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime");
 
                     b.HasKey("Id");
 
@@ -533,7 +684,8 @@ namespace ChurchSchool.Repository.Migrations
                 {
                     b.HasOne("ChurchSchool.Domain.Entities.Person")
                         .WithMany("Addresses")
-                        .HasForeignKey("PersonId");
+                        .HasForeignKey("PersonId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("ChurchSchool.Domain.Entities.ConfigurationCurriculum", b =>
@@ -551,12 +703,12 @@ namespace ChurchSchool.Repository.Migrations
 
             modelBuilder.Entity("ChurchSchool.Domain.Entities.CourseClass", b =>
                 {
-                    b.HasOne("ChurchSchool.Domain.Entities.Curriculum_Subject", "RelatedSubject")
+                    b.HasOne("ChurchSchool.Domain.Entities.Curriculum_Subject", "Curriculum_Subject")
                         .WithMany()
                         .HasForeignKey("Curriculum_SubjectId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("ChurchSchool.Domain.Entities.Professor", "RelatedProfessor")
+                    b.HasOne("ChurchSchool.Domain.Entities.Professor", "Professor")
                         .WithMany()
                         .HasForeignKey("ProfessorId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -593,7 +745,7 @@ namespace ChurchSchool.Repository.Migrations
 
             modelBuilder.Entity("ChurchSchool.Domain.Entities.Curriculum_Subject", b =>
                 {
-                    b.HasOne("ChurchSchool.Domain.Entities.Curriculum", "RelatedCurriculum")
+                    b.HasOne("ChurchSchool.Domain.Entities.Curriculum", "Curriculum")
                         .WithMany()
                         .HasForeignKey("CurriculumId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -604,17 +756,50 @@ namespace ChurchSchool.Repository.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("ChurchSchool.Domain.Entities.Person", b =>
+            modelBuilder.Entity("ChurchSchool.Domain.Entities.Email", b =>
                 {
-                    b.HasOne("ChurchSchool.Domain.Entities.Email", "Email")
-                        .WithOne("Person")
-                        .HasForeignKey("ChurchSchool.Domain.Entities.Person", "EmailId");
+                    b.HasOne("ChurchSchool.Domain.Entities.Person", "Person")
+                        .WithOne("Email")
+                        .HasForeignKey("ChurchSchool.Domain.Entities.Email", "PersonId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("ChurchSchool.Domain.Entities.Frequency", b =>
+                {
+                    b.HasOne("ChurchSchool.Domain.Entities.Professor", "Professor")
+                        .WithMany()
+                        .HasForeignKey("ProfessorId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("ChurchSchool.Domain.Entities.Student", "Student")
+                        .WithMany()
+                        .HasForeignKey("StudentId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("ChurchSchool.Domain.Entities.Subject", "Subject")
+                        .WithMany()
+                        .HasForeignKey("SubjectId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("ChurchSchool.Domain.Entities.Grade", b =>
+                {
+                    b.HasOne("ChurchSchool.Domain.Entities.Subject", "Subject")
+                        .WithMany()
+                        .HasForeignKey("SubjectId");
+                });
+
+            modelBuilder.Entity("ChurchSchool.Domain.Entities.GradeHistory", b =>
+                {
+                    b.HasOne("ChurchSchool.Domain.Entities.Grade", "CurrentGrade")
+                        .WithMany("History")
+                        .HasForeignKey("CurrentGradeId");
                 });
 
             modelBuilder.Entity("ChurchSchool.Domain.Entities.PersonDocument", b =>
                 {
                     b.HasOne("ChurchSchool.Domain.Entities.Person", "Person")
-                        .WithMany("PersonDocuments")
+                        .WithMany("Documents")
                         .HasForeignKey("PersonId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
@@ -623,7 +808,8 @@ namespace ChurchSchool.Repository.Migrations
                 {
                     b.HasOne("ChurchSchool.Domain.Entities.Person", "Person")
                         .WithMany()
-                        .HasForeignKey("PersonId");
+                        .HasForeignKey("PersonId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("ChurchSchool.Domain.Entities.ProfessorSubject", b =>
@@ -646,9 +832,17 @@ namespace ChurchSchool.Repository.Migrations
                         .HasForeignKey("CourseId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("ChurchSchool.Domain.Entities.Person")
-                        .WithOne("Student")
-                        .HasForeignKey("ChurchSchool.Domain.Entities.Student", "PersonId")
+                    b.HasOne("ChurchSchool.Domain.Entities.Person", "Person")
+                        .WithMany()
+                        .HasForeignKey("PersonId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("ChurchSchool.Domain.Entities.StudentDocument", b =>
+                {
+                    b.HasOne("ChurchSchool.Domain.Entities.Student", "Student")
+                        .WithMany("Documents")
+                        .HasForeignKey("StudentId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -656,7 +850,8 @@ namespace ChurchSchool.Repository.Migrations
                 {
                     b.HasOne("ChurchSchool.Domain.Entities.Person")
                         .WithMany("Phones")
-                        .HasForeignKey("PersonId");
+                        .HasForeignKey("PersonId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }

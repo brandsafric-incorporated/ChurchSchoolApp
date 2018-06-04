@@ -23,19 +23,19 @@ namespace ChurchSchool.Application.App
                 return entity;
             }
 
-            var newPersonCpf = entity.PersonDocuments.FirstOrDefault(x => x.DocumentTypeId == Domain.Enum.EDocumentType.CPF);
+            var newPersonCpf = entity.Documents.FirstOrDefault(x => x.DocumentTypeId == Domain.Enum.EDocumentType.CPF);
 
             if (newPersonCpf == null)
             {
-                entity.AddError($"CPF não encontrado - Pessoa a ser cadastrada: {entity.Name}");
-                return entity;
+               entity.AddError($"CPF não encontrado - Pessoa a ser cadastrada: {entity.Name}");
+               return entity;
             }
 
             //TODO - validate all documents, in a later moment
             if (_personRepository.GetByCPF(newPersonCpf.DocumentNumber) != null)
             {
-                entity.AddError($"CPF {newPersonCpf.DocumentNumber} já cadastrado");
-                return entity;
+               entity.AddError($"CPF {newPersonCpf.DocumentNumber} já cadastrado");
+               return entity;
             }
 
             _personRepository.Add(entity);
@@ -45,7 +45,7 @@ namespace ChurchSchool.Application.App
 
         public bool CheckIfExists(Domain.Entities.Person person)
         {
-            var newPersonCpf = person.PersonDocuments.FirstOrDefault(x => x.DocumentTypeId == Domain.Enum.EDocumentType.CPF);
+            var newPersonCpf = person.Documents.FirstOrDefault(x => x.DocumentTypeId == Domain.Enum.EDocumentType.CPF);
 
             return newPersonCpf != null && _personRepository.GetByCPF(newPersonCpf.DocumentNumber) != null;
         }
@@ -57,7 +57,8 @@ namespace ChurchSchool.Application.App
 
         public Domain.Entities.Person GetById(Guid id)
         {
-            return _personRepository.Filter(new Domain.Entities.Person { Id = id }).FirstOrDefault();
+            return _personRepository.Filter(new Domain.Entities.Person { Id = id })
+                                    .FirstOrDefault();
         }
 
         public ValidationResult Remove(Guid id)
@@ -73,7 +74,7 @@ namespace ChurchSchool.Application.App
                 return entity;
             }
 
-            var newPersonCpf = entity.PersonDocuments.FirstOrDefault(x => x.DocumentTypeId == Domain.Enum.EDocumentType.CPF);
+            var newPersonCpf = entity.Documents.FirstOrDefault(x => x.DocumentTypeId == Domain.Enum.EDocumentType.CPF);
 
             if (newPersonCpf == null)
             {

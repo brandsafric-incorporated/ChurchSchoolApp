@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
@@ -19,6 +19,9 @@
     <Compile Remove="Migrations\20180529023311_UpdateMultipleModels.cs" />
     <Compile Remove="Migrations\20180529023701_UpdateMultipleModels.cs" />
     <Compile Remove="Migrations\20180529023820_UpdateMultipleModels.cs" />
+    <Compile Remove="Migrations\20180604065148_IncludingPersonAndStudentModel.cs" />
+    <Compile Remove="Migrations\20180604092901_AddingCourseModel.cs" />
+    <Compile Remove="Migrations\20180604103918_LoadingModelStructure.cs" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,4 +1,5 @@
 ﻿using ChurchSchool.Domain.Enum;
+using System;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 
@@ -15,6 +16,8 @@ namespace ChurchSchool.Domain.Entities
         public string PostalCode { get; set; }
 
         public int AddressTypeId { get; set; }
+
+        public Guid PersonId { get; set; }
 
         [NotMapped]
         public EAddressType Type { get; set; }

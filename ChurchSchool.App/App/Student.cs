@@ -47,7 +47,6 @@ namespace ChurchSchool.Application.App
                 try
                 {
                     _person.Add(entity.Person);
-                    entity.PersonId = entity.Person.Id.Value;
                 }
                 catch (Exception ex)
                 {
@@ -77,16 +76,17 @@ namespace ChurchSchool.Application.App
         {
             var enrollmentID = $"{DateTime.Now.Year}{(DateTime.Now.Month < 7 ? "01" : "02")}";
 
-            var studentCount = (_studentRepository.GetAll().Count(d => d.CourseId == entity.CourseId) + 1).ToString();
-
-            return $"{enrollmentID}_{studentCount}";
+            return $"{enrollmentID}_{(_studentRepository.GetAll().Count(d => d.CourseId == entity.CourseId) + 1)}";
         }
 
         private bool VerifyStudentAlreadyEnrolled(Domain.Entities.Student entity)
         {
-            var enrollments = _studentRepository.GetAll().Any(x => x.CourseId == entity.CourseId && x.PersonId == entity.PersonId);
+            var cpfInformed = entity.Person.Documents.FirstOrDefault(y => y.DocumentTypeId == EDocumentType.CPF);
 
-            return enrollments;
+            if (cpfInformed == null)
+                throw new Exception("CPF não informado");
+
+            return _studentRepository.VerifyStudentAlreadyEnrolled(cpfInformed.DocumentNumber, entity.CourseId);
         }
 
         public IEnumerable<Domain.Entities.Student> GetAll()
@@ -139,7 +139,7 @@ namespace ChurchSchool.Application.App
         private bool VerifyIfStudentIsAllowedToCompleteCourse(Domain.Entities.Student entity)
         {
             //TODO - Implementar funcionalidade que checa se todas as disciplinas do curso foram cumpridas com a média de aprovação do curso vigente
-            return true;
+            return false;
         }
 
         private ValidationResult VerifyEnrollmentStatusChanges(EEnrollmentStatus currentStatus, Domain.Entities.Student entity)

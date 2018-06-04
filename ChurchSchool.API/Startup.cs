@@ -4,12 +4,15 @@ using ChurchSchool.Application.App;
 using ChurchSchool.Application.Contracts;
 using ChurchSchool.Domain.Contracts;
 using ChurchSchool.Repository;
+using ChurchSchool.Repository.Contracts;
 using ChurchSchool.Repository.Repositories;
+using ChurchSchool.Repository.UOW;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json;
 using Swashbuckle.AspNetCore.Swagger;
 
 namespace ChurchSchool.API
@@ -53,7 +56,14 @@ namespace ChurchSchool.API
             services.AddScoped<IPersonRepository, PersonRepository>();
             services.AddScoped<IStudentRepository, StudentRepository>();
 
-            services.AddMvc();
+            //Unit of Work
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+            services.AddMvc()
+                    .AddJsonOptions(options =>
+                    {
+                        options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+                    });
 
             services.AddSwaggerGen(c =>
             {

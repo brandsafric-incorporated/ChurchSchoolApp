@@ -10,7 +10,6 @@ namespace ChurchSchool.Domain.Entities
         public Guid CourseId { get; set; }        
         public bool IsCurrentConfiguration { get; set; }
         public Course RelatedCourse { get; set; }
-
         public IEnumerable<ConfigurationCurriculum> ConfigCurriculumns { get; set; }
         public IEnumerable<CourseDocuments> EnrollDocuments { get; set; }
 

@@ -20,14 +20,12 @@ namespace ChurchSchool.Repository.Repositories
         {
             _repositoryContext.Subjects.Add(model);
 
-            _repositoryContext.SaveChanges();
-
             return model;
         }
 
         public IEnumerable<Subject> Filter(Subject model)
         {
-            return _repositoryContext.Subjects.AsNoTracking().Where(x => x.Id == model.Id);
+            return _repositoryContext.Subjects.Where(x => x.Id == model.Id);
         }
 
         public IEnumerable<Subject> GetAll()
@@ -37,13 +35,11 @@ namespace ChurchSchool.Repository.Repositories
 
         public bool Remove(Guid key)
         {
-            var itemToRemove = _repositoryContext.Subjects.AsNoTracking().FirstOrDefault(x => x.Id == key);
+            var itemToRemove = _repositoryContext.Subjects.FirstOrDefault(x => x.Id == key);
 
             if (itemToRemove != null)
             {
                 _repositoryContext.Subjects.Remove(itemToRemove);
-
-                _repositoryContext.SaveChanges();
 
                 return true;
             }
@@ -60,7 +56,6 @@ namespace ChurchSchool.Repository.Repositories
                 itemToUpdate = model;
 
                 _repositoryContext.Update(itemToUpdate);
-                _repositoryContext.SaveChanges();
 
                 return true;
             }

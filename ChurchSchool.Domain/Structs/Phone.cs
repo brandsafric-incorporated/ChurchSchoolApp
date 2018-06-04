@@ -1,4 +1,5 @@
 ﻿using ChurchSchool.Domain.Entities;
+using System;
 using System.Text.RegularExpressions;
 
 namespace ChurchSchool.Domain.Structs
@@ -6,6 +7,8 @@ namespace ChurchSchool.Domain.Structs
     public class Phone : BaseEntity
     {
         private const string REGEX_BRAZILIAN_NUMBER = @"[\(?0-9\)?]{2,4}\s{1}?9?[0-9]{4}-?[0-9]{4}";
+
+        public Guid PersonId { get; set; }
         public string AreaCode { get; set; }
         public string Number { get; set; }
 

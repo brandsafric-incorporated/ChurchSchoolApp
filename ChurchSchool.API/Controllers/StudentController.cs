@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ChurchSchool.Application.Contracts;
+using ChurchSchool.Repository;
+using ChurchSchool.Repository.Contracts;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,11 +14,13 @@ namespace ChurchSchool.API.Controllers
     [Route("api/Student")]
     public class StudentController : Controller
     {
-        private IStudent _student;
+        private readonly IStudent _student;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public StudentController(IStudent student)
+        public StudentController(IStudent student, IUnitOfWork unitOfWork)
         {
             _student = student;
+            _unitOfWork = unitOfWork;
         }
 
         [HttpGet]
@@ -40,6 +44,8 @@ namespace ChurchSchool.API.Controllers
             try
             {
                 var result = _student.Add(entity);
+
+                _unitOfWork.Commit();
 
                 if (!result.Errors.Any())
                 {

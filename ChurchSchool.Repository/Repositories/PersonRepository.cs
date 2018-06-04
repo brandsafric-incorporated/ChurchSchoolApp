@@ -1,55 +1,67 @@
 ﻿using ChurchSchool.Domain.Contracts;
 using ChurchSchool.Domain.Entities;
-using Microsoft.EntityFrameworkCore;
+using ChurchSchool.Domain.Enum;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace ChurchSchool.Repository.Repositories
 {
     public class PersonRepository : IPersonRepository
     {
-        private RepositoryContext _repository;
+        private RepositoryContext _context;
 
-        public PersonRepository(RepositoryContext repository)
+        public PersonRepository(RepositoryContext context)
         {
-            _repository = repository;
+            _context = context;
         }
 
         public Person Add(Person model)
         {
-            _repository.Add(model);
-            _repository.SaveChanges();
+            var now = DateTime.Now;
+
+            model.InsertedDate = now;
+
+            foreach (var address in model.Addresses)
+            {
+                address.InsertedDate = now;
+            }
+
+            foreach (var phone in model.Phones)
+            {
+                phone.InsertedDate = now;
+            }
+
+            foreach (var doc in model.Documents)
+            {
+                doc.InsertedDate = now;
+            }
+
+            _context.People.Add(model);
 
             return model;
         }
 
         public IEnumerable<Person> Filter(Person model)
         {
-            var results = _repository.People.AsNoTracking().Where(p => p.Id == model.Id);
-            return results;
+            return _context.People.Where(p => p.Id == model.Id);
         }
 
-        public IEnumerable<Person> GetAll()
-        {
-            return _repository.People.AsNoTracking();
-        }
+        public IEnumerable<Person> GetAll () => _context.People;
 
         public Person GetByCPF(string cpfNumber)
         {
-            return _repository.People.AsNoTracking()
-                                     .SingleOrDefault(x => x.PersonDocuments.Any(doc => doc.DocumentTypeId == Domain.Enum.EDocumentType.CPF && doc.DocumentNumber == cpfNumber));
+            var result = _context.People.FirstOrDefault(y=> y.Documents.Any(x=>x.DocumentTypeId == EDocumentType.CPF && x.DocumentNumber == cpfNumber));
+            return result;
         }
 
         public bool Remove(Guid key)
         {
-            var person = _repository.People.AsNoTracking().FirstOrDefault(x => x.Id == key);
+            var person = _context.People.FirstOrDefault(x => x.Id == key);
 
             if (person != null)
             {
-                _repository.People.Remove(person);
-                _repository.SaveChanges();
+                _context.People.Remove(person);
                 return true;
             }
 
@@ -58,10 +70,29 @@ namespace ChurchSchool.Repository.Repositories
 
         public bool Update(Person model)
         {
+            var now = DateTime.Now;
+
+            model.UpdatedDate = now;
+
+            foreach (var address in model.Addresses)
+            {
+                address.UpdatedDate = now;
+            }
+
+            foreach (var phone in model.Phones)
+            {
+                phone.UpdatedDate = now;
+            }
+
+            foreach (var doc in model.Documents)
+            {
+                doc.UpdatedDate = now;
+            }
+
             model.UpdatedDate = DateTime.Now;
-            _repository.People.Update(model);
-            _repository.SaveChanges();
+            _context.People.Update(model);
             return true;
+
         }
     }
 }
