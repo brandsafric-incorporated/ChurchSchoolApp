@@ -13,12 +13,17 @@ namespace ChurchSchool.Application.App
         private IProfessorRepository _professorRepository;
         private IPerson _person;
         private IStudentRepository _studentRepository;
+        private ICourseClassRepository _courseClassRepository;
 
-        public Professor(IProfessorRepository professorRepository, IPerson person, IStudentRepository studentRepository)
+        public Professor(IProfessorRepository professorRepository,
+                         IPerson person,
+                         IStudentRepository studentRepository,
+                         ICourseClassRepository courseClassRepository)
         {
             _professorRepository = professorRepository;
             _studentRepository = studentRepository;
             _person = person;
+            _courseClassRepository = courseClassRepository;
         }
 
 
@@ -43,12 +48,15 @@ namespace ChurchSchool.Application.App
                 }
             }
 
-            var validationResult = VerifyIfProfessorIsACurrentStudentFromClass(entity);
-
-            if (validationResult.Errors.Any())
+            if (entity.RelatedSubjects.Any())
             {
-                entity.AddError("A pessoa informada é uma aluna corrente, ela não pode ser cadastrada como professora no momento. ");
-                return entity;
+                var validationResult = VerifyIfProfessorIsACurrentStudentFromClass(entity);
+
+                if (validationResult.Errors.Any())
+                {
+                    entity.AddError(validationResult.Errors.ToArray());
+                    return entity;
+                }
             }
 
             _professorRepository.Add(entity);
@@ -58,36 +66,48 @@ namespace ChurchSchool.Application.App
 
         private ValidationResult VerifyIfProfessorIsACurrentStudentFromClass(Domain.Entities.Professor entity)
         {
-            //var result = _studentRepository.GetStudentBySubject(entity.RelatedSubjects.Select(s => s.SubjectId));
+            var result = _courseClassRepository.GetRelatedSubjects(entity.PersonId)
+                                               .Where(y =>
+                                               {
+                                                   return entity.RelatedSubjects.Select(t => t.SubjectId).Contains(y.Subject.Id.Value) &&
+                                                          y.Student.Status == Domain.Enum.EEnrollmentStatus.ACTIVE;
+                                               });
 
             var validationResult = new ValidationResult();
 
-            //foreach (var data in result.Where(x => x.Student.Status == Domain.Enum.EEnrollmentStatus.ACTIVE && x.Student.PersonId == entity.PersonId))
-            //{
-            //    validationResult.AddError($"O usuário {entity.Person.Name} não pode lecionar na disciplina {data.RelatedClass.Curriculum_Subject.Subject.Name}, pois possui matrícula em aberto como aluno nesta disciplina.");
-            //}
+            foreach (var data in result)
+            {
+                validationResult.AddError($"O usuário {entity.Person.Name} não pode lecionar na disciplina {data.Subject.Name}, pois possui uma matrícula: {data.Student.EnrollmentID} em aberto como aluno nesta disciplina.");
+            }
 
             return validationResult;
         }
 
-        public IEnumerable<Domain.Entities.Professor> GetAll()
-        {
-            throw new NotImplementedException();
-        }
+        public IEnumerable<Domain.Entities.Professor> GetAll() => _professorRepository.GetAll();
 
-        public Domain.Entities.Professor GetById(Guid id)
-        {
-            throw new NotImplementedException();
-        }
+        public Domain.Entities.Professor GetById(Guid id) => _professorRepository.Filter(new Domain.Entities.Professor { Id = id }).FirstOrDefault();
 
         public ValidationResult Remove(Guid id)
         {
-            throw new NotImplementedException();
+            _professorRepository.Remove(id);
+            return new ValidationResult();
         }
 
         public ValidationResult Update(Domain.Entities.Professor entity)
         {
-            throw new NotImplementedException();
+            if (entity.RelatedSubjects.Any())
+            {
+                var validationResult = VerifyIfProfessorIsACurrentStudentFromClass(entity);
+
+                if (validationResult.Errors.Any())
+                {
+                    entity.AddError(validationResult.Errors.ToArray());
+                    return entity;
+                }
+            }
+
+            _professorRepository.Update(entity);
+            return new ValidationResult();
         }
     }
 }

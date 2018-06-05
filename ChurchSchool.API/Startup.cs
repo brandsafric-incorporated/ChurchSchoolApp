@@ -46,6 +46,7 @@ namespace ChurchSchool.API
             services.AddScoped<ISubject, Subject>();
             services.AddScoped<IPerson, Person>();
             services.AddScoped<IStudent, Student>();
+            services.AddScoped<IProfessor, Professor>();
 
             //Repository DI            
             services.AddScoped<ICourseRepository, CourseRepository>();
@@ -54,7 +55,9 @@ namespace ChurchSchool.API
             services.AddScoped<ICourseDocumentRepository, CourseDocumentRepository>();
             services.AddScoped<ISubjectRepository, SubjectRepository>();
             services.AddScoped<IPersonRepository, PersonRepository>();
+            services.AddScoped<ICourseClassRepository, CourseClassRepository>();
             services.AddScoped<IStudentRepository, StudentRepository>();
+            services.AddScoped<IProfessorRepository, ProfessorRepository>();
 
             //Unit of Work
             services.AddScoped<IUnitOfWork, UnitOfWork>();

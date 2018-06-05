@@ -9,21 +9,19 @@ using ChurchSchool.Domain.Enum;
 
 namespace ChurchSchool.Repository.Repositories
 {
-    /*
-    public class ProfessorRepository : PersonBaseRepository, IProfessorRepository
+    
+    public class ProfessorRepository : IProfessorRepository
     {
         private RepositoryContext _repositoryContext;
 
-        public ProfessorRepository(IPersonRepository personRepository, RepositoryContext repositoryContext) : base(personRepository, repositoryContext)
+        public ProfessorRepository(IPersonRepository personRepository, RepositoryContext repositoryContext) 
         {
             _repositoryContext = repositoryContext;
         }
 
-        public async Task<Professor> Add(Professor model)
+        public Professor Add(Professor model)
         {
-            _repositoryContext.Professors.Add(model);
-
-            await _repositoryContext.SaveChangesAsync();
+            _repositoryContext.Professors.Add(model);           
 
             return model;
         }
@@ -38,36 +36,25 @@ namespace ChurchSchool.Repository.Repositories
             return _repositoryContext.Professors;
         }
 
-        public async Task<bool> Remove(Guid key)
+        public bool Remove(Guid key)
         {
 
-            var itemToRemove = await _repositoryContext.Professors.FindAsync(key);
+            var itemToRemove = _repositoryContext.Professors.Find(key);
 
-            _repositoryContext.Professors.Remove(itemToRemove);
-
-            _repositoryContext.SaveChanges();
+            _repositoryContext.Professors.Remove(itemToRemove);            
 
             return true;
         }
 
-        public async Task<bool> Update(Professor model)
+        public bool Update(Professor model)
         {
 
-            var itemToUpdate = await _repositoryContext.Professors.FindAsync(model.Id);
+            var itemToUpdate = _repositoryContext.Professors.Find(model.Id);
 
-            itemToUpdate = model;
-
-            _repositoryContext.SaveChanges();
+            itemToUpdate = model;           
 
             return true;
 
         }
-
-        public Person FindbyDocument(Document document)
-        {
-            return base.FindByDocument(document, ERole.PROFESSOR);
-        }
-    }
-
-    */
+    }   
 }

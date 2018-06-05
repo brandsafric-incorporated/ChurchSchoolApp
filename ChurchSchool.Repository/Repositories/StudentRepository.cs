@@ -33,6 +33,8 @@ namespace ChurchSchool.Repository.Repositories
 
         public IEnumerable<Student> GetAll() => _context.Students.ToList();
 
+
+
         public bool Remove(Guid key)
         {
             var itemToRemove = _context.Students.Find(key);

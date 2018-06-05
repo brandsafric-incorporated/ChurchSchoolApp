@@ -40,6 +40,8 @@ namespace ChurchSchool.Repository
         public DbSet<Domain.Entities.Grade> Grades { get; set; }
         public DbSet<Domain.Entities.GradeHistory> GradeHistory { get; set; }
         public DbSet<Domain.Entities.Frequency> Frequencies { get; set; }
+        public DbSet<Domain.Entities.Curriculum_Subject> Curriculum_Subject { get; set; }
+        public DbSet<Domain.Entities.CourseClass_Student> CourseClass_Student { get; set; }
 
         /*  
             //Disabled Entities

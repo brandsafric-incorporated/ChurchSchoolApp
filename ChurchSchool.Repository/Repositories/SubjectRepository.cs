@@ -9,37 +9,37 @@ namespace ChurchSchool.Repository.Repositories
 {
     public class SubjectRepository : ISubjectRepository
     {
-        private RepositoryContext _repositoryContext;
+        private RepositoryContext _context;
 
         public SubjectRepository(RepositoryContext repositoryContext)
         {
-            _repositoryContext = repositoryContext;
+            _context = repositoryContext;
         }
 
         public Subject Add(Subject model)
         {
-            _repositoryContext.Subjects.Add(model);
+            _context.Subjects.Add(model);
 
             return model;
         }
 
         public IEnumerable<Subject> Filter(Subject model)
         {
-            return _repositoryContext.Subjects.Where(x => x.Id == model.Id);
+            return _context.Subjects.Where(x => x.Id == model.Id);
         }
 
         public IEnumerable<Subject> GetAll()
         {
-            return _repositoryContext.Subjects;
+            return _context.Subjects;
         }
 
         public bool Remove(Guid key)
         {
-            var itemToRemove = _repositoryContext.Subjects.FirstOrDefault(x => x.Id == key);
+            var itemToRemove = _context.Subjects.FirstOrDefault(x => x.Id == key);
 
             if (itemToRemove != null)
             {
-                _repositoryContext.Subjects.Remove(itemToRemove);
+                _context.Subjects.Remove(itemToRemove);
 
                 return true;
             }
@@ -49,18 +49,18 @@ namespace ChurchSchool.Repository.Repositories
 
         public bool Update(Subject model)
         {
-            var itemToUpdate = _repositoryContext.Subjects.AsNoTracking().FirstOrDefault(x => x.Id == model.Id);
+            var itemToUpdate = _context.Subjects.AsNoTracking().FirstOrDefault(x => x.Id == model.Id);
 
             if (itemToUpdate != null)
             {
                 itemToUpdate = model;
 
-                _repositoryContext.Update(itemToUpdate);
+                _context.Update(itemToUpdate);
 
                 return true;
             }
 
             return false;
-        }
+        }        
     }
 }
