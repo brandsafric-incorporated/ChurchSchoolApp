@@ -89,8 +89,19 @@ namespace ChurchSchool.Application.App
 
         public ValidationResult Remove(Guid id)
         {
-            _professorRepository.Remove(id);
-            return new ValidationResult();
+            var operationResult = _professorRepository.Remove(id);
+
+            if (!operationResult)
+            {
+                return new ValidationResult()
+                {
+                    Errors = new List<Shared.Validations.Error> {
+                        new Shared.Validations.Error{ Message= "Nenhum professor encontrado com a chave informada."}
+                    }
+                };
+            }
+
+            return ValidationResult.GetEmptyResult();
         }
 
         public ValidationResult Update(Domain.Entities.Professor entity)

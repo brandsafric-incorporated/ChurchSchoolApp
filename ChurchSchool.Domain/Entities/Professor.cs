@@ -9,5 +9,10 @@ namespace ChurchSchool.Domain.Entities
         public Guid PersonId { get; set; }
         public Person Person { get; set; }
         public IEnumerable<ProfessorSubject> RelatedSubjects { get; set; }
+
+        public Professor()
+        {
+            RelatedSubjects = new List<ProfessorSubject>();
+        }
     }
 }

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ChurchSchool.Domain.Enum;
+using Microsoft.EntityFrameworkCore;
 
 namespace ChurchSchool.Repository.Repositories
 {
@@ -33,15 +34,27 @@ namespace ChurchSchool.Repository.Repositories
 
         public IEnumerable<Professor> GetAll()
         {
-            return _repositoryContext.Professors;
+            return _repositoryContext.Professors.Include(e => e.Person)
+                                                .ThenInclude(t => t.Addresses)
+                                                .Include(e => e.Person)
+                                                .ThenInclude(t => t.Documents)
+                                                .Include(e => e.Person)
+                                                .ThenInclude(t => t.Phones)
+                                                .Include(t => t.RelatedSubjects)
+                                                .ThenInclude(q => q.Subject);
         }
 
         public bool Remove(Guid key)
         {
 
-            var itemToRemove = _repositoryContext.Professors.Find(key);
+            var itemToRemove = _repositoryContext.Professors.FirstOrDefault(t => t.Id == key);
 
-            _repositoryContext.Professors.Remove(itemToRemove);            
+            if (itemToRemove == null)
+                return false;
+
+            itemToRemove.RemovedDate = DateTime.Now;
+
+            Update(itemToRemove);
 
             return true;
         }
@@ -49,9 +62,9 @@ namespace ChurchSchool.Repository.Repositories
         public bool Update(Professor model)
         {
 
-            var itemToUpdate = _repositoryContext.Professors.Find(model.Id);
+            model.UpdatedDate = DateTime.Now;
 
-            itemToUpdate = model;           
+            _repositoryContext.Update(model);
 
             return true;
 

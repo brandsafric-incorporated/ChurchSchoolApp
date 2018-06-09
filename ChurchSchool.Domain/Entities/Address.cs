@@ -20,7 +20,7 @@ namespace ChurchSchool.Domain.Entities
         public Guid PersonId { get; set; }
 
         [NotMapped]
-        public EAddressType Type { get; set; }
+        public EAddressType Type => (EAddressType)AddressTypeId;
 
         public bool IsValid()
         {

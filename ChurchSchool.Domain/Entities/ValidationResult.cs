@@ -22,6 +22,10 @@ namespace ChurchSchool.Domain.Entities
             {
                 return _errors;
             }
+            set
+            {
+                _errors = value as List<Error>;
+            }
         }
 
         public void AddError(string errorMessage)
@@ -32,6 +36,11 @@ namespace ChurchSchool.Domain.Entities
         public void AddError(params Error[] error)
         {
             _errors.AddRange(error);
+        }
+
+        public static ValidationResult GetEmptyResult()
+        {
+            return new ValidationResult();
         }
     }
 }

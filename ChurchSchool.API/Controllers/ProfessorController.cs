@@ -62,7 +62,7 @@ namespace ChurchSchool.API.Controllers
                 if (result.Errors.Any())
                     return BadRequest(result.Errors);
 
-                return Ok(result);
+                return Ok(entity);
             }
             catch (Exception ex)
             {
@@ -71,7 +71,7 @@ namespace ChurchSchool.API.Controllers
         }
 
         [HttpPut]
-        public IActionResult Put([FromBody] Domain.Entities.Professor entity)
+        public IActionResult Put(Guid id, [FromBody] Domain.Entities.Professor entity)
         {
             try
             {
@@ -97,6 +97,8 @@ namespace ChurchSchool.API.Controllers
             {
                 var result = _professor.Remove(key);
 
+                _unitOfWork.Commit();
+
                 if (result.Errors.Any())
                     return BadRequest(result.Errors);
 
@@ -104,7 +106,6 @@ namespace ChurchSchool.API.Controllers
             }
             catch (Exception ex)
             {
-
                 return StatusCode(500, ex);
             }
         }
