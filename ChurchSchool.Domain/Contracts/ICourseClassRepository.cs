@@ -5,7 +5,7 @@ using System.Text;
 
 namespace ChurchSchool.Domain.Contracts
 {
-    public interface ICourseClassRepository
+    public interface ICourseClassRepository : IRepository<CourseClass>
     {
         IEnumerable<Domain.Entities.StudentSubject> GetRelatedSubjects(Guid personId);
     }

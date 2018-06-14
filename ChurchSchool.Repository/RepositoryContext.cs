@@ -42,6 +42,7 @@ namespace ChurchSchool.Repository
         public DbSet<Domain.Entities.Frequency> Frequencies { get; set; }
         public DbSet<Domain.Entities.Curriculum_Subject> Curriculum_Subject { get; set; }
         public DbSet<Domain.Entities.CourseClass_Student> CourseClass_Student { get; set; }
+        public DbSet<Domain.Entities.ProfessorSubject> ProfessorSubject { get; set; }
 
         /*  
             //Disabled Entities
@@ -60,7 +61,7 @@ namespace ChurchSchool.Repository
             new ModelSettings.Address().Configure(modelBuilder);
             new ModelSettings.Email().Configure(modelBuilder);
             new ModelSettings.Phone().Configure(modelBuilder);
-            new ModelSettings.Course().Configure(modelBuilder);            
+            new ModelSettings.Course().Configure(modelBuilder);
             new ModelSettings.CourseConfiguration().Configure(modelBuilder);
             new ModelSettings.Curriculum().Configure(modelBuilder);
             new ModelSettings.CourseDocuments().Configure(modelBuilder);
@@ -68,9 +69,9 @@ namespace ChurchSchool.Repository
             new ModelSettings.Professor().Configure(modelBuilder);
             new ModelSettings.CourseClass().Configure(modelBuilder);
             new ModelSettings.CourseClass_Student().Configure(modelBuilder);
-            new ModelSettings.Professor_Subject().Configure(modelBuilder);            
+            new ModelSettings.Professor_Subject().Configure(modelBuilder);
             new ModelSettings.Curriculum_Subject().Configure(modelBuilder);
-            new ModelSettings.ConfigurationCurriculum().Configure(modelBuilder);            
+            new ModelSettings.ConfigurationCurriculum().Configure(modelBuilder);
         }
 
         #endregion

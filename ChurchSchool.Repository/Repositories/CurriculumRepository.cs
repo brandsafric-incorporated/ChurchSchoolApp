@@ -14,6 +14,8 @@ namespace ChurchSchool.Repository.Repositories
 
         public CurriculumRepository(RepositoryContext context) => _context = context;
 
+        #region Curriculum
+
         public Curriculum Add(Curriculum model)
         {
             _context.Curriculums.Add(model);
@@ -21,8 +23,8 @@ namespace ChurchSchool.Repository.Repositories
         }
 
         public IEnumerable<Curriculum> Filter(Curriculum model) => _context.Curriculums.Where(y => y == model);
-        public IEnumerable<Curriculum> GetAll() => _context.Curriculums;
 
+        public IEnumerable<Curriculum> GetAll() => _context.Curriculums;
 
         public bool Remove(Guid key)
         {
@@ -37,5 +39,7 @@ namespace ChurchSchool.Repository.Repositories
             _context.Curriculums.Update(model);
             return true;
         }
+
+        #endregion
     }
 }

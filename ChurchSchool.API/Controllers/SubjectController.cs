@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using ChurchSchool.Application.Contracts;
 using ChurchSchool.Domain.Entities;
+using ChurchSchool.Repository.Contracts;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,9 +16,12 @@ namespace ChurchSchool.API.Controllers
     {
         private readonly ISubject _subject;
 
-        public SubjectController(ISubject Subject)
+        private readonly IUnitOfWork _unitOfWork;
+
+        public SubjectController(ISubject Subject, IUnitOfWork unitOfWork)
         {
             _subject = Subject;
+            _unitOfWork = unitOfWork;
         }
 
         [HttpGet]
@@ -64,6 +68,13 @@ namespace ChurchSchool.API.Controllers
             {
                 var result = _subject.Add(Subject);
 
+                _unitOfWork.Commit();
+
+                if (result.Errors.Any())
+                {
+                    return BadRequest(result.Errors);
+                }
+
                 return Ok(result);
             }
             catch (Exception ex)
@@ -84,6 +95,8 @@ namespace ChurchSchool.API.Controllers
 
                 if (!subject.Id.HasValue)
                     subject.Id = key;
+
+                _unitOfWork.Commit();
 
                 var result = _subject.Update(subject);
 

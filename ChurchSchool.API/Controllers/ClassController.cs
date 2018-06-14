@@ -10,25 +10,25 @@ using Microsoft.AspNetCore.Mvc;
 namespace ChurchSchool.API.Controllers
 {
     [Produces("application/json")]
-    [Route("api/Curriculum")]
-    public class CurriculumController : Controller
+    [Route("api/Class")]
+    public class ClassController : Controller
     {
-        private readonly ICurriculum _curriculumApp;
+        private ICourseClass _courseClass;
+        private IUnitOfWork _unitOfWork;
 
-        private readonly IUnitOfWork _unitOfWork;
-
-        public CurriculumController(ICurriculum curriculumApp, IUnitOfWork unitOfWork)
+        public ClassController(ICourseClass courseClass, IUnitOfWork unitOfWork)
         {
-            _curriculumApp = curriculumApp;
             _unitOfWork = unitOfWork;
+            _courseClass = courseClass;
         }
 
         [HttpGet]
-        public IActionResult GetAll()
+        public IActionResult Get()
         {
             try
             {
-                var result = _curriculumApp.GetAll();
+                var result = _courseClass.GetAll();
+
                 return Ok(result);
             }
             catch (Exception ex)
@@ -37,40 +37,12 @@ namespace ChurchSchool.API.Controllers
             }
         }
 
-        [HttpPut]
-        public IActionResult Put(Guid key, [FromBody] Domain.Entities.Curriculum curriculum)
-        {
-            try
-            {
-                var relatedItem = _curriculumApp.GetById(key);
-
-                if (relatedItem == null)
-                    return NotFound(key);
-
-                if (!curriculum.Id.HasValue)
-                    curriculum.Id = key;
-
-                var result = _curriculumApp.Update(curriculum);
-
-                _unitOfWork.Commit();
-
-                if (!result.Errors.Any())
-                    return Ok();
-                else
-                    return BadRequest(result.Errors);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, ex);
-            }
-        }
-
         [HttpPost]
-        public IActionResult Post([FromBody]Domain.Entities.Curriculum curriculum)
+        public IActionResult Post([FromBody] Domain.Entities.CourseClass entity)
         {
             try
             {
-                var result = _curriculumApp.Add(curriculum);
+                var result = _courseClass.Add(entity);
 
                 _unitOfWork.Commit();
 
@@ -78,10 +50,29 @@ namespace ChurchSchool.API.Controllers
                 {
                     return BadRequest(result.Errors);
                 }
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+
+                return StatusCode(500, ex);
+            }
+        }
+
+        [HttpPut]
+        public IActionResult Put([FromBody] Domain.Entities.CourseClass entity)
+        {
+            try
+            {
+                var result = _courseClass.Update(entity);
+
+                _unitOfWork.Commit();
+
+                if (result.Errors.Any())
+                    return BadRequest(result.Errors);
                 else
-                {
                     return Ok(result);
-                }
             }
             catch (Exception ex)
             {
@@ -94,21 +85,21 @@ namespace ChurchSchool.API.Controllers
         {
             try
             {
-                var relatedItem = _curriculumApp.GetById(key);
-
-                if (relatedItem == null)
-                    return NotFound();
-
-                var result = _curriculumApp.Remove(key);
+                var result = _courseClass.Remove(key);
 
                 _unitOfWork.Commit();
 
-                return Ok(result);
+                if (result.Errors.Any())
+                    return BadRequest(result.Errors);
+                else
+                    return Ok(result);
             }
             catch (Exception ex)
             {
+
                 return StatusCode(500, ex);
             }
         }
+
     }
 }

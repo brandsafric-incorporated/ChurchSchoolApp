@@ -40,6 +40,7 @@ namespace ChurchSchool.API
 
             //Application DI
             services.AddScoped<ICourse, Course>();
+            services.AddScoped<ICourseClass, CourseClass>();
             services.AddScoped<ICourseConfiguration, CourseConfiguration>();
             services.AddScoped<IEnrollment, Enrollment>();
             services.AddScoped<ICurriculum, Curriculum>();
@@ -52,12 +53,14 @@ namespace ChurchSchool.API
             services.AddScoped<ICourseRepository, CourseRepository>();
             services.AddScoped<ICourseConfigurationRepository, CourseConfigurationRepository>();
             services.AddScoped<ICurriculumRepository, CurriculumRepository>();
+            services.AddScoped<ICurriculum_SubjectRepository, Curriculum_SubjectRepository>();
             services.AddScoped<ICourseDocumentRepository, CourseDocumentRepository>();
             services.AddScoped<ISubjectRepository, SubjectRepository>();
             services.AddScoped<IPersonRepository, PersonRepository>();
             services.AddScoped<ICourseClassRepository, CourseClassRepository>();
             services.AddScoped<IStudentRepository, StudentRepository>();
             services.AddScoped<IProfessorRepository, ProfessorRepository>();
+            services.AddScoped<IProfessorSubjectRepository, ProfessorSubjectRepository>();
 
             //Unit of Work
             services.AddScoped<IUnitOfWork, UnitOfWork>();

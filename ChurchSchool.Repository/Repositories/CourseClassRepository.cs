@@ -1,5 +1,6 @@
 ﻿using ChurchSchool.Domain.Contracts;
 using ChurchSchool.Domain.Entities;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +17,34 @@ namespace ChurchSchool.Repository.Repositories
             _context = context;
         }
 
+        public CourseClass Add(CourseClass model)
+        {
+            _context.Classes.Add(model);
+            return model;
+        }
+
+        public IEnumerable<CourseClass> Filter(CourseClass model)
+        {
+            if (model == null)
+                return Enumerable.Empty<CourseClass>();
+
+            return _context.Classes.Where(q => q.Id == model.Id)
+                                   .Include(a => a.Curriculum_Subject)
+                                   .ThenInclude(c => c.Curriculum)
+                                   .Include(a => a.Curriculum_Subject)
+                                   .ThenInclude(c => c.Subject)
+                                   .Include(b => b.Professor);
+        }
+
+        public IEnumerable<CourseClass> GetAll()
+        {
+            return _context.Classes.Include(a => a.Curriculum_Subject)
+                                   .ThenInclude(c => c.Curriculum)
+                                   .Include(a => a.Curriculum_Subject)
+                                   .ThenInclude(c => c.Subject)
+                                   .Include(b => b.Professor);
+        }
+
         public IEnumerable<StudentSubject> GetRelatedSubjects(Guid personId)
         {
             var result = (from student in _context.Students
@@ -30,6 +59,25 @@ namespace ChurchSchool.Repository.Repositories
                           });
 
             return result;
+        }
+
+        public bool Remove(Guid key)
+        {
+            var row = _context.Classes.FirstOrDefault(q => q.Id == key);
+
+            if (row == null)
+                return false;
+
+            row.RemovedDate = DateTime.Now;
+
+            return Update(row);
+        }
+
+        public bool Update(CourseClass model)
+        {
+            model.UpdatedDate = DateTime.Now;
+            _context.Update(model);
+            return true;
         }
     }
 }

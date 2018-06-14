@@ -8,14 +8,14 @@ namespace ChurchSchool.Repository.ModelSettings
     {
         public void Configure(ModelBuilder builder)
         {
-            builder.Entity<Domain.Entities.Curriculum_Subject>(y =>
+            builder.Entity<Domain.Entities.ProfessorSubject>(y =>
             {
                 y.HasKey(x => x.Id);
                 y.Property(x => x.Id).HasDefaultValueSql("NEWID()");
                 y.Property(x => x.InsertedDate).HasColumnType("datetime").HasDefaultValueSql("GETDATE()");
                 y.Property(x => x.UpdatedDate).HasColumnType("datetime");
                 y.Property(x => x.RemovedDate).HasColumnType("datetime");
-            });            
+            });
         }
     }
 }

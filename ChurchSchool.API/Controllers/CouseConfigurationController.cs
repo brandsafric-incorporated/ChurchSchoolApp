@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using ChurchSchool.Application.Contracts;
+using ChurchSchool.Repository.Contracts;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ChurchSchool.API.Controllers
@@ -10,10 +11,12 @@ namespace ChurchSchool.API.Controllers
     public class CouseConfigurationController : Controller
     {
         private readonly ICourseConfiguration _courseConfiguration;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public CouseConfigurationController(ICourseConfiguration courseConfiguration)
+        public CouseConfigurationController(ICourseConfiguration courseConfiguration, IUnitOfWork unitOfWork)
         {
             _courseConfiguration = courseConfiguration;
+            _unitOfWork = unitOfWork;
         }
 
         [HttpGet]
@@ -70,6 +73,8 @@ namespace ChurchSchool.API.Controllers
 
                 var createdConfiguration = _courseConfiguration.Add(configuration);
 
+                _unitOfWork.Commit();
+
                 if (createdConfiguration.Errors.Any())
                 {
                     return BadRequest(createdConfiguration.Errors);
@@ -100,6 +105,8 @@ namespace ChurchSchool.API.Controllers
 
                 var result = _courseConfiguration.Update(configuration);
 
+                _unitOfWork.Commit();
+
                 if (!result.Errors.Any())
                     return Ok();
                 else
@@ -117,6 +124,8 @@ namespace ChurchSchool.API.Controllers
             try
             {
                 var result = _courseConfiguration.Remove(key);
+
+                _unitOfWork.Commit();
 
                 if (!result.Errors.Any())
                     return Ok();
