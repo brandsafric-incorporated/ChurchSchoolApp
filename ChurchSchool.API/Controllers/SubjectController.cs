@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using ChurchSchool.Application.Contracts;
 using ChurchSchool.Domain.Entities;
 using ChurchSchool.Repository.Contracts;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,6 +13,7 @@ namespace ChurchSchool.API.Controllers
 {
     [Produces("application/json")]
     [Route("api/Subject")]
+    [Authorize]
     public class SubjectController : Controller
     {
         private readonly ISubject _subject;

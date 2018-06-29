@@ -2,12 +2,14 @@
 using System.Linq;
 using ChurchSchool.Application.Contracts;
 using ChurchSchool.Repository.Contracts;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ChurchSchool.API.Controllers
 {
     [Produces("application/json")]
     [Route("api/Course/Settings")]
+    [Authorize]
     public class CouseConfigurationController : Controller
     {
         private readonly ICourseConfiguration _courseConfiguration;

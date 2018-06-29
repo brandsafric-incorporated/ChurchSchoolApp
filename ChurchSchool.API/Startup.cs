@@ -71,10 +71,22 @@ namespace ChurchSchool.API
                         options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
                     });
 
-            services.AddSwaggerGen(c =>
+            services.AddSwaggerGen(c => c.SwaggerDoc("v1", _apiInfo));
+
+            services.AddAuthentication("Bearer")
+            .AddJwtBearer(options =>
             {
-                c.SwaggerDoc("v1", _apiInfo);
+                options.Authority = "http://locahost:5000";
+                options.MetadataAddress = "http://localhost:5000/.well-known/openid-configuration";
+                options.RequireHttpsMetadata = false;
+                options.Audience = "ChurchSchoolApi";
             });
+            //.AddIdentityServerAuthentication(options =>
+            //{
+            //    options.Authority = "http://locahost:5000";
+            //    options.RequireHttpsMetadata = false;
+            //    options.ApiName = "ChurchSchoolApi";                
+            //});
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -84,16 +96,14 @@ namespace ChurchSchool.API
             app.UseSwagger();
 
             // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.), specifying the Swagger JSON endpoint.
-            app.UseSwaggerUI(c =>
-            {
-
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", _apiInfo.Title);
-            });
+            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", _apiInfo.Title));
 
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseAuthentication();
 
             app.UseMvc();
         }

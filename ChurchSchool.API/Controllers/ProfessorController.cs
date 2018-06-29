@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using ChurchSchool.Application.Contracts;
 using ChurchSchool.Repository.Contracts;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,6 +12,7 @@ namespace ChurchSchool.API.Controllers
 {
     [Produces("application/json")]
     [Route("api/Professor")]
+    [Authorize]
     public class ProfessorController : Controller
     {
         private IProfessor _professor;

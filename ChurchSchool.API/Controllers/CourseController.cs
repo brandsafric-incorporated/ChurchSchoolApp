@@ -9,11 +9,13 @@ using ChurchSchool.Application.Contracts;
 using ChurchSchool.Domain.Entities;
 using ChurchSchool.Repository.Contracts;
 using ChurchSchool.Repository;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ChurchSchool.API.Controllers
 {
     [Produces("application/json")]
     [Route("api/Course")]
+    [Authorize]
     public class CourseController : Controller
     {
         private readonly ICourse _course;

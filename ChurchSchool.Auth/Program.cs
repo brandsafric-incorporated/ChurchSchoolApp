@@ -3,16 +3,16 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
-namespace ChurchSchool.API
+namespace ChurchSchool.Auth
 {
     public class Program
     {
         public static void Main(string[] args)
         {
-            BuildWebHost(args).Run();
+            CreateWebHostBuilder(args).Build().Run();
         }
 
-        public static IWebHost BuildWebHost(string[] args) =>
+        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
                    .ConfigureAppConfiguration((hostingContext, configuration) =>
                    {
@@ -27,7 +27,6 @@ namespace ChurchSchool.API
                        logging.AddConsole();
                        logging.AddDebug();
                    })
-                .UseStartup<Startup>()
-                .Build();
+                   .UseStartup<Startup>();
     }
 }
