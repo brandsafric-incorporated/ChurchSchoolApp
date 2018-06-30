@@ -11,7 +11,7 @@ platform with the following features:
 * Students Frequency
 * Students Enrollments
 
-The repository is open and you're free to use the project on your church. 
+The repository is open and everybody is free to use the project on your church. 
 I don't offer any guarantee for the code developed.
 
 ----------------------------------------------------------------------------------------------------------------------------------
