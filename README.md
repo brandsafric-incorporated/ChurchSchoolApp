@@ -14,7 +14,7 @@ platform with the following features:
 The repository is open and you're free to use the project on your church. 
 I don't offer any guarantee for the code developed.
 
-==============================================================================================================================================
+----------------------------------------------------------------------------------------------------------------------------------
 
 # Church School App
 
