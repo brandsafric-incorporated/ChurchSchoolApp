@@ -104,6 +104,9 @@ namespace ChurchSchool.API
             }
 
             app.UseAuthentication();
+            app.UseCors((builder)=> {
+                builder.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin();
+            });
 
             app.UseMvc();
         }

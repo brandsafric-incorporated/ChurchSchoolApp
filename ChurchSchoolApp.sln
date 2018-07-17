@@ -3,33 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27428.2015
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "frontend", "frontend", "{D2B5C8DF-EC8C-42D9-8830-A522D5E03569}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "backend", "backend", "{B595E1E3-9737-4BBB-AE3C-3B6CB6CF591E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "infra", "infra", "{B79D4A49-2FFF-48E5-93E5-5E8E91CAC312}"
-EndProject
-Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "www", "www\", "{66270C15-D4F4-43A2-B158-48D4A4F61D84}"
-	ProjectSection(WebsiteProperties) = preProject
-		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.6.1"
-		Debug.AspNetCompiler.VirtualPath = "/localhost_59845"
-		Debug.AspNetCompiler.PhysicalPath = "www\"
-		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_59845\"
-		Debug.AspNetCompiler.Updateable = "true"
-		Debug.AspNetCompiler.ForceOverwrite = "true"
-		Debug.AspNetCompiler.FixedNames = "false"
-		Debug.AspNetCompiler.Debug = "True"
-		Release.AspNetCompiler.VirtualPath = "/localhost_59845"
-		Release.AspNetCompiler.PhysicalPath = "www\"
-		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_59845\"
-		Release.AspNetCompiler.Updateable = "true"
-		Release.AspNetCompiler.ForceOverwrite = "true"
-		Release.AspNetCompiler.FixedNames = "false"
-		Release.AspNetCompiler.Debug = "False"
-		VWDPort = "59845"
-		SlnRelativePath = "www\"
-		DefaultWebSiteLanguage = "Visual C#"
-	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChurchSchool.Domain", "ChurchSchool.Domain\ChurchSchool.Domain.csproj", "{13B94857-B641-43DE-A774-BC262253377D}"
 EndProject
@@ -57,10 +33,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{66270C15-D4F4-43A2-B158-48D4A4F61D84}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{66270C15-D4F4-43A2-B158-48D4A4F61D84}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{66270C15-D4F4-43A2-B158-48D4A4F61D84}.Release|Any CPU.ActiveCfg = Debug|Any CPU
-		{66270C15-D4F4-43A2-B158-48D4A4F61D84}.Release|Any CPU.Build.0 = Debug|Any CPU
 		{13B94857-B641-43DE-A774-BC262253377D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{13B94857-B641-43DE-A774-BC262253377D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{13B94857-B641-43DE-A774-BC262253377D}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -106,7 +78,6 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{66270C15-D4F4-43A2-B158-48D4A4F61D84} = {D2B5C8DF-EC8C-42D9-8830-A522D5E03569}
 		{13B94857-B641-43DE-A774-BC262253377D} = {B595E1E3-9737-4BBB-AE3C-3B6CB6CF591E}
 		{B9B19C76-ECF8-44F6-AE8C-5BC02A00FF76} = {B595E1E3-9737-4BBB-AE3C-3B6CB6CF591E}
 		{43EF6B31-3F2E-4603-A729-580C6E240721} = {B595E1E3-9737-4BBB-AE3C-3B6CB6CF591E}

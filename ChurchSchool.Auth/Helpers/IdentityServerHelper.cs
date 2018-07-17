@@ -22,18 +22,14 @@ namespace ChurchSchool.Auth.Helpers
             return new List<Client>
             {
                 new Client{
-                    ClientId = "site",
-                    AllowedGrantTypes = GrantTypes.ClientCredentials,
+                    ClientId = "seminario-web-app",
+                    AllowedGrantTypes = GrantTypes.Implicit,
                     ClientSecrets = { new Secret("upper+topper+ultra+lol+supersecret".Sha256()) },
-                    AllowedScopes = { "ChurchSchoolApi" }
-                },new Client{
-                    ClientId = "site-pwd",
-                    AllowedGrantTypes = {
-                        GrantTypes.ResourceOwnerPassword.ToString(),
-                        GrantTypes.ClientCredentials.ToString()
-                    },
-                    ClientSecrets = { new Secret("upper+topper+ultra+lol+supersecret".Sha256()) },
-                    AllowedScopes = { "ChurchSchoolApi" }
+                    AllowedScopes = { "openid", "profile",  "ChurchSchoolApi" },
+                    RedirectUris = new List<string> { "http://localhost:4200/auth-callback" },
+                    PostLogoutRedirectUris = new List<string> { "http://localhost:4200/" },
+                    AllowedCorsOrigins = new List<string> { "http://localhost:4200" },
+                    AllowAccessTokensViaBrowser = true
                 }
             };
 
@@ -58,6 +54,13 @@ namespace ChurchSchool.Auth.Helpers
             };
         }
 
+        public static IEnumerable<IdentityResource> GetIdentityResources()
+        {
+            return new IdentityResource[] {
+                new IdentityResources.OpenId(),
+                new IdentityResources.Profile()
+            };
+        }
 
     }
 }

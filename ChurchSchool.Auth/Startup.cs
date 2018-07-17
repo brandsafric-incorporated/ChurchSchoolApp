@@ -17,8 +17,11 @@ namespace ChurchSchool.Auth
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddMvc();
+
             services.AddIdentityServer()
                     .AddSigningCredential(new X509Certificate2($@".\Certificates\churchschoolapp_dsv.pfx", "churchschool_15643278"))
+                    .AddInMemoryIdentityResources(IdentityServerHelper.GetIdentityResources())
                     .AddInMemoryApiResources(IdentityServerHelper.GetApiResources())
                     .AddInMemoryClients(IdentityServerHelper.GetClients())
                     .AddTestUsers(IdentityServerHelper.GetUsers())
@@ -32,8 +35,16 @@ namespace ChurchSchool.Auth
             {
                 app.UseDeveloperExceptionPage();
             }
+            else
+            {
+                app.UseExceptionHandler("/Home/Error");
+            }
 
             app.UseIdentityServer();
+
+
+            app.UseStaticFiles();
+            app.UseMvcWithDefaultRoute();
         }
     }
 }
