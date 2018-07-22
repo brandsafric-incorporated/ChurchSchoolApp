@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ChurchSchool.Application.Contracts
 {
-    public interface IStudent : IBasicOperations<Student>
+    public interface IStudent : IBasicOperations<Domain.Entities.Student>
     {
 
     }

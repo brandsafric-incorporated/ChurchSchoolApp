@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace ChurchSchool.Application.App
+namespace ChurchSchool.Application
 {
     public class Subject : ISubject
     {

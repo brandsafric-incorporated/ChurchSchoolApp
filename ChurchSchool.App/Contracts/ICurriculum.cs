@@ -2,7 +2,7 @@
 
 namespace ChurchSchool.Application.Contracts
 {
-    public interface ICurriculum : IBasicOperations<Curriculum>
+    public interface ICurriculum : IBasicOperations<Domain.Entities.Curriculum>
     {
     }
 }

@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace ChurchSchool.Application.App
+namespace ChurchSchool.Application
 {
     public class CourseConfiguration : ICourseConfiguration
     {

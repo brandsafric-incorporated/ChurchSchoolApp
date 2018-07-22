@@ -1,5 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
+﻿using ChurchSchool.Identity.Model;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Console;
 
@@ -18,7 +19,7 @@ namespace ChurchSchool.Repository
 
         #region Constructors
 
-        public RepositoryContext(DbContextOptions options) : base(options) { }
+        public RepositoryContext(DbContextOptions<RepositoryContext> options) : base(options) { }
 
         #endregion
 
@@ -43,6 +44,8 @@ namespace ChurchSchool.Repository
         public DbSet<Domain.Entities.Curriculum_Subject> Curriculum_Subject { get; set; }
         public DbSet<Domain.Entities.CourseClass_Student> CourseClass_Student { get; set; }
         public DbSet<Domain.Entities.ProfessorSubject> ProfessorSubject { get; set; }
+
+        public DbSet<User> Users { get; set; }
 
         /*  
             //Disabled Entities
@@ -76,4 +79,17 @@ namespace ChurchSchool.Repository
 
         #endregion
     }
+
+
+    public class RepositoryContextFactory : IDesignTimeDbContextFactory<RepositoryContext>
+    {
+        public RepositoryContext CreateDbContext(string[] args)
+        {
+            var builder = new DbContextOptionsBuilder<RepositoryContext>();
+            builder.UseSqlServer("Data Source=(local)\\SERVER_XPS;Initial Catalog=DB_SEMINARIO;Integrated Security=True");
+            return new RepositoryContext(builder.Options);
+        }
+    }
+
+  
 }

@@ -9,4 +9,8 @@ namespace ChurchSchool.Repository.Contracts
     {
         void Commit();
     }
+
+    public interface IUnitOfWorkIdentity : IUnitOfWork { }
+
+    public interface IUnitOfWorkDomain : IUnitOfWork { }
 }

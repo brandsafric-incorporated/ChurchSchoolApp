@@ -1,18 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using Application = ChurchSchool.Application;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ChurchSchool.Application.Contracts;
 using ChurchSchool.Domain.Entities;
 using ChurchSchool.Repository.Contracts;
-using ChurchSchool.Repository;
 using Microsoft.AspNetCore.Authorization;
 
 namespace ChurchSchool.API.Controllers
 {
+    [Authorize(Policy ="teacher")]
     [Produces("application/json")]
     [Route("api/Course")]
     [Authorize]
@@ -31,7 +27,7 @@ namespace ChurchSchool.API.Controllers
         public IActionResult Get()
         {
             try
-            {
+            {   
                 var result = _course.GetAll();
 
                 return Ok(result.ToArray());

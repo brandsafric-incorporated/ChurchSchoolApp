@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ChurchSchool.Application.App
+namespace ChurchSchool.Application
 {
     public class Student : IStudent
     {

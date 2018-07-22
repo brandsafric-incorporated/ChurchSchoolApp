@@ -6,10 +6,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace ChurchSchool.Application.App
+namespace ChurchSchool.Application
 {
     public class Curriculum : ICurriculum
     {
+
         private readonly ICurriculumRepository _curriculumRepository;
 
         public Curriculum(ICurriculumRepository curriculumRepository)
@@ -45,5 +46,6 @@ namespace ChurchSchool.Application.App
             _curriculumRepository.Update(entity);
             return new ValidationResult();
         }
+
     }
 }

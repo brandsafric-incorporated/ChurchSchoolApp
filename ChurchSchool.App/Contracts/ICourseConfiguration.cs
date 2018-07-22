@@ -1,4 +1,4 @@
-﻿using ChurchSchool.Application.App;
+﻿using ChurchSchool.Application;
 using System;
 using System.Collections.Generic;
 using System.Text;

@@ -1,7 +1,5 @@
 ﻿using ChurchSchool.Repository.Contracts;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using ChurchSchool.Repository.Repositories;
 
 namespace ChurchSchool.Repository.UOW
 {
@@ -10,6 +8,21 @@ namespace ChurchSchool.Repository.UOW
         private RepositoryContext _context;
 
         public UnitOfWork(RepositoryContext context)
+        {
+            _context = context;
+        }
+
+        public void Commit()
+        {
+            _context.SaveChanges();
+        }
+    }
+
+    public class UnitOfWorkIdentity : IUnitOfWorkIdentity
+    {
+        private ApplicationDbContext _context;
+
+        public UnitOfWorkIdentity(ApplicationDbContext context)
         {
             _context = context;
         }

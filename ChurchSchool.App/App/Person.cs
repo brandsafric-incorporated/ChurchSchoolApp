@@ -5,7 +5,7 @@ using ChurchSchool.Application.Contracts;
 using ChurchSchool.Domain.Contracts;
 using ChurchSchool.Domain.Entities;
 
-namespace ChurchSchool.Application.App
+namespace ChurchSchool.Application
 {
     public class Person : IPerson
     {
