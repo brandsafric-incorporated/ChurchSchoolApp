@@ -23,6 +23,16 @@ using ChurchSchool.Repository.Repositories;
 using ChurchSchool.Identity.Model;
 using ChurchSchool.Identity.Contracts;
 using ChurchSchool.Identity;
+using ChurchSchool.Shared;
+using ChurchSchool.Identity.Entities;
+using ChurchSchool.Service.Implementations;
+using ChurchSchool.Service.Contracts;
+using Microsoft.Extensions.FileProviders;
+using System.Reflection;
+using Microsoft.AspNetCore.Mvc.Razor;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 
 namespace ChurchSchool.API
 {
@@ -30,15 +40,17 @@ namespace ChurchSchool.API
     {
         private readonly string _secretKey; // todo: get this from somewhere secure
         private readonly SymmetricSecurityKey _signingKey;
+        private readonly IHostingEnvironment _environment;
 
         private Info _apiInfo;
 
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration, IHostingEnvironment environment)
         {
             _configuration = configuration;
             _apiInfo = SwaggerInfoHelper.GetSwaggerInformation();
             _secretKey = configuration.GetSection("SecretKey")?.Value;
             _signingKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(_secretKey));
+            _environment = environment;
         }
 
         public IConfiguration _configuration { get; }
@@ -46,6 +58,22 @@ namespace ChurchSchool.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.TryAddSingleton<IActionContextAccessor, ActionContextAccessor>();
+
+            //Razor View Renderer
+            services.AddScoped<IViewRenderService, ViewRenderService>();
+            var viewAssembly = typeof(EmailService).GetTypeInfo().Assembly;
+            var fileProvider = new EmbeddedFileProvider(viewAssembly);
+
+            services.Configure<RazorViewEngineOptions>(options =>
+            {
+                options.FileProviders.Add(fileProvider);
+            });
+
+            //Configuratons
+            services.Configure<ApplicationSettings>(_configuration);
+
             //DB
             services.AddDbContext<RepositoryContext>(options =>
             {
@@ -127,6 +155,7 @@ namespace ChurchSchool.API
             //Identity DI
             services.AddScoped<IAuthorization, Authorization>();
             services.AddScoped<IJwtFactory, JwtFactory>();
+            services.AddScoped<IPasswordRecovery, PasswordRecovery>();
 
             //Repository DI            
             services.AddScoped<ICourseRepository, CourseRepository>();
@@ -141,8 +170,11 @@ namespace ChurchSchool.API
             services.AddScoped<IProfessorRepository, ProfessorRepository>();
             services.AddScoped<IProfessorSubjectRepository, ProfessorSubjectRepository>();
             services.AddScoped<IAccountRepository, AccountRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
 
-            
+            //Application Services
+            services.AddScoped<IEmailService, EmailService>();
+            services.AddScoped<IEmailTemplateService, EmailTemplateService>();
 
             //Unit of Work | TODO- Improve this part (shoul have a factory method responsible to provide a correct instance)
             services.AddScoped<IUnitOfWork, UnitOfWork>();
@@ -176,10 +208,12 @@ namespace ChurchSchool.API
             app.UseAuthentication();
             app.UseCors((builder) =>
             {
-                builder.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin();
+                builder.AllowAnyHeader()
+                       .AllowAnyMethod()
+                       .AllowAnyOrigin();
             });
 
-            app.UseMvc();
+            app.UseMvc();            
         }
     }
 }

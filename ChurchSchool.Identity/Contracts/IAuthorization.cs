@@ -6,7 +6,7 @@ namespace ChurchSchool.Identity.Contracts
 {
     public interface IAuthorization
     {
-        IEnumerable<Claim> GetUserClaims(string userName);
+        IEnumerable<Claim> GetUserClaims(string userEmail);
 
         Domain.Entities.Account ValidateUserCredentials(string userName, string password);
 

@@ -5,22 +5,27 @@ using ChurchSchool.Application.Contracts;
 using ChurchSchool.Domain.Entities;
 using ChurchSchool.Repository.Contracts;
 using Microsoft.AspNetCore.Authorization;
+using ChurchSchool.Shared;
+using Microsoft.Extensions.Options;
 
 namespace ChurchSchool.API.Controllers
 {
-    [Authorize(Policy ="teacher")]
-    [Produces("application/json")]
-    [Route("api/Course")]
     [Authorize]
+    [Produces("application/json")]
+    [Route("api/Course")]    
     public class CourseController : Controller
     {
         private readonly ICourse _course;
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly IUnitOfWorkIdentity _unitOfWork;
+        private readonly IOptions<ApplicationSettings> _extendedOptions;
 
-        public CourseController(ICourse course, IUnitOfWork unitOfWork)
+        public CourseController(ICourse course,
+                                IUnitOfWorkIdentity unitOfWork,
+                                IOptions<ApplicationSettings> extendedOptions)
         {
             _course = course;
             _unitOfWork = unitOfWork;
+            _extendedOptions = extendedOptions;
         }
 
         [HttpGet]
@@ -94,6 +99,7 @@ namespace ChurchSchool.API.Controllers
                     course.Id = key;
 
                 var result = _course.Update(course);
+
                 _unitOfWork.Commit();
 
                 if (result)

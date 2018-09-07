@@ -1,19 +1,34 @@
 ﻿using ChurchSchool.Application.Contracts;
 using ChurchSchool.Domain.Contracts;
+using ChurchSchool.Identity.Contracts;
+using ChurchSchool.Repository.Contracts;
+using ChurchSchool.Service.Contracts;
 using ChurchSchool.Shared;
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace ChurchSchool.Application
 {
     public class Account : IAccount
     {
         private readonly IAccountRepository _accountRepository;
+        private readonly IPasswordRecovery _passwordRecovery;
+        private readonly IEmailService _emailService;
+        private readonly IUserRepository _userRepository;
+        private readonly IUnitOfWorkIdentity _unitOfWorkIdentity;
 
-
-        public Account(IAccountRepository accountRepository)
+        public Account(IAccountRepository accountRepository,
+                       IUserRepository userRepository,
+                       IPasswordRecovery passwordRecovery,
+                       IEmailService emailService,
+                       IUnitOfWorkIdentity unitOfWorkIdentity)
         {
             _accountRepository = accountRepository;
+            _passwordRecovery = passwordRecovery;
+            _emailService = emailService;
+            _userRepository = userRepository;
+            _unitOfWorkIdentity = unitOfWorkIdentity;
         }
 
         public Domain.Entities.Account Create(Domain.Entities.Account account)
@@ -71,6 +86,58 @@ namespace ChurchSchool.Application
             }
 
             return account;
+        }
+
+        public async Task RecoverPassword(string userEmail)
+        {
+            var userData = _userRepository.GetUserByEmail(userEmail);
+
+            userData.PasswordRecoveryToken = _passwordRecovery.GeneratePasswordRecoveryToken(userData);
+
+            userData.PasswordRecoveryRequestedDate = DateTime.Now;
+
+            try
+            {
+                _userRepository.Update(userData);
+                _unitOfWorkIdentity.Commit();
+            }
+            catch (Exception)
+            {
+                throw new Exception("Houve um erro ao tentar atualizar as informações de conta.");
+            }
+
+            var messageBody = _passwordRecovery.CreateRecoveryEmail(userData);
+
+            await _emailService.SendEmail(userEmail, "Recuperação de Senha", messageBody, true);
+
+            return;
+
+        }
+
+        public bool CheckIfUserExists(string userEmail)
+        {
+            return _accountRepository.GetAccountByUserEmail(userEmail) != null;
+        }
+
+        public bool ValidateToken(string token)
+        {
+            var userData = _userRepository.GetUserByValidationToken(token);
+            return _passwordRecovery.IsTokenValid(userData);
+        }
+
+        public bool ResetPassword(string token, string password)
+        {
+            if (ValidateToken(token))
+            {
+                var userData = _userRepository.GetUserByValidationToken(token);
+                userData.PasswordHash = Encrypt.Hash(password);
+                userData.PasswordRecoveryRequestedDate = null;
+                userData.PasswordRecoveryToken = null;
+                _userRepository.Update(userData);
+                return true;
+            }
+
+            return false;
         }
     }
 }

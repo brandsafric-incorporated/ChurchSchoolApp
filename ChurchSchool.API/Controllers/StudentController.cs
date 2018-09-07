@@ -12,8 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace ChurchSchool.API.Controllers
 {
     [Produces("application/json")]
-    [Route("api/Student")]
-    [Authorize]
+    [Route("api/Student")]    
     public class StudentController : Controller
     {
         private readonly IStudent _student;

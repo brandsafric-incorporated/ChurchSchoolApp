@@ -10,6 +10,8 @@ namespace ChurchSchool.Domain.Contracts
     {
         Domain.Entities.Account GetAccountByUserName(string userName);
 
-        IEnumerable<Claim> GetUserClaims(string userName);
+        Domain.Entities.Account GetAccountByUserEmail(string userEmail);
+
+        IEnumerable<Claim> GetUserClaims(string userName);        
     }
 }

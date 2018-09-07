@@ -14,5 +14,15 @@ namespace ChurchSchool.Identity.Model
         /// Indicates the current user is disabled
         /// </summary>
         public bool IsDisabled { get; set; }
+
+        /// <summary>
+        /// Token used to validate if the user can reset his password
+        /// </summary>
+        public string PasswordRecoveryToken { get; set; }
+
+        /// <summary>
+        /// the date when the token will expire
+        /// </summary>
+        public DateTime? PasswordRecoveryRequestedDate { get; set; }        
     }
 }
