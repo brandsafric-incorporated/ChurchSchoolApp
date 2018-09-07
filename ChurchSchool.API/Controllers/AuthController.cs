@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using ChurchSchool.Application.Contracts;
 using ChurchSchool.Identity.Contracts;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -40,5 +41,25 @@ namespace ChurchSchool.API.Controllers
                 return StatusCode(500, ex);
             }
         }
+
+
+        [HttpGet, Route("Claims"), Authorize]
+        public IActionResult GetUserClaims(string userEmail)
+        {
+            try
+            {
+                var result = _authorization.GetUserClaims(userEmail);
+
+                if (result.Any())
+                    return Ok(result);
+                else
+                    return NotFound();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex);
+            }
+        }
+
     }
 }

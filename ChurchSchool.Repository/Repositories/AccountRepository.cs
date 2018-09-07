@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using ChurchSchool.Domain.Contracts;
 using ChurchSchool.Domain.Entities;
+using ChurchSchool.Identity.Model;
 using ChurchSchool.Shared.Validations;
 using Microsoft.AspNetCore.Identity;
 using System;
@@ -34,15 +35,31 @@ namespace ChurchSchool.Repository.Repositories
             var result = _context.Users.Where(x =>
                                     (!string.IsNullOrEmpty(x.UserName) && x.UserName.Contains(model.UserName)) ||
                                         (x.PersonId != default(Guid) && x.PersonId == model.PersonId)
-                                     ).Select(x=> new Account {
+                                     ).Select(x => new Account
+                                     {
                                          Errors = new List<Error>(),
                                          Id = x.Id,
                                          Password = x.PasswordHash,
-                                         PersonId = x.PersonId, 
+                                         PersonId = x.PersonId,
                                          UserName = x.UserName
-                                     });           
+                                     });
             return result;
         }
+
+        public Account GetAccountByUserEmail(string userEmail)
+        {
+            var g = _context.Users.FirstOrDefault(u => u.Email == userEmail);
+
+            var result = _mapper.Map<Domain.Entities.Account>(g);
+            return result;
+        }
+
+        public Identity.Model.User GetUserByUserEmail(string userEmail)
+        {
+            var result = _context.Users.FirstOrDefault(u => u.Email == userEmail);
+            return result;
+        }
+
 
         public Account GetAccountByUserName(string userName)
         {
@@ -52,11 +69,11 @@ namespace ChurchSchool.Repository.Repositories
 
         public IEnumerable<Account> GetAll() => throw new NotImplementedException();
 
-        public IEnumerable<Claim> GetUserClaims(string userName)
+        public IEnumerable<Claim> GetUserClaims(string userEmail)
         {
             return (from claim in _context.UserClaims
                     join user in _context.Users on claim.UserId equals user.Id
-                    where user.UserName == userName
+                    where user.Email == userEmail
                     select claim.ToClaim()) as IEnumerable<Claim>;
         }
 

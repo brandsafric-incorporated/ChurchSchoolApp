@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Security.Claims;
-using System.Text;
+using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
 using ChurchSchool.Domain.Contracts;
 using ChurchSchool.Domain.Entities;
 using ChurchSchool.Identity.Contracts;
 using ChurchSchool.Identity.Model;
 using ChurchSchool.Shared;
-using Microsoft.Extensions.Configuration;
-using Newtonsoft.Json;
 
 namespace ChurchSchool.Identity
 {
@@ -28,21 +25,21 @@ namespace ChurchSchool.Identity
             _jwtIssuerOptions = configuration.GetSection(nameof(JwtIssuerOptions));
         }
 
-        public IEnumerable<Claim> GetUserClaims(string userName)
+        public IEnumerable<Claim> GetUserClaims(string userEmail)
         {
-            return _accountRepository.GetUserClaims(userName);
+            return _accountRepository.GetUserClaims(userEmail);
         }
 
         public string Login(Account accountInfo)
         {
-            var foundAccount = ValidateUserCredentials(accountInfo.UserName, accountInfo.Password);
+            var foundAccount = ValidateUserCredentials(accountInfo.Email, accountInfo.Password);
 
             if (foundAccount == null)
                 return string.Empty;
 
-            var userClaims = GetUserClaims(foundAccount.UserName);
+            var userClaims = GetUserClaims(foundAccount.Email);
             
-            var authenticationToken = _jwtFactory.GenerateEncodedToken(accountInfo.UserName, userClaims).Result;
+            var authenticationToken = _jwtFactory.GenerateEncodedToken(accountInfo.Email, userClaims).Result;
 
             var jwtObject = GenerateJwt(foundAccount.Id, authenticationToken);
 
@@ -61,11 +58,18 @@ namespace ChurchSchool.Identity
             return JsonConvert.SerializeObject(jwt);
         }
 
-        public Domain.Entities.Account ValidateUserCredentials(string userName, string password)
+        public Domain.Entities.Account ValidateUserCredentials(string userEmail, string password)
         {
-            return _accountRepository.Filter(new Account { UserName = userName })
-                                     .FirstOrDefault(x => x.Password == Encrypt.Hash(password))
-                                     ?.RemovePasswordData();
+            var account = _accountRepository.GetAccountByUserEmail(userEmail);
+
+            if(account != null && account.Password == Encrypt.Hash(password))
+            {
+                return account.RemovePasswordData();
+            }
+            else
+            {
+                return null;
+            }
         }
     }
 }

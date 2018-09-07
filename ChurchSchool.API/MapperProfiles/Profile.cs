@@ -20,7 +20,7 @@ namespace ChurchSchool.API.MapperProfiles
                 .ForMember(destination => destination.UserName, opt => opt.ResolveUsing(source => source.UserName))                
                 .ForMember(destinationMember => destinationMember.AccessFailedCount, opt => opt.Ignore())
                 .ForMember(destinationMember => destinationMember.ConcurrencyStamp, opt => opt.Ignore())
-                .ForMember(destinationMember => destinationMember.Email, opt => opt.Ignore())
+                .ForMember(destinationMember => destinationMember.Email, opt => opt.ResolveUsing(source => source.Email))
                 .ForMember(destinationMember => destinationMember.EmailConfirmed, opt => opt.Ignore())
                 .ForMember(destinationMember => destinationMember.Id, opt => opt.Ignore())
                 .ForMember(destinationMember => destinationMember.IsDisabled, opt => opt.Ignore())
@@ -35,6 +35,9 @@ namespace ChurchSchool.API.MapperProfiles
                 .ForSourceMember(source=> source.Errors, x=> x.Ignore())                
                 .ReverseMap()
                 ;
+
+            CreateMap<Identity.Model.User, Domain.Entities.Account>()
+                .ForMember(destination => destination.Password, opt => opt.ResolveUsing(source => source.PasswordHash));
         }
     }
 }

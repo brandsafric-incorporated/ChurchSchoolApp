@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ChurchSchool.Domain\ChurchSchool.Domain.csproj" />
+    <ProjectReference Include="..\ChurchSchool.Service\ChurchSchool.Service.csproj" />
   </ItemGroup>
 
   <ItemGroup>
