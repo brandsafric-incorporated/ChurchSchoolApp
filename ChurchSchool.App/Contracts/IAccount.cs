@@ -7,8 +7,8 @@ namespace ChurchSchool.Application.Contracts
 {
     public interface IAccount
     {
-        Domain.Entities.Account Create(Domain.Entities.Account account);
-        Domain.Entities.Account Modify(Domain.Entities.Account account);
+        Domain.Entities.Identity.Account Create(Domain.Entities.Identity.Account account);
+        Domain.Entities.Identity.Account Modify(Domain.Entities.Identity.Account account);
         Task RecoverPassword(string userEmail);
         bool CheckIfUserExists(string userEmail);
         bool ResetPassword(string token, string password);

@@ -1,6 +1,7 @@
 ﻿using ChurchSchool.Domain.Contracts;
 using ChurchSchool.Domain.Entities;
 using ChurchSchool.Domain.Enum;
+using ChurchSchool.Repository.Contracts;
 using System;
 using System.Collections.Generic;
 using System.Linq;

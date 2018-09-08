@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using System;
 
-namespace ChurchSchool.Identity.Model
+namespace ChurchSchool.Domain.Entities.Identity
 {
     public class User : IdentityUser
     {
@@ -23,6 +23,6 @@ namespace ChurchSchool.Identity.Model
         /// <summary>
         /// the date when the token will expire
         /// </summary>
-        public DateTime? PasswordRecoveryRequestedDate { get; set; }        
+        public DateTime? PasswordRecoveryRequestedDate { get; set; }
     }
 }

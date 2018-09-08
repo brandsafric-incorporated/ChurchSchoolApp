@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ChurchSchool.Domain\ChurchSchool.Domain.csproj" />
+    <ProjectReference Include="..\ChurchSchool.Identity\ChurchSchool.Identity.csproj" />
     <ProjectReference Include="..\ChurchSchool.Repository\ChurchSchool.Repository.csproj" />
   </ItemGroup>
 

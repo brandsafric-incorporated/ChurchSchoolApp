@@ -1,6 +1,6 @@
 ﻿using ChurchSchool.Domain.Entities;
 
-namespace ChurchSchool.Domain.Contracts
+namespace ChurchSchool.Repository.Contracts
 {
     public interface IProfessorRepository : IRepository<Professor>
     {

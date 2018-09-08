@@ -1,5 +1,4 @@
-﻿using ChurchSchool.Identity.Model;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Console;
@@ -44,8 +43,7 @@ namespace ChurchSchool.Repository
         public DbSet<Domain.Entities.Curriculum_Subject> Curriculum_Subject { get; set; }
         public DbSet<Domain.Entities.CourseClass_Student> CourseClass_Student { get; set; }
         public DbSet<Domain.Entities.ProfessorSubject> ProfessorSubject { get; set; }
-
-        public DbSet<User> Users { get; set; }
+        
 
         /*  
             //Disabled Entities

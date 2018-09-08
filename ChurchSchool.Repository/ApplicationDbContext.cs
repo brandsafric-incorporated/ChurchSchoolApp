@@ -1,9 +1,9 @@
-﻿using ChurchSchool.Identity.Model;
+﻿using ChurchSchool.Domain.Entities.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 
-namespace ChurchSchool.Repository.Repositories
+namespace ChurchSchool.Repository
 {
     public class ApplicationDbContext : IdentityDbContext<User>
     {
@@ -12,7 +12,8 @@ namespace ChurchSchool.Repository.Repositories
 
         }
 
-        public DbSet<User> Users { get; set; }
+        //public DbSet<Domain.Entities.Identity.User> Users { get; set; }
+        //public DbSet<Microsoft.AspNetCore.Identity.IdentityUserClaim<int>> UserClaims { get; set; }
     }
 
     public class ApplicationDbContextFactory : IDesignTimeDbContextFactory<ApplicationDbContext>

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using ChurchSchool.Repository.Contracts;
 
 namespace ChurchSchool.Repository.Repositories
 {

@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using ChurchSchool.Domain.Enum;
 using Microsoft.EntityFrameworkCore;
+using ChurchSchool.Repository.Contracts;
 
 namespace ChurchSchool.Repository.Repositories
 {

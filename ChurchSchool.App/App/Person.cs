@@ -4,6 +4,7 @@ using System.Linq;
 using ChurchSchool.Application.Contracts;
 using ChurchSchool.Domain.Contracts;
 using ChurchSchool.Domain.Entities;
+using ChurchSchool.Repository.Contracts;
 
 namespace ChurchSchool.Application
 {

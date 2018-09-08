@@ -2,6 +2,7 @@
 using ChurchSchool.Domain.Contracts;
 using ChurchSchool.Domain.Entities;
 using ChurchSchool.Domain.Enum;
+using ChurchSchool.Repository.Contracts;
 using ChurchSchool.Shared.Validations;
 using System;
 using System.Collections.Generic;

@@ -1,16 +1,17 @@
 ﻿using ChurchSchool.Domain.Entities;
+using ChurchSchool.Domain.Entities.Identity;
 using System;
 using System.Collections.Generic;
 using System.Security.Claims;
 using System.Text;
 
-namespace ChurchSchool.Domain.Contracts
+namespace ChurchSchool.Repository.Contracts
 {
     public interface IAccountRepository : IRepository<Account>
     {
-        Domain.Entities.Account GetAccountByUserName(string userName);
+        Account GetAccountByUserName(string userName);
 
-        Domain.Entities.Account GetAccountByUserEmail(string userEmail);
+        Account GetAccountByUserEmail(string userEmail);
 
         IEnumerable<Claim> GetUserClaims(string userName);        
     }

@@ -6,7 +6,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 
-namespace ChurchSchool.Domain.Entities
+namespace ChurchSchool.Domain.Entities.Identity
 {
     public class Account : ValidationResult, IValidateObject
     {

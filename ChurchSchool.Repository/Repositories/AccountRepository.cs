@@ -1,7 +1,8 @@
 ﻿using AutoMapper;
 using ChurchSchool.Domain.Contracts;
 using ChurchSchool.Domain.Entities;
-using ChurchSchool.Identity.Model;
+using ChurchSchool.Domain.Entities.Identity;
+using ChurchSchool.Repository.Contracts;
 using ChurchSchool.Shared.Validations;
 using Microsoft.AspNetCore.Identity;
 using System;
@@ -25,7 +26,7 @@ namespace ChurchSchool.Repository.Repositories
 
         public Account Add(Account model)
         {
-            var user = _mapper.Map<Identity.Model.User>(model);
+            var user = _mapper.Map<Domain.Entities.Identity.User>(model);
             _context.Users.Add(user);
             return model;
         }
@@ -48,13 +49,13 @@ namespace ChurchSchool.Repository.Repositories
 
         public Account GetAccountByUserEmail(string userEmail)
         {
-            var g = _context.Users.FirstOrDefault(u => u.Email == userEmail);
+            var dbResult = _context.Users.FirstOrDefault(u => u.Email == userEmail);
 
-            var result = _mapper.Map<Domain.Entities.Account>(g);
+            var result = _mapper.Map<Domain.Entities.Identity.Account>(dbResult);
             return result;
         }
 
-        public Identity.Model.User GetUserByUserEmail(string userEmail)
+        public Domain.Entities.Identity.User GetUserByUserEmail(string userEmail)
         {
             var result = _context.Users.FirstOrDefault(u => u.Email == userEmail);
             return result;
@@ -63,7 +64,7 @@ namespace ChurchSchool.Repository.Repositories
 
         public Account GetAccountByUserName(string userName)
         {
-            var result = _mapper.Map<Domain.Entities.Account>(_context.Users.FirstOrDefault(u => u.UserName == userName));
+            var result = _mapper.Map<Domain.Entities.Identity.Account>(_context.Users.FirstOrDefault(u => u.UserName == userName));
             return result;
         }
 
@@ -79,7 +80,7 @@ namespace ChurchSchool.Repository.Repositories
 
         public bool Remove(Guid key)
         {
-            var user = _mapper.Map<Identity.Model.User>(Filter(new Account { PersonId = key }).FirstOrDefault());
+            var user = _mapper.Map<Domain.Entities.Identity.User>(Filter(new Account { PersonId = key }).FirstOrDefault());
 
             if (user == null)
                 return false;
@@ -93,9 +94,9 @@ namespace ChurchSchool.Repository.Repositories
 
         public bool Update(Account model)
         {
-            var parsedAccount = _mapper.Map<Identity.Model.User>(model);
+            var parsedAccount = _mapper.Map<Domain.Entities.Identity.User>(model);
 
-            var currentUser = _mapper.Map<Identity.Model.User>(Filter(model).FirstOrDefault());
+            var currentUser = _mapper.Map<Domain.Entities.Identity.User>(Filter(model).FirstOrDefault());
 
             if (currentUser == null)
                 return false;

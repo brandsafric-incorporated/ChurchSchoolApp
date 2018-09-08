@@ -1,4 +1,5 @@
-﻿using ChurchSchool.Identity.Model;
+﻿using ChurchSchool.Domain.Entities.Identity;
+using ChurchSchool.Identity.Model;
 using System;
 using System.Collections.Generic;
 using System.Text;

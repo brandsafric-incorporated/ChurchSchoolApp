@@ -19,7 +19,7 @@ namespace ChurchSchool.Repository.Migrations.ApplicationDb
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("ChurchSchool.Identity.Model.User", b =>
+            modelBuilder.Entity("ChurchSchool.Domain.Entities.Identity.User", b =>
                 {
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd();

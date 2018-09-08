@@ -1,6 +1,7 @@
-﻿using System.Threading.Tasks;
+﻿using ChurchSchool.Domain.Contracts;
+using System.Threading.Tasks;
 
-namespace ChurchSchool.Domain.Contracts
+namespace ChurchSchool.Repository.Contracts
 {
     public interface IEnrollmentRepository
     {

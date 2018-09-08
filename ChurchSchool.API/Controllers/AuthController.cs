@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using ChurchSchool.Application.Contracts;
 using ChurchSchool.Identity.Contracts;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ChurchSchool.API.Controllers
@@ -25,7 +22,7 @@ namespace ChurchSchool.API.Controllers
         }
 
         [HttpPost, Route("Login")]
-        public IActionResult Login([FromBody] Domain.Entities.Account credentials)
+        public IActionResult Login([FromBody] Domain.Entities.Identity.Account credentials)
         {
             try
             {
