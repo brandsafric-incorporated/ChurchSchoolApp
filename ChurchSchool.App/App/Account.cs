@@ -31,7 +31,7 @@ namespace ChurchSchool.Application
             _unitOfWorkIdentity = unitOfWorkIdentity;
         }
 
-        public Domain.Entities.Account Create(Domain.Entities.Account account)
+        public Domain.Entities.Identity.Account Create(Domain.Entities.Identity.Account account)
         {
             ValidateToCreate(account);
 
@@ -47,7 +47,7 @@ namespace ChurchSchool.Application
             return account;
         }
 
-        private void ValidateToCreate(Domain.Entities.Account account)
+        private void ValidateToCreate(Domain.Entities.Identity.Account account)
         {
             account.IsValid();
 
@@ -60,7 +60,7 @@ namespace ChurchSchool.Application
                 account.AddError("Este usuário já está cadastrado.");
         }
 
-        private void ValidateToModify(Domain.Entities.Account account)
+        private void ValidateToModify(Domain.Entities.Identity.Account account)
         {
             account.IsValid();
 
@@ -73,7 +73,7 @@ namespace ChurchSchool.Application
                 account.AddError("Login já cadastrado para outro usuário");
         }
 
-        public Domain.Entities.Account Modify(Domain.Entities.Account account)
+        public Domain.Entities.Identity.Account Modify(Domain.Entities.Identity.Account account)
         {
             ValidateToModify(account);
 

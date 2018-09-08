@@ -3,9 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace ChurchSchool.Domain.Contracts
+namespace ChurchSchool.Repository.Contracts
 {
-    public interface IGradeHistoryRepository : IRepository<GradeHistory>
+    public interface ICourseRepository : IRepository<Course>
     {
     }
 }

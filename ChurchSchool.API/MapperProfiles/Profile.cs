@@ -12,9 +12,7 @@ namespace ChurchSchool.API.MapperProfiles
     {
         public MapProfile()
         {
-
-
-            CreateMap<Domain.Entities.Account, Identity.Model.User>()
+            CreateMap<Domain.Entities.Identity.Account, Domain.Entities.Identity.User>()
                 .ForMember(destination => destination.PasswordHash, opt => opt.ResolveUsing(source => source.Password))
                 .ForMember(destination => destination.PersonId, opt => opt.ResolveUsing(source => source.PersonId))
                 .ForMember(destination => destination.UserName, opt => opt.ResolveUsing(source => source.UserName))                
@@ -36,7 +34,7 @@ namespace ChurchSchool.API.MapperProfiles
                 .ReverseMap()
                 ;
 
-            CreateMap<Identity.Model.User, Domain.Entities.Account>()
+            CreateMap<Domain.Entities.Identity.User, Domain.Entities.Identity.Account>()
                 .ForMember(destination => destination.Password, opt => opt.ResolveUsing(source => source.PasswordHash));
         }
     }

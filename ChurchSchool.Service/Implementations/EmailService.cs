@@ -1,8 +1,6 @@
 ﻿using ChurchSchool.Service.Contracts;
 using ChurchSchool.Shared;
 using Microsoft.Extensions.Options;
-using MailKit;
-using MimeKit;
 using System;
 using System.Collections.Generic;
 using System.Text;

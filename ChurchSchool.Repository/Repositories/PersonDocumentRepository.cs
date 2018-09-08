@@ -1,5 +1,6 @@
 ﻿using ChurchSchool.Domain.Contracts;
 using ChurchSchool.Domain.Entities;
+using ChurchSchool.Repository.Contracts;
 using System.Collections.Generic;
 
 namespace ChurchSchool.Repository.Repositories

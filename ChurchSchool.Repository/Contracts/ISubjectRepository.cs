@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace ChurchSchool.Domain.Contracts
+namespace ChurchSchool.Repository.Contracts
 {
     public interface ISubjectRepository : IRepository<Subject>
     {        

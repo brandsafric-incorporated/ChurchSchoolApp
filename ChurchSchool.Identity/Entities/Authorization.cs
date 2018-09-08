@@ -7,6 +7,8 @@ using ChurchSchool.Domain.Entities;
 using ChurchSchool.Identity.Contracts;
 using ChurchSchool.Identity.Model;
 using ChurchSchool.Shared;
+using ChurchSchool.Repository.Contracts;
+using ChurchSchool.Domain.Entities.Identity;
 
 namespace ChurchSchool.Identity
 {
@@ -58,7 +60,7 @@ namespace ChurchSchool.Identity
             return JsonConvert.SerializeObject(jwt);
         }
 
-        public Domain.Entities.Account ValidateUserCredentials(string userEmail, string password)
+        public Account ValidateUserCredentials(string userEmail, string password)
         {
             var account = _accountRepository.GetAccountByUserEmail(userEmail);
 

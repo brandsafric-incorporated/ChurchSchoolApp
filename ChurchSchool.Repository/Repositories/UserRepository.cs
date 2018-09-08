@@ -1,5 +1,5 @@
-﻿using ChurchSchool.Identity.Contracts;
-using ChurchSchool.Identity.Model;
+﻿using ChurchSchool.Domain.Entities.Identity;
+using ChurchSchool.Repository.Contracts;
 using System;
 using System.Collections.Generic;
 using System.Linq;

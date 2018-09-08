@@ -1,5 +1,7 @@
-﻿using ChurchSchool.Identity.Contracts;
+﻿using ChurchSchool.Domain.Entities.Identity;
+using ChurchSchool.Identity.Contracts;
 using ChurchSchool.Identity.Model;
+using ChurchSchool.Repository.Contracts;
 using ChurchSchool.Service.Contracts;
 using ChurchSchool.Service.Models;
 using ChurchSchool.Shared;

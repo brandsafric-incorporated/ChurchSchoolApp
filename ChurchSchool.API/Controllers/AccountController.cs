@@ -28,7 +28,7 @@ namespace ChurchSchool.API.Controllers
         }
 
         [HttpPost, Authorize(Policy = "student")]
-        public IActionResult Post([FromBody]Domain.Entities.Account account)
+        public IActionResult Post([FromBody]Domain.Entities.Identity.Account account)
         {
             try
             {
@@ -49,7 +49,7 @@ namespace ChurchSchool.API.Controllers
         }
 
         [HttpPut, Authorize(Policy = "student")]
-        public IActionResult Put([FromBody]Domain.Entities.Account account)
+        public IActionResult Put([FromBody]Domain.Entities.Identity.Account account)
         {
             try
             {
