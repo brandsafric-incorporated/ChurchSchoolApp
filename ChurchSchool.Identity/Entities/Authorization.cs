@@ -9,6 +9,7 @@ using ChurchSchool.Identity.Model;
 using ChurchSchool.Shared;
 using ChurchSchool.Repository.Contracts;
 using ChurchSchool.Domain.Entities.Identity;
+using System.Linq;
 
 namespace ChurchSchool.Identity
 {
@@ -27,7 +28,7 @@ namespace ChurchSchool.Identity
             _jwtIssuerOptions = configuration.GetSection(nameof(JwtIssuerOptions));
         }
 
-        public IEnumerable<Claim> GetUserClaims(string userEmail)
+        public IEnumerable<UserClaim> GetUserClaims(string userEmail)
         {
             return _accountRepository.GetUserClaims(userEmail);
         }
@@ -40,8 +41,10 @@ namespace ChurchSchool.Identity
                 return string.Empty;
 
             var userClaims = GetUserClaims(foundAccount.Email);
-            
-            var authenticationToken = _jwtFactory.GenerateEncodedToken(accountInfo.Email, userClaims).Result;
+
+            var f = userClaims.Select(x => x.ToClaim());
+
+            var authenticationToken = _jwtFactory.GenerateEncodedToken(accountInfo.Email, f).Result;
 
             var jwtObject = GenerateJwt(foundAccount.Id, authenticationToken);
 
@@ -72,6 +75,11 @@ namespace ChurchSchool.Identity
             {
                 return null;
             }
+        }
+
+        public IEnumerable<UserClaim> GetUserClaimsByClaimCode(params string[] claimCodes)
+        {
+            return _accountRepository.GetUserClaimsByClaimCode(claimCodes);
         }
     }
 }

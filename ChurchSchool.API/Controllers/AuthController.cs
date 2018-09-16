@@ -56,7 +56,7 @@ namespace ChurchSchool.API.Controllers
             {
                 return StatusCode(500, ex);
             }
-        }
+        }        
 
     }
 }

@@ -13,6 +13,8 @@ namespace ChurchSchool.Repository.Contracts
 
         Account GetAccountByUserEmail(string userEmail);
 
-        IEnumerable<Claim> GetUserClaims(string userName);        
+        IEnumerable<UserClaim> GetUserClaims(string userName);
+
+        IEnumerable<UserClaim> GetUserClaimsByClaimCode(params string[] claimCodes);
     }
 }

@@ -70,12 +70,15 @@ namespace ChurchSchool.Repository.Repositories
 
         public IEnumerable<Account> GetAll() => throw new NotImplementedException();
 
-        public IEnumerable<Claim> GetUserClaims(string userEmail)
+        public IEnumerable<UserClaim> GetUserClaims(string userEmail)
         {
-            return (from claim in _context.UserClaims
+            var result = (from claim in _context.UserClaims
                     join user in _context.Users on claim.UserId equals user.Id
                     where user.Email == userEmail
-                    select claim.ToClaim()) as IEnumerable<Claim>;
+                    select claim) as IEnumerable<UserClaim>;
+
+
+            return result;
         }
 
         public bool Remove(Guid key)
@@ -106,6 +109,15 @@ namespace ChurchSchool.Repository.Repositories
             _context.Users.Update(currentUser);
 
             return true;
+        }
+
+        public IEnumerable<UserClaim> GetUserClaimsByClaimCode(params string[] claimCodes)
+        {
+            var result = from claim in _context.UserClaims
+                         join claimCode in claimCodes on claim.ClaimValue equals claimCode
+                         select claim;
+
+            return result;
         }
     }
 }

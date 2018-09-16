@@ -20,7 +20,7 @@ namespace ChurchSchool.Repository.Repositories
         }
 
         public User GetUserByValidationToken(string validationToken)
-        {
+        {            
             return _context.Users.FirstOrDefault(x => x.PasswordRecoveryToken == validationToken);
         }
 

@@ -5,15 +5,12 @@ using Microsoft.EntityFrameworkCore.Design;
 
 namespace ChurchSchool.Repository
 {
-    public class ApplicationDbContext : IdentityDbContext<User>
+    public class ApplicationDbContext : IdentityDbContext<User, Role, string, UserClaim, UserRole, UserLogin, RoleClaim, UserToken>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
 
         }
-
-        //public DbSet<Domain.Entities.Identity.User> Users { get; set; }
-        //public DbSet<Microsoft.AspNetCore.Identity.IdentityUserClaim<int>> UserClaims { get; set; }
     }
 
     public class ApplicationDbContextFactory : IDesignTimeDbContextFactory<ApplicationDbContext>

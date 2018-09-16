@@ -1,4 +1,5 @@
-﻿using ChurchSchool.Identity.Contracts;
+﻿using ChurchSchool.Domain.Entities.Identity;
+using ChurchSchool.Identity.Contracts;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
