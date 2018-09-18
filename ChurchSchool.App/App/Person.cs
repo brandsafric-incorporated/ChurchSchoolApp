@@ -28,7 +28,7 @@ namespace ChurchSchool.Application
 
             if (newPersonCpf == null)
             {
-               entity.AddError($"CPF não encontrado - Pessoa a ser cadastrada: {entity.Name}");
+               entity.AddError($"CPF não encontrado - Pessoa a ser cadastrada: {entity.FirstName} {entity.MiddleName} {entity.LastName} ");
                return entity;
             }
 
@@ -79,7 +79,7 @@ namespace ChurchSchool.Application
 
             if (newPersonCpf == null)
             {
-                entity.AddError($"CPF não encontrado - Pessoa a ser cadastrada: {entity.Name}");
+                entity.AddError($"CPF não encontrado - Pessoa a ser cadastrada: {entity.FirstName}");
                 return entity;
             }
 

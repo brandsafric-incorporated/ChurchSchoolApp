@@ -17,10 +17,13 @@ namespace ChurchSchool.API.Controllers
     public class PersonController : Controller
     {
         private IPerson _person;
+        private IAccount _account;
 
-        public PersonController(IPerson person)
+
+        public PersonController(IPerson person, IAccount account)
         {
             _person = person;
+            _account = account;
         }
 
         [HttpGet]
@@ -30,6 +33,29 @@ namespace ChurchSchool.API.Controllers
             {
                 var result = _person.GetAll();
                 return Ok(result.ToList());
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex);
+            }
+        }
+
+        [HttpGet, Route("Filter/{accountEmail}")]
+        public IActionResult Get([FromRoute]string accountEmail)
+        {
+            try
+            {
+                var account = _account.FindbyEmailAccount(accountEmail);
+
+                if (account == null)
+                    return NotFound();
+
+                var result = _person.GetById(account.PersonId ?? default(Guid));
+
+                if (result != null)
+                    return Ok(result);
+                else
+                    return NotFound();
             }
             catch (Exception ex)
             {

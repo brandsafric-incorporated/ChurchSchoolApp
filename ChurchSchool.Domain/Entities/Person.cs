@@ -9,8 +9,12 @@ namespace ChurchSchool.Domain.Entities
 {
     public class Person : BaseEntity, IValidateObject
     {
-        public string Name { get; set; }              
-        public DateTime BirthDate { get; set; }       
+        public string FirstName { get; set; }
+        public string MiddleName { get; set; }
+        public string LastName { get; set; }
+
+        public DateTime BirthDate { get; set; }
+        public string ProfileImage { get; set; }
 
         public ESex Sex { get; set; }
         public Email Email { get; set; }
@@ -20,7 +24,7 @@ namespace ChurchSchool.Domain.Entities
 
         public virtual bool IsValid()
         {
-            if (string.IsNullOrEmpty(Name))
+            if (string.IsNullOrEmpty(FirstName))
             {
                 AddError("Nome é obrigatório");
             }

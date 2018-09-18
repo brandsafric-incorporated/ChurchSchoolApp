@@ -78,7 +78,7 @@ namespace ChurchSchool.Application
 
             foreach (var data in result)
             {
-                validationResult.AddError($"O usuário {entity.Person.Name} não pode lecionar na disciplina {data.Subject.Name}, pois possui uma matrícula: {data.Student.EnrollmentID} em aberto como aluno nesta disciplina.");
+                validationResult.AddError($"O usuário {entity.Person.FirstName} não pode lecionar na disciplina {data.Subject.Name}, pois possui uma matrícula: {data.Student.EnrollmentID} em aberto como aluno nesta disciplina.");
             }
 
             return validationResult;

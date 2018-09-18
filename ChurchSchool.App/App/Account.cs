@@ -1,5 +1,6 @@
 ﻿using ChurchSchool.Application.Contracts;
 using ChurchSchool.Domain.Contracts;
+using ChurchSchool.Domain.Entities.Identity;
 using ChurchSchool.Identity.Contracts;
 using ChurchSchool.Repository.Contracts;
 using ChurchSchool.Service.Contracts;
@@ -138,6 +139,11 @@ namespace ChurchSchool.Application
             }
 
             return false;
+        }
+
+        public Domain.Entities.Identity.Account FindbyEmailAccount(string emailAccount)
+        {
+            return _accountRepository.GetAccountByUserEmail(emailAccount);
         }
     }
 }
