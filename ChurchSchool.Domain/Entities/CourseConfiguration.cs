@@ -7,11 +7,13 @@ namespace ChurchSchool.Domain.Entities
 {
     public class CourseConfiguration : BaseEntity, IValidateObject
     {
-        public Guid CourseId { get; set; }        
+        public Guid? CourseId { get; set; }        
         public bool IsCurrentConfiguration { get; set; }
-        public Course RelatedCourse { get; set; }
+        
         public IEnumerable<ConfigurationCurriculum> ConfigCurriculumns { get; set; }
         public IEnumerable<CourseDocuments> EnrollDocuments { get; set; }
+
+        public Course RelatedCourse { get; set; }
 
         public bool IsValid()
         {

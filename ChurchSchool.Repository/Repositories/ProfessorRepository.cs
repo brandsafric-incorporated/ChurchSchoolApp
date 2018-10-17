@@ -45,6 +45,11 @@ namespace ChurchSchool.Repository.Repositories
                                                 .ThenInclude(q => q.Subject);
         }
 
+        public long GetAvaiableTeacherAmount()
+        {
+            return 0;
+        }
+
         public bool Remove(Guid key)
         {
 

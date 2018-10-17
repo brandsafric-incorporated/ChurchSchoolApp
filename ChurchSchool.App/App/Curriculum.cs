@@ -1,11 +1,11 @@
-﻿using ChurchSchool.Application.Contracts;
-using ChurchSchool.Domain.Contracts;
+﻿using AutoMapper;
+using ChurchSchool.Application.Contracts;
+using ChurchSchool.Application.Models;
 using ChurchSchool.Domain.Entities;
 using ChurchSchool.Repository.Contracts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace ChurchSchool.Application
 {
@@ -13,10 +13,18 @@ namespace ChurchSchool.Application
     {
 
         private readonly ICurriculumRepository _curriculumRepository;
+        private readonly ICurriculum_SubjectRepository _curriculumSubjectRepository;
+        private readonly IMapper _mapper;
 
-        public Curriculum(ICurriculumRepository curriculumRepository)
+        public Curriculum(
+            ICurriculumRepository curriculumRepository,
+            ICurriculum_SubjectRepository curriculumSubjectRepository,
+            IMapper mapper
+        )
         {
+            _mapper = mapper;
             _curriculumRepository = curriculumRepository;
+            _curriculumSubjectRepository = curriculumSubjectRepository;
         }
 
         public Domain.Entities.Curriculum Add(Domain.Entities.Curriculum entity)
@@ -26,9 +34,19 @@ namespace ChurchSchool.Application
             return result;
         }
 
-        public IEnumerable<Domain.Entities.Curriculum> GetAll()
+        public IEnumerable<CurriculumModel> GetAll()
         {
-            return _curriculumRepository.GetAll();
+            var result = _curriculumRepository.GetAll().Select(x =>
+            {
+                return new CurriculumModel
+                {
+                    Description = x.Description,
+                    Id = x.Id,
+                    Subjects = x.Curriculum_Subjects.Select(w => w.Subject)
+                };
+            });
+
+            return result;
         }
 
         public Domain.Entities.Curriculum GetById(Guid id)
@@ -48,5 +66,20 @@ namespace ChurchSchool.Application
             return new ValidationResult();
         }
 
+
+
+        IEnumerable<Domain.Entities.Curriculum> IBasicOperations<Domain.Entities.Curriculum>.GetAll()
+        {
+            return _curriculumRepository.GetAll();
+        }
+
+        #region Curriculum Subject
+
+        public Curriculum_Subject VinculateSubject(Curriculum_Subject curriculum_Subject)
+        {
+            return _curriculumSubjectRepository.Add(curriculum_Subject);
+        }
+
+        #endregion
     }
 }

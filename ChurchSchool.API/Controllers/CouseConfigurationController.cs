@@ -112,7 +112,7 @@ namespace ChurchSchool.API.Controllers
                 if (!result.Errors.Any())
                     return Ok();
                 else
-                    return BadRequest(configuration);
+                    return BadRequest(result.Errors);
             }
             catch (Exception ex)
             {

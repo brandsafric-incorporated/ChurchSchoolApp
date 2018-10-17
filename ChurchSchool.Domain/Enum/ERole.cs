@@ -10,7 +10,7 @@ namespace ChurchSchool.Domain.Enum
         [Description("Não Definido")]
         UNDEFINED = 0,
         [Description("Professor")]
-        PROFESSOR = 1,
+        TEACHER = 1,
         [Description("Estudante")]
         STUDENT = 2,
         [Description("Assistente")]

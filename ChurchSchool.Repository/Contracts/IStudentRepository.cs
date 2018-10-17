@@ -6,6 +6,7 @@ namespace ChurchSchool.Repository.Contracts
 {
     public interface IStudentRepository : IRepository<Student>
     {
-        bool VerifyStudentAlreadyEnrolled(string cpf, Guid courseId);        
+        bool VerifyStudentAlreadyEnrolled(string cpf, Guid courseId);
+        long GetTotalActiveStudents();
     }
 }

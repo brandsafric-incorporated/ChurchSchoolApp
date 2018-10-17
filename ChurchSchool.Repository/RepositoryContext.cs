@@ -24,6 +24,7 @@ namespace ChurchSchool.Repository
 
         #region DbSets
 
+        public DbSet<Domain.Entities.ConfigurationCurriculum> ConfigurationCurriculum { get; set; }
         public DbSet<Domain.Entities.Person> People { get; set; }
         public DbSet<Domain.Entities.Address> Addresses { get; set; }
         public DbSet<Domain.Entities.Student> Students { get; set; }
@@ -68,6 +69,7 @@ namespace ChurchSchool.Repository
             new ModelSettings.CourseDocuments().Configure(modelBuilder);
             new ModelSettings.Subject().Configure(modelBuilder);
             new ModelSettings.Professor().Configure(modelBuilder);
+            new ModelSettings.Professor_Subject().Configure(modelBuilder);
             new ModelSettings.CourseClass().Configure(modelBuilder);
             new ModelSettings.CourseClass_Student().Configure(modelBuilder);
             new ModelSettings.Professor_Subject().Configure(modelBuilder);

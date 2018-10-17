@@ -16,11 +16,11 @@ namespace ChurchSchool.API.Controllers
     public class CourseController : Controller
     {
         private readonly ICourse _course;
-        private readonly IUnitOfWorkIdentity _unitOfWork;
+        private readonly IUnitOfWork _unitOfWork;
         private readonly IOptions<ApplicationSettings> _extendedOptions;
 
         public CourseController(ICourse course,
-                                IUnitOfWorkIdentity unitOfWork,
+                                IUnitOfWork unitOfWork,
                                 IOptions<ApplicationSettings> extendedOptions)
         {
             _course = course;

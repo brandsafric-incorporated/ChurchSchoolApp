@@ -3,7 +3,12 @@ using ChurchSchool.Repository.Repositories;
 
 namespace ChurchSchool.Repository.UOW
 {
-    public class UnitOfWork : IUnitOfWork
+    public abstract class UnitOfWorkBase
+    {
+        public abstract void Commit();
+    }
+
+    public class UnitOfWork : UnitOfWorkBase,  IUnitOfWork
     {
         private RepositoryContext _context;
 
@@ -12,13 +17,13 @@ namespace ChurchSchool.Repository.UOW
             _context = context;
         }
 
-        public void Commit()
+        public override void Commit()
         {
             _context.SaveChanges();
         }
     }
 
-    public class UnitOfWorkIdentity : IUnitOfWorkIdentity
+    public class UnitOfWorkIdentity : UnitOfWorkBase, IUnitOfWorkIdentity
     {
         private ApplicationDbContext _context;
 
@@ -27,7 +32,7 @@ namespace ChurchSchool.Repository.UOW
             _context = context;
         }
 
-        public void Commit()
+        public override void Commit()
         {
             _context.SaveChanges();
         }

@@ -112,8 +112,7 @@ namespace ChurchSchool.API.Controllers
                 return StatusCode(500, ex);
             }
         }
-
-
+        
         [HttpDelete]
         public IActionResult Delete(Guid key)
         {
@@ -133,5 +132,7 @@ namespace ChurchSchool.API.Controllers
                 return StatusCode(500, ex);
             }
         }
+
+
     }
 }

@@ -9,7 +9,8 @@ namespace ChurchSchool.Domain.Entities
         public string Description { get; set; }
 
         public IEnumerable<ConfigurationCurriculum> ConfigCurriculumns { get; set; }
-
+        public IEnumerable<Curriculum_Subject> Curriculum_Subjects { get; set; }
+        
         public bool IsValid()
         {
             if (string.IsNullOrEmpty(Description))

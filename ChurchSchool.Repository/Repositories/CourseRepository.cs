@@ -19,7 +19,12 @@ namespace ChurchSchool.Repository.Repositories
             return model;
         }
 
-        public IEnumerable<Course> Filter(Course model) => _context.Courses.Where(x => x == model);
+        public IEnumerable<Course> Filter(Course model) => _context.Courses.Where(x => x.Name == model.Name);
+
+        public IEnumerable<Course> GetActiveCourses()
+        {
+            return _context.Courses.Where(c => c.isActive);
+        }
 
         public IEnumerable<Course> GetAll() => _context.Courses;
 

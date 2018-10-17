@@ -48,7 +48,7 @@ namespace ChurchSchool.Repository.Repositories
         {
             if (model.IsCurrentConfiguration)
             {
-                foreach (var item in GetByCourse(model.CourseId))
+                foreach (var item in GetByCourse(model.CourseId.Value))
                 {
                     item.IsCurrentConfiguration = false;
                 }

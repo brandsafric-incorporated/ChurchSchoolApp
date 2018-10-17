@@ -131,7 +131,7 @@ namespace ChurchSchool.Application
                     throw new Exception("Não é possível adicionar uma configuração a um curso desabilitado");
                 }
 
-                var configurations = _courseConfigurationRepository.GetByCourse(entity.CourseId);
+                var configurations = _courseConfigurationRepository.GetByCourse(entity.CourseId.Value);
 
                 foreach (var configuration in configurations)
                 {

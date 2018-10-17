@@ -11,6 +11,8 @@ namespace ChurchSchool.Domain.Enum
         [Description("RG")]
         RG = 2,
         [Description("Carteira de Trabalho")]
-        CTPS = 3
+        CTPS = 3,
+        [Description("Registro de Membro")]
+        REGISTRO_MEMBRESIA = 4
     }
 }

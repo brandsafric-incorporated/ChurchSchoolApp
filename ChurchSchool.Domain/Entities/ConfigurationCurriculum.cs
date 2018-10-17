@@ -1,5 +1,6 @@
 ﻿using ChurchSchool.Domain.Contracts;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace ChurchSchool.Domain.Entities
@@ -16,7 +17,9 @@ namespace ChurchSchool.Domain.Entities
 
         public Curriculum Curriculum { get; set; }
         public CourseConfiguration Configuration { get; set; }
+
         
+
         public bool IsValid()
         {
             if (ConfigurationId == Guid.Empty)

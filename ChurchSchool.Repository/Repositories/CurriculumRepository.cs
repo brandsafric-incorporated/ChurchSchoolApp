@@ -25,7 +25,13 @@ namespace ChurchSchool.Repository.Repositories
 
         public IEnumerable<Curriculum> Filter(Curriculum model) => _context.Curriculums.Where(y => y == model);
 
-        public IEnumerable<Curriculum> GetAll() => _context.Curriculums;
+        public IEnumerable<Curriculum> GetAll()
+        {
+            var result = _context.Curriculums.Include(q => q.Curriculum_Subjects)
+                                             .ThenInclude(t => t.Subject);
+
+            return result;
+        }
 
         public bool Remove(Guid key)
         {

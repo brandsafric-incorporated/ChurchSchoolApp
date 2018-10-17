@@ -5,6 +5,13 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Extensions.FileProviders;
+using Microsoft.AspNetCore.Mvc.Razor;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
+
+using System.Reflection;
 using System.Text;
 using System;
 
@@ -27,12 +34,9 @@ using ChurchSchool.Shared;
 using ChurchSchool.Identity.Entities;
 using ChurchSchool.Service.Implementations;
 using ChurchSchool.Service.Contracts;
-using Microsoft.Extensions.FileProviders;
-using System.Reflection;
-using Microsoft.AspNetCore.Mvc.Razor;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.DependencyInjection.Extensions;
-using Microsoft.AspNetCore.Mvc.Infrastructure;
+using ChurchSchool.Application.App;
+using System.Security.Claims;
+using Newtonsoft.Json.Serialization;
 
 namespace ChurchSchool.API
 {
@@ -107,7 +111,8 @@ namespace ChurchSchool.API
 
             JwtIssuerOptions.jwtIssuerOptions = new JwtIssuerOptions
             {
-                ExpirationTimeInMinutes = int.Parse(_configuration.GetSection("JwtIssuerOptions").GetSection("ExpireTimeInMinutes").Value)
+                ExpirationTimeInMinutes = int.Parse(_configuration.GetSection("JwtIssuerOptions")
+                                                                  .GetSection("ExpireTimeInMinutes").Value)
             };
 
             //JWT-CONFIGURATION
@@ -121,20 +126,24 @@ namespace ChurchSchool.API
             services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;                
             }).AddJwtBearer(options =>
             {
                 options.ClaimsIssuer = jwtSettings[nameof(JwtIssuerOptions.Issuer)];
                 options.TokenValidationParameters = tokenValidationParameters;
                 options.SaveToken = true;
+                options.IncludeErrorDetails = true;
+                options.Validate();
             });
 
             services.AddAuthorization(options =>
             {
-                options.AddPolicy("Student", policy => policy.RequireClaim("Student"));
-                options.AddPolicy("Teacher", policy => policy.RequireClaim("Teacher"));
-                options.AddPolicy("PeopleManager", policy => policy.RequireClaim("PeopleManager"));
-                options.AddPolicy("CourseManager", policy => policy.RequireClaim("CourseManager"));
+                options.AddPolicy("school-manager", policy => policy.RequireClaim(ClaimTypes.Role, "manager"));
+                options.AddPolicy("teacher", policy => policy.RequireClaim(ClaimTypes.Role, "teacher"));
+                options.AddPolicy("student", policy => policy.RequireClaim(ClaimTypes.Role, "student"));
+                options.AddPolicy("logged-person", policy => policy.RequireClaim(ClaimTypes.Role, new string[] { "manager", "teacher", "student", "staff"}));
+                options.AddPolicy("administrative-person", policy => policy.RequireClaim(ClaimTypes.Role, new string[] { "manager", "staff" }));
+                options.AddPolicy("people-manager", policy => policy.RequireClaim(ClaimTypes.Role, new string[] { "manager", "staff" }));
             });
 
             //Mapper
@@ -151,6 +160,8 @@ namespace ChurchSchool.API
             services.AddScoped<IStudent, Student>();
             services.AddScoped<IProfessor, Professor>();
             services.AddScoped<IAccount, Account>();
+            services.AddScoped<ISchool, School>();
+            services.AddScoped<ICurriculumConfiguration, CurriculumConfiguration>();
 
             //Identity DI
             services.AddScoped<IAuthorization, Authorization>();
@@ -171,6 +182,8 @@ namespace ChurchSchool.API
             services.AddScoped<IProfessorSubjectRepository, ProfessorSubjectRepository>();
             services.AddScoped<IAccountRepository, AccountRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IEnrollmentRepository, EnrollmentRepository>();
+            services.AddScoped<ICurriculumConfigurationRepository, CurriculumConfigurationRepository>();
 
             //Application Services
             services.AddScoped<IEmailService, EmailService>();
@@ -184,11 +197,10 @@ namespace ChurchSchool.API
                     .AddJsonOptions(options =>
                     {
                         options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+                        options.SerializerSettings.ContractResolver = new DefaultContractResolver();
                     });
 
             services.AddSwaggerGen(c => c.SwaggerDoc("v1", _apiInfo));
-
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -205,7 +217,7 @@ namespace ChurchSchool.API
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseAuthentication();
+            
             app.UseCors((builder) =>
             {
                 builder.AllowAnyHeader()
@@ -213,7 +225,8 @@ namespace ChurchSchool.API
                        .AllowAnyOrigin();
             });
 
-            app.UseMvc();            
+            app.UseAuthentication();
+            app.UseMvc();
         }
     }
 }

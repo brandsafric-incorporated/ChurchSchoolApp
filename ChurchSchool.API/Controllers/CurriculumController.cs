@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using ChurchSchool.Application.Contracts;
+﻿using ChurchSchool.Application.Contracts;
 using ChurchSchool.Repository.Contracts;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace ChurchSchool.API.Controllers
 {
@@ -106,6 +104,28 @@ namespace ChurchSchool.API.Controllers
                 _unitOfWork.Commit();
 
                 return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex);
+            }
+        }
+
+        [HttpPost, Route("Vinculate/Subject")]
+        public IActionResult VincutateSubjectCurriculum([FromBody]Domain.Entities.Curriculum_Subject[] curriculum_Subjects)
+        {
+            try
+            {
+                List<Domain.Entities.Curriculum_Subject> response = new List<Domain.Entities.Curriculum_Subject>();
+
+                foreach (var item in curriculum_Subjects)
+                {
+                    response.Add(_curriculumApp.VinculateSubject(item));
+                }
+
+                _unitOfWork.Commit();
+
+                return Ok(response);
             }
             catch (Exception ex)
             {

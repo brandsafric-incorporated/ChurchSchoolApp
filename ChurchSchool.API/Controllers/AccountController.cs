@@ -27,7 +27,7 @@ namespace ChurchSchool.API.Controllers
             _unitOfWork = unitOfWork;
         }
 
-        [HttpPost, Authorize(Policy = "student")]
+        [HttpPost]
         public IActionResult Post([FromBody]Domain.Entities.Identity.Account account)
         {
             try
@@ -48,7 +48,7 @@ namespace ChurchSchool.API.Controllers
             }
         }
 
-        [HttpPut, Authorize(Policy = "student")]
+        [HttpPut]
         public IActionResult Put([FromBody]Domain.Entities.Identity.Account account)
         {
             try
