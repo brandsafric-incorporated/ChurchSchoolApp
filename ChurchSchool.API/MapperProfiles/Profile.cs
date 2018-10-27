@@ -1,10 +1,5 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Identity;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
 
 namespace ChurchSchool.API.MapperProfiles
 {
@@ -15,7 +10,7 @@ namespace ChurchSchool.API.MapperProfiles
             CreateMap<Domain.Entities.Identity.Account, Domain.Entities.Identity.User>()
                 .ForMember(destination => destination.PasswordHash, opt => opt.ResolveUsing(source => source.Password))
                 .ForMember(destination => destination.PersonId, opt => opt.ResolveUsing(source => source.PersonId))
-                .ForMember(destination => destination.UserName, opt => opt.ResolveUsing(source => source.UserName))                
+                .ForMember(destination => destination.UserName, opt => opt.ResolveUsing(source => source.UserName))
                 .ForMember(destinationMember => destinationMember.AccessFailedCount, opt => opt.Ignore())
                 .ForMember(destinationMember => destinationMember.ConcurrencyStamp, opt => opt.Ignore())
                 .ForMember(destinationMember => destinationMember.Email, opt => opt.ResolveUsing(source => source.Email))
@@ -30,12 +25,31 @@ namespace ChurchSchool.API.MapperProfiles
                 .ForMember(destinationMember => destinationMember.PhoneNumberConfirmed, opt => opt.Ignore())
                 .ForMember(destinationMember => destinationMember.SecurityStamp, opt => opt.Ignore())
                 .ForMember(destinationMember => destinationMember.TwoFactorEnabled, opt => opt.Ignore())
-                .ForSourceMember(source=> source.Errors, x=> x.Ignore())                
+                .ForSourceMember(source => source.Errors, x => x.Ignore())
                 .ReverseMap()
                 ;
 
             CreateMap<Domain.Entities.Identity.User, Domain.Entities.Identity.Account>()
                 .ForMember(destination => destination.Password, opt => opt.ResolveUsing(source => source.PasswordHash));
+
+
+            CreateMap<Domain.Entities.Course, Application.Models.CourseConsolidatedModel>()
+                .ForMember(destination => destination.Id, opt => opt.ResolveUsing(source => source.Id))
+                .ForMember(destination => destination.Name, opt => opt.ResolveUsing(source => source.Name))
+                .ForMember(destination => destination.Description, opt => opt.ResolveUsing(source => source.Description))
+                .ForMember(destination => destination.IsActive, opt => opt.ResolveUsing(source => source.isActive))
+                .ForMember(destination => destination.Subjects, opt => opt.ResolveUsing(source => source?.CurrentConfiguration
+                                                                                                        ?.ConfigCurriculumns
+                                                                                                        ?.FirstOrDefault(x => x.IsActive)
+                                                                                                        ?.Curriculum
+                                                                                                        ?.Curriculum_Subjects
+                                                                                                        .Select(x => x.Subject)))
+                .ForMember(destination => destination.Documents, opt => opt.ResolveUsing(source => source?.CurrentConfiguration
+                                                                                                         ?.EnrollDocuments
+                                                                                                         ?.Select(x=> x.Type)))
+                .ReverseMap()
+                ;
         }
     }
 }
+

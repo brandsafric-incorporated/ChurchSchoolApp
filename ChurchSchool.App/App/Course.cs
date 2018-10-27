@@ -1,5 +1,6 @@
-﻿using ChurchSchool.Application.Contracts;
-using ChurchSchool.Domain.Contracts;
+﻿using AutoMapper;
+using ChurchSchool.Application.Contracts;
+using ChurchSchool.Application.Models;
 using ChurchSchool.Repository.Contracts;
 using System;
 using System.Collections.Generic;
@@ -10,9 +11,11 @@ namespace ChurchSchool.Application
     public class Course : ICourse
     {
         private readonly ICourseRepository _courseRepository;
+        private readonly IMapper _mapper;
 
-        public Course(ICourseRepository courseRepository)
+        public Course(ICourseRepository courseRepository, IMapper mapper)
         {
+            _mapper = mapper;
             _courseRepository = courseRepository;
         }
 
@@ -31,11 +34,16 @@ namespace ChurchSchool.Application
             return _courseRepository.GetAll();
         }
 
-        public Domain.Entities.Course GetById(Guid id)
+        public CourseConsolidatedModel GetById(Guid id)
         {
-            var result = _courseRepository.Filter(new Domain.Entities.Course { Id = id })
-                                          .FirstOrDefault();
+            var result = _mapper.Map <CourseConsolidatedModel>(_courseRepository.Filter(new Domain.Entities.Course { Id = id })
+                                          .FirstOrDefault());
             return result;
+        }
+
+        public IEnumerable<CourseConsolidatedModel> GetConsolidatedData()
+        {
+            return _mapper.Map<IEnumerable<CourseConsolidatedModel>>(_courseRepository.GetConsolidatedData());
         }
 
         public bool Remove(Guid id)

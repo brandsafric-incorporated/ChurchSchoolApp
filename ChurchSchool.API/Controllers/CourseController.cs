@@ -1,18 +1,18 @@
-﻿using System;
-using System.Linq;
-using Microsoft.AspNetCore.Mvc;
-using ChurchSchool.Application.Contracts;
+﻿using ChurchSchool.Application.Contracts;
 using ChurchSchool.Domain.Entities;
 using ChurchSchool.Repository.Contracts;
-using Microsoft.AspNetCore.Authorization;
 using ChurchSchool.Shared;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using System;
+using System.Linq;
 
 namespace ChurchSchool.API.Controllers
 {
     [Authorize]
     [Produces("application/json")]
-    [Route("api/Course")]    
+    [Route("api/Course")]
     public class CourseController : Controller
     {
         private readonly ICourse _course;
@@ -32,7 +32,7 @@ namespace ChurchSchool.API.Controllers
         public IActionResult Get()
         {
             try
-            {   
+            {
                 var result = _course.GetAll();
 
                 return Ok(result.ToArray());
@@ -43,9 +43,8 @@ namespace ChurchSchool.API.Controllers
             }
         }
 
-        [HttpGet]
-        [Route("{name}")]
-        public IActionResult Get(string name)
+        [HttpGet, Route("FilterByName")]
+        public IActionResult Get([FromQuery]string name)
         {
             try
             {
@@ -64,6 +63,27 @@ namespace ChurchSchool.API.Controllers
                 return StatusCode(500, ex);
             }
         }
+        
+        [HttpGet, Route("FilterById")]
+        public IActionResult Get([FromQuery]Guid id)
+        {
+            try
+            {
+                if (id == null || id == default(Guid))
+                    return BadRequest();
+
+                var result = _course.GetById(id);
+
+                if (result == null)
+                    return NotFound();
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex);
+            }
+        }
 
         [HttpPost]
         public IActionResult Post([FromBody]Course course)
@@ -71,7 +91,7 @@ namespace ChurchSchool.API.Controllers
             try
             {
                 var result = _course.Add(course);
-                
+
                 _unitOfWork.Commit();
 
                 if (result.Errors.Any())
@@ -113,7 +133,6 @@ namespace ChurchSchool.API.Controllers
             }
         }
 
-
         [HttpDelete]
         public IActionResult Delete(Guid key)
         {
@@ -127,6 +146,21 @@ namespace ChurchSchool.API.Controllers
                 var result = _course.Remove(key);
 
                 return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex);
+            }
+        }
+
+        [HttpGet, Route("GetCourseCondensedData")]
+        public IActionResult GetCourseCondensedData()
+        {
+            try
+            {
+                var result = _course.GetConsolidatedData();
+
+                return Ok(result.ToArray());
             }
             catch (Exception ex)
             {
