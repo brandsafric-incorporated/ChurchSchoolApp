@@ -4,14 +4,16 @@ using ChurchSchool.Repository;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ChurchSchool.Repository.Migrations
 {
     [DbContext(typeof(RepositoryContext))]
-    partial class RepositoryContextModelSnapshot : ModelSnapshot
+    [Migration("20181102113158_ChangingCourseClassStructure")]
+    partial class ChangingCourseClassStructure
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -147,7 +149,7 @@ namespace ChurchSchool.Repository.Migrations
                         .ValueGeneratedOnAdd()
                         .HasDefaultValueSql("NEWID()");
 
-                    b.Property<Guid?>("ConfigurationCourseId");
+                    b.Property<Guid>("ConfigurationCourseId");
 
                     b.Property<DateTime?>("InsertedDate")
                         .ValueGeneratedOnAdd()
@@ -155,7 +157,7 @@ namespace ChurchSchool.Repository.Migrations
 
                     b.Property<DateTime?>("RemovedDate");
 
-                    b.Property<Guid?>("SubjectId");
+                    b.Property<Guid>("SubjectId");
 
                     b.Property<DateTime?>("UpdatedDate");
 
@@ -752,13 +754,15 @@ namespace ChurchSchool.Repository.Migrations
 
             modelBuilder.Entity("ChurchSchool.Domain.Entities.Course_Subject", b =>
                 {
-                    b.HasOne("ChurchSchool.Domain.Entities.CourseConfiguration", "CourseConfiguration")
-                        .WithMany("Subjects")
-                        .HasForeignKey("ConfigurationCourseId");
-
                     b.HasOne("ChurchSchool.Domain.Entities.Subject", "Subject")
                         .WithMany("Configurations")
-                        .HasForeignKey("SubjectId");
+                        .HasForeignKey("ConfigurationCourseId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("ChurchSchool.Domain.Entities.CourseConfiguration", "CourseConfiguration")
+                        .WithMany("Subjects")
+                        .HasForeignKey("SubjectId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("ChurchSchool.Domain.Entities.CourseClass", b =>

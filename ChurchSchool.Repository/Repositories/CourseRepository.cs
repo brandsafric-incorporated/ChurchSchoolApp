@@ -25,15 +25,20 @@ namespace ChurchSchool.Repository.Repositories
 
         public IEnumerable<Course> Filter(Course model)
         {
-            return this.GetConsolidatedCourseData().Where(x => CourseFilter(x, model));
+            return this.GetBaseQuery()
+                       .AsNoTracking()
+                       .Where(x => CourseFilter(x, model));
         }
 
         public IEnumerable<Course> GetActiveCourses()
         {
-            return _context.Courses.Where(c => c.isActive);
+            return this.GetBaseQuery()
+                            .AsNoTracking()
+                            .Where(c => c.IsActive)
+                            ;
         }
 
-        public IEnumerable<Course> GetAll() => _context.Courses;
+        public IEnumerable<Course> GetAll() => this.GetBaseQuery().AsNoTracking();
 
         public bool Remove(Guid key)
         {
@@ -46,37 +51,42 @@ namespace ChurchSchool.Repository.Repositories
 
         public bool Update(Course model)
         {
-            model.UpdatedDate = DateTime.Now;
+            var course = model;
+            var configuration = model.CurrentConfiguration;
+            var subjects = model.CurrentConfiguration.Subjects;
+            var documents = model.CurrentConfiguration.EnrollDocuments;
 
-            _context.Courses.Update(model);
+            course.CurrentConfiguration = null;
+
+            course.UpdatedDate = DateTime.Now;
+
+            _context.Entry(course).State = EntityState.Modified;
+            _context.Entry(configuration).State = EntityState.Modified;
+
+
+            if (subjects != null)
+                foreach (var item in subjects)
+                {
+                    _context.Entry(item).State = EntityState.Modified;
+                }
+
+            if (documents != null)
+                foreach (var item in documents)
+                {
+                    _context.Entry(item).State = EntityState.Modified;
+                }
 
             return true;
         }
 
-        public IEnumerable<Course> GetConsolidatedData()
-        {
-            return GetConsolidatedCourseData();
-        }
-
-        private IIncludableQueryable<Course, Subject> GetConsolidatedCourseData()
+        private IIncludableQueryable<Course, Subject> GetBaseQuery()
         {
             var response = _context.Courses.Include(t => t.CurrentConfiguration)
                        .ThenInclude(f => f.EnrollDocuments)
                        .Include(q => q.CurrentConfiguration)
-                       .ThenInclude(s => s.ConfigCurriculumns)
-                       .ThenInclude(a => a.Curriculum)
-                       .ThenInclude(w => w.Curriculum_Subjects)
-                       .ThenInclude(v => v.Subject)
+                       .ThenInclude(s => s.Subjects)
+                       .ThenInclude(a => a.Subject)
                        ;
-
-            foreach (var obj in response.Where(obj =>
-                                            obj.CurrentConfiguration != null &&
-                                            obj.CurrentConfiguration.ConfigCurriculumns != null &&
-                                            obj.CurrentConfiguration.ConfigCurriculumns.Count() > 1)
-                                            )
-            {
-                obj.CurrentConfiguration.ConfigCurriculumns = obj.CurrentConfiguration.ConfigCurriculumns.Where(x => x.IsActive);
-            }
 
             return response;
         }

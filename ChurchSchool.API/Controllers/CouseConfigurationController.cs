@@ -1,14 +1,16 @@
-﻿using System;
-using System.Linq;
-using ChurchSchool.Application.Contracts;
+﻿using ChurchSchool.Application.Contracts;
+using ChurchSchool.Domain.Entities;
 using ChurchSchool.Repository.Contracts;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace ChurchSchool.API.Controllers
 {
     [Produces("application/json")]
-    [Route("api/Course/Settings")]
+    [Route("api/course/settings")]
     [Authorize]
     public class CouseConfigurationController : Controller
     {
@@ -133,6 +135,36 @@ namespace ChurchSchool.API.Controllers
                     return Ok();
                 else
                     return BadRequest(result);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex);
+            }
+        }
+
+        [HttpPost, Route("subject")]
+        public IActionResult Post([FromBody]Domain.Entities.Course_Subject[] model)
+        {
+            try
+            {
+                var result = new List<ValidationResult>();
+
+                foreach (var item in model)
+                {
+                    result.Add(_courseConfiguration.VinculateSubject(item));
+                }
+
+                _unitOfWork.Commit();
+
+                if (!result.Any(x => x.Errors.Any()))
+                {
+                    return Ok();
+                }
+                else
+                {
+                    return BadRequest(result.Select(x => x.Errors));
+                }
+
             }
             catch (Exception ex)
             {

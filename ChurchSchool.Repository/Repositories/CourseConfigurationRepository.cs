@@ -46,16 +46,12 @@ namespace ChurchSchool.Repository.Repositories
 
         public bool Update(CourseConfiguration model)
         {
-            if (model.IsCurrentConfiguration)
-            {
-                foreach (var item in GetByCourse(model.CourseId.Value))
-                {
-                    item.IsCurrentConfiguration = false;
-                }
-            }
+            return false;
+        }
 
-            _context.Update(model);
-            return true;
+        public CourseConfiguration Get(Guid configurationId)
+        {
+            return _context.Configurations.FirstOrDefault(x => x.Id == configurationId);
         }
     }
 }

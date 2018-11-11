@@ -1,5 +1,4 @@
 ﻿using ChurchSchool.Application.Contracts;
-using ChurchSchool.Domain.Contracts;
 using ChurchSchool.Domain.Entities;
 using ChurchSchool.Repository.Contracts;
 using System;
@@ -11,18 +10,23 @@ namespace ChurchSchool.Application
     public class CourseConfiguration : ICourseConfiguration
     {
         private ICourseConfigurationRepository _courseConfigurationRepository;
-
         private ICourseRepository _courseRepository;
-
         private ICourseDocumentRepository _courseDocumentRepository;
+        private ISubjectRepository _subjectRepository;
+        private ICourseSubjectRepository _courseSubjectRepository;
+
 
         public CourseConfiguration(ICourseConfigurationRepository courseConfigurationRepository,
                                    ICourseRepository courseRepository,
-                                   ICourseDocumentRepository courseDocumentRepository)
+                                   ICourseDocumentRepository courseDocumentRepository,
+                                   ICourseSubjectRepository courseSubjectRepository,
+                                   ISubjectRepository subjectRepository)
         {
             _courseConfigurationRepository = courseConfigurationRepository;
             _courseRepository = courseRepository;
             _courseDocumentRepository = courseDocumentRepository;
+            _subjectRepository = subjectRepository;
+            _courseSubjectRepository = courseSubjectRepository;
         }
 
         public IEnumerable<Domain.Entities.CourseConfiguration> GetAll()
@@ -35,18 +39,18 @@ namespace ChurchSchool.Application
             if (!entity.IsValid())
                 return entity;
 
-            if (entity.IsCurrentConfiguration)
-            {
-                try
-                {
-                    DisableCurrentConfiguration(entity);
-                }
-                catch (Exception ex)
-                {
-                    entity.AddError(ex.Message);
-                    return entity;
-                }
-            }
+            //if (entity.IsCurrentConfiguration)
+            //{
+            //    try
+            //    {
+            //        DisableCurrentConfiguration(entity);
+            //    }
+            //    catch (Exception ex)
+            //    {
+            //        entity.AddError(ex.Message);
+            //        return entity;
+            //    }
+            //}
 
             return _courseConfigurationRepository.Add(entity);
         }
@@ -89,18 +93,18 @@ namespace ChurchSchool.Application
             if (!entity.IsValid())
                 return entity;
 
-            if (entity.IsCurrentConfiguration)
-            {
-                try
-                {
-                    DisableCurrentConfiguration(entity);
-                }
-                catch (Exception ex)
-                {
-                    entity.AddError(ex.Message);
-                    return entity;
-                }
-            }
+            //if (entity.IsCurrentConfiguration)
+            //{
+            //    try
+            //    {
+            //        DisableCurrentConfiguration(entity);
+            //    }
+            //    catch (Exception ex)
+            //    {
+            //        entity.AddError(ex.Message);
+            //        return entity;
+            //    }
+            //}
 
             entity.UpdatedDate = DateTime.Now;
 
@@ -110,8 +114,6 @@ namespace ChurchSchool.Application
 
             return new ValidationResult();
         }
-
-
 
         private bool VerifyRelatedCourses(Guid id)
         {
@@ -133,14 +135,39 @@ namespace ChurchSchool.Application
 
                 var configurations = _courseConfigurationRepository.GetByCourse(entity.CourseId.Value);
 
-                foreach (var configuration in configurations)
-                {
-                    configuration.IsCurrentConfiguration = false;
-                }
+                //foreach (var configuration in configurations)
+                //{
+                //    configuration.IsCurrentConfiguration = false;
+                //}
 
                 course.CurrentConfiguration = entity;
                 _courseRepository.Update(course);
             }
+        }
+
+        public ValidationResult VinculateSubject(Domain.Entities.Course_Subject model)
+        {
+            var configuration = _courseConfigurationRepository.Get(model.ConfigurationCourseId.Value);
+            var result = new ValidationResult();
+            var subject = _subjectRepository.Filter(new Domain.Entities.Subject { Id = model.SubjectId });
+
+            if (configuration == null)
+            {
+                result.AddError("Configuração não encontrada.");
+            }
+
+            if (subject == null)
+            {
+                result.AddError("Matéria não encontrada.");
+            }
+
+
+            if (!result.Errors.Any())
+            {
+                _courseSubjectRepository.Add(model);
+            }
+
+            return result;
         }
     }
 }

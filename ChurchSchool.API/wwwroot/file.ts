@@ -41,3 +41,12 @@
 //    public Name: string;
 //    public RelatedProfessors: IEnumerable<ProfessorSubject>;
 //}
+
+
+//export class Course_Subject extends BaseEntity {
+//    public ConfigurationCourseId: Guid;
+//    public SubjectId: Guid;
+//    public CourseConfiguration: CourseConfiguration;
+//    public Subject: Subject;
+//    public Class: Domain.Entities.CourseClass;
+//}

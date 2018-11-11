@@ -22,14 +22,20 @@
     <Compile Remove="Migrations\20180604065148_IncludingPersonAndStudentModel.cs" />
     <Compile Remove="Migrations\20180604092901_AddingCourseModel.cs" />
     <Compile Remove="Migrations\20180604103918_LoadingModelStructure.cs" />
+    <Compile Remove="Migrations\20181027052529_ChangingCourseTableStructure.cs" />
+    <Compile Remove="Migrations\20181031012840_ChangingCourseClassStructure.cs" />
+    <Compile Remove="Migrations\20181102221549_UpdatingCourseStructure.cs" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="7.0.1" />
     <PackageReference Include="Microsoft.AspNet.Identity.Core" Version="2.2.2" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="2.1.3" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.1.1" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.1.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.1.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.1.4">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Microsoft.Extensions.Logging" Version="2.1.1" />
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="2.1.1" />
   </ItemGroup>

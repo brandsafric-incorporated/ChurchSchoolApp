@@ -44,7 +44,8 @@ namespace ChurchSchool.Repository
         public DbSet<Domain.Entities.Curriculum_Subject> Curriculum_Subject { get; set; }
         public DbSet<Domain.Entities.CourseClass_Student> CourseClass_Student { get; set; }
         public DbSet<Domain.Entities.ProfessorSubject> ProfessorSubject { get; set; }
-        
+        public DbSet<Domain.Entities.Course_Subject> Course_Subject { get; set; }
+
 
         /*  
             //Disabled Entities
@@ -74,6 +75,7 @@ namespace ChurchSchool.Repository
             new ModelSettings.CourseClass_Student().Configure(modelBuilder);
             new ModelSettings.Professor_Subject().Configure(modelBuilder);
             new ModelSettings.Curriculum_Subject().Configure(modelBuilder);
+            new ModelSettings.Course_Subject().Configure(modelBuilder);
             new ModelSettings.ConfigurationCurriculum().Configure(modelBuilder);
         }
 

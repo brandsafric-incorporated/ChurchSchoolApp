@@ -12,11 +12,15 @@ namespace ChurchSchool.Application
     {
         private readonly ICourseRepository _courseRepository;
         private readonly IMapper _mapper;
+        private readonly ICourseConfigurationRepository _courseConfigurationRepository;
 
-        public Course(ICourseRepository courseRepository, IMapper mapper)
+        public Course(ICourseRepository courseRepository, 
+                      IMapper mapper,
+                      ICourseConfigurationRepository courseConfigurationRepository)
         {
             _mapper = mapper;
             _courseRepository = courseRepository;
+            _courseConfigurationRepository = courseConfigurationRepository;
         }
 
         public Domain.Entities.Course Add(Domain.Entities.Course course)
@@ -31,19 +35,16 @@ namespace ChurchSchool.Application
 
         public IEnumerable<Domain.Entities.Course> GetAll()
         {
-            return _courseRepository.GetAll();
-        }
+            var result = _courseRepository.GetAll().ToList();
 
-        public CourseConsolidatedModel GetById(Guid id)
-        {
-            var result = _mapper.Map <CourseConsolidatedModel>(_courseRepository.Filter(new Domain.Entities.Course { Id = id })
-                                          .FirstOrDefault());
             return result;
         }
 
-        public IEnumerable<CourseConsolidatedModel> GetConsolidatedData()
+        public Domain.Entities.Course GetById(Guid id)
         {
-            return _mapper.Map<IEnumerable<CourseConsolidatedModel>>(_courseRepository.GetConsolidatedData());
+            var result = _courseRepository.Filter(new Domain.Entities.Course { Id = id })
+                                          .FirstOrDefault();
+            return result;
         }
 
         public bool Remove(Guid id)

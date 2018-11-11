@@ -8,6 +8,5 @@ namespace ChurchSchool.Repository.Contracts
     public interface ICourseRepository : IRepository<Course>
     {
         IEnumerable<Course> GetActiveCourses();
-        IEnumerable<Course> GetConsolidatedData();
     }
 }

@@ -184,6 +184,7 @@ namespace ChurchSchool.API
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IEnrollmentRepository, EnrollmentRepository>();
             services.AddScoped<ICurriculumConfigurationRepository, CurriculumConfigurationRepository>();
+            services.AddScoped<ICourseSubjectRepository, CourseSubjectRepository>();
 
             //Application Services
             services.AddScoped<IEmailService, EmailService>();

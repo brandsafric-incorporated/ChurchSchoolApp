@@ -26,7 +26,7 @@ namespace ChurchSchool.Repository.Repositories
         {
             var result = (from student in _context.Students
                           join course in _context.Courses on student.CourseId equals course.Id
-                          where student.Status == EEnrollmentStatus.WAITING_APROVEMENT && course.isActive
+                          where student.Status == EEnrollmentStatus.WAITING_APROVEMENT && course.IsActive
                           select student
                           ).LongCount();
 

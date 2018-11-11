@@ -4,14 +4,16 @@ using ChurchSchool.Repository;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ChurchSchool.Repository.Migrations
 {
     [DbContext(typeof(RepositoryContext))]
-    partial class RepositoryContextModelSnapshot : ModelSnapshot
+    [Migration("20181027221256_ChangingCourseStructure")]
+    partial class ChangingCourseStructure
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -124,8 +126,6 @@ namespace ChurchSchool.Repository.Migrations
                         .HasColumnType("datetime")
                         .HasDefaultValueSql("GETDATE()");
 
-                    b.Property<bool>("IsActive");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("varchar(200)");
@@ -136,6 +136,8 @@ namespace ChurchSchool.Repository.Migrations
                     b.Property<DateTime?>("UpdatedDate")
                         .HasColumnType("datetime");
 
+                    b.Property<bool>("isActive");
+
                     b.HasKey("Id");
 
                     b.ToTable("Courses");
@@ -144,14 +146,13 @@ namespace ChurchSchool.Repository.Migrations
             modelBuilder.Entity("ChurchSchool.Domain.Entities.Course_Subject", b =>
                 {
                     b.Property<Guid?>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasDefaultValueSql("NEWID()");
+                        .ValueGeneratedOnAdd();
 
                     b.Property<Guid?>("ConfigurationCourseId");
 
-                    b.Property<DateTime?>("InsertedDate")
-                        .ValueGeneratedOnAdd()
-                        .HasDefaultValueSql("GETDATE()");
+                    b.Property<Guid?>("CourseConfigurationId");
+
+                    b.Property<DateTime?>("InsertedDate");
 
                     b.Property<DateTime?>("RemovedDate");
 
@@ -161,9 +162,7 @@ namespace ChurchSchool.Repository.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ConfigurationCourseId");
-
-                    b.HasIndex("SubjectId");
+                    b.HasIndex("CourseConfigurationId");
 
                     b.ToTable("Course_Subject");
                 });
@@ -176,7 +175,7 @@ namespace ChurchSchool.Repository.Migrations
 
                     b.Property<string>("ClassName");
 
-                    b.Property<Guid?>("Course_SubjectId");
+                    b.Property<Guid>("Curriculum_SubjectId");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -187,7 +186,7 @@ namespace ChurchSchool.Repository.Migrations
                         .HasColumnType("datetime")
                         .HasDefaultValueSql("GETDATE()");
 
-                    b.Property<Guid?>("ProfessorId");
+                    b.Property<Guid>("ProfessorId");
 
                     b.Property<DateTime?>("RemovedDate")
                         .HasColumnType("datetime");
@@ -197,9 +196,7 @@ namespace ChurchSchool.Repository.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Course_SubjectId")
-                        .IsUnique()
-                        .HasFilter("[Course_SubjectId] IS NOT NULL");
+                    b.HasIndex("Curriculum_SubjectId");
 
                     b.HasIndex("ProfessorId");
 
@@ -752,24 +749,22 @@ namespace ChurchSchool.Repository.Migrations
 
             modelBuilder.Entity("ChurchSchool.Domain.Entities.Course_Subject", b =>
                 {
-                    b.HasOne("ChurchSchool.Domain.Entities.CourseConfiguration", "CourseConfiguration")
+                    b.HasOne("ChurchSchool.Domain.Entities.CourseConfiguration")
                         .WithMany("Subjects")
-                        .HasForeignKey("ConfigurationCourseId");
-
-                    b.HasOne("ChurchSchool.Domain.Entities.Subject", "Subject")
-                        .WithMany("Configurations")
-                        .HasForeignKey("SubjectId");
+                        .HasForeignKey("CourseConfigurationId");
                 });
 
             modelBuilder.Entity("ChurchSchool.Domain.Entities.CourseClass", b =>
                 {
-                    b.HasOne("ChurchSchool.Domain.Entities.Course_Subject", "Course_Subject")
-                        .WithOne("Class")
-                        .HasForeignKey("ChurchSchool.Domain.Entities.CourseClass", "Course_SubjectId");
+                    b.HasOne("ChurchSchool.Domain.Entities.Curriculum_Subject", "Curriculum_Subject")
+                        .WithMany()
+                        .HasForeignKey("Curriculum_SubjectId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("ChurchSchool.Domain.Entities.Professor", "Professor")
                         .WithMany()
-                        .HasForeignKey("ProfessorId");
+                        .HasForeignKey("ProfessorId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("ChurchSchool.Domain.Entities.CourseClass_Student", b =>

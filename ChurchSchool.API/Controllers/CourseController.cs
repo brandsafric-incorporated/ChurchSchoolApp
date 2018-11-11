@@ -12,7 +12,7 @@ namespace ChurchSchool.API.Controllers
 {
     [Authorize]
     [Produces("application/json")]
-    [Route("api/Course")]
+    [Route("api/course")]
     public class CourseController : Controller
     {
         private readonly ICourse _course;
@@ -151,21 +151,6 @@ namespace ChurchSchool.API.Controllers
             {
                 return StatusCode(500, ex);
             }
-        }
-
-        [HttpGet, Route("GetCourseCondensedData")]
-        public IActionResult GetCourseCondensedData()
-        {
-            try
-            {
-                var result = _course.GetConsolidatedData();
-
-                return Ok(result.ToArray());
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, ex);
-            }
-        }
+        }      
     }
 }

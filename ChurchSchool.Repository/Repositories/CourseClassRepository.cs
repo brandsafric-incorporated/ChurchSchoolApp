@@ -1,17 +1,20 @@
-﻿using ChurchSchool.Domain.Contracts;
-using ChurchSchool.Domain.Entities;
+﻿using ChurchSchool.Domain.Entities;
 using ChurchSchool.Repository.Contracts;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace ChurchSchool.Repository.Repositories
 {
     public class CourseClassRepository : ICourseClassRepository
     {
         private readonly RepositoryContext _context;
+
+        private readonly Func<CourseClass, CourseClass, bool> FilterBaseFunc = (a, b) =>
+        {
+            return a.Description == b.Description || a.Id == b.Id;
+        };
 
         public CourseClassRepository(RepositoryContext context)
         {
@@ -29,21 +32,24 @@ namespace ChurchSchool.Repository.Repositories
             if (model == null)
                 return Enumerable.Empty<CourseClass>();
 
-            return _context.Classes.Where(q => q.Id == model.Id)
-                                   .Include(a => a.Curriculum_Subject)
-                                   .ThenInclude(c => c.Curriculum)
-                                   .Include(a => a.Curriculum_Subject)
-                                   .ThenInclude(c => c.Subject)
-                                   .Include(b => b.Professor);
+            return GetSqlBaseQuery().Where(j => FilterBaseFunc(j, model));
+
+        }
+
+        private IEnumerable<CourseClass> GetSqlBaseQuery()
+        {
+            return _context.Classes.Include(a => a.Course_Subject)
+                                   .ThenInclude(b => b.CourseConfiguration)
+                                   .ThenInclude(c => c.RelatedCourse)
+                                   .Include(d => d.Course_Subject)
+                                   .ThenInclude(e => e.Subject)
+                                   .Include(f => f.Professor)
+                                   ;
         }
 
         public IEnumerable<CourseClass> GetAll()
         {
-            return _context.Classes.Include(a => a.Curriculum_Subject)
-                                   .ThenInclude(c => c.Curriculum)
-                                   .Include(a => a.Curriculum_Subject)
-                                   .ThenInclude(c => c.Subject)
-                                   .Include(b => b.Professor);
+            return GetSqlBaseQuery();
         }
 
         public IEnumerable<StudentSubject> GetRelatedSubjects(Guid personId)
@@ -51,12 +57,12 @@ namespace ChurchSchool.Repository.Repositories
             var result = (from student in _context.Students
                           join courseClass in _context.CourseClass_Student on student.Id equals courseClass.StudentId
                           join classes in _context.Classes on courseClass.CourseClassId equals classes.Id
-                          join curriculumSubject in _context.Curriculum_Subject on classes.Curriculum_SubjectId equals curriculumSubject.Id
+                          join courseSubject in _context.Course_Subject on classes.Course_SubjectId equals courseSubject.Id
                           where student.PersonId == personId
                           select new StudentSubject
                           {
                               Student = student,
-                              Subject = curriculumSubject.Subject
+                              Subject = courseSubject.Subject
                           });
 
             return result;

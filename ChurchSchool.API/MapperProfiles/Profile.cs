@@ -32,23 +32,23 @@ namespace ChurchSchool.API.MapperProfiles
             CreateMap<Domain.Entities.Identity.User, Domain.Entities.Identity.Account>()
                 .ForMember(destination => destination.Password, opt => opt.ResolveUsing(source => source.PasswordHash));
 
-
-            CreateMap<Domain.Entities.Course, Application.Models.CourseConsolidatedModel>()
-                .ForMember(destination => destination.Id, opt => opt.ResolveUsing(source => source.Id))
-                .ForMember(destination => destination.Name, opt => opt.ResolveUsing(source => source.Name))
-                .ForMember(destination => destination.Description, opt => opt.ResolveUsing(source => source.Description))
-                .ForMember(destination => destination.IsActive, opt => opt.ResolveUsing(source => source.isActive))
-                .ForMember(destination => destination.Subjects, opt => opt.ResolveUsing(source => source?.CurrentConfiguration
-                                                                                                        ?.ConfigCurriculumns
-                                                                                                        ?.FirstOrDefault(x => x.IsActive)
-                                                                                                        ?.Curriculum
-                                                                                                        ?.Curriculum_Subjects
-                                                                                                        .Select(x => x.Subject)))
-                .ForMember(destination => destination.Documents, opt => opt.ResolveUsing(source => source?.CurrentConfiguration
-                                                                                                         ?.EnrollDocuments
-                                                                                                         ?.Select(x=> x.Type)))
-                .ReverseMap()
-                ;
+            //TODO - RESCREVER ESTE MAPEAMENTO
+            //CreateMap<Domain.Entities.Course, Application.Models.CourseConsolidatedModel>()
+            //    .ForMember(destination => destination.Id, opt => opt.ResolveUsing(source => source.Id))
+            //    .ForMember(destination => destination.Name, opt => opt.ResolveUsing(source => source.Name))
+            //    .ForMember(destination => destination.Description, opt => opt.ResolveUsing(source => source.Description))
+            //    .ForMember(destination => destination.IsActive, opt => opt.ResolveUsing(source => source.isActive))
+            //    .ForMember(destination => destination.Subjects, opt => opt.ResolveUsing(source => source?.CurrentConfiguration
+            //                                                                                            ?.ConfigCurriculumns
+            //                                                                                            ?.FirstOrDefault(x => x.IsActive)
+            //                                                                                            ?.Curriculum
+            //                                                                                            ?.Curriculum_Subjects
+            //                                                                                            .Select(x => x.Subject)))
+            //    .ForMember(destination => destination.Documents, opt => opt.ResolveUsing(source => source?.CurrentConfiguration
+            //                                                                                             ?.EnrollDocuments
+            //                                                                                             ?.Select(x=> x.Type)))
+            //    .ReverseMap()
+            //    ;
         }
     }
 }
