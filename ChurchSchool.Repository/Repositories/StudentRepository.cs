@@ -1,11 +1,9 @@
 ﻿using ChurchSchool.Domain.Entities;
-using ChurchSchool.Domain.Contracts;
+using ChurchSchool.Domain.Enum;
+using ChurchSchool.Repository.Contracts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using ChurchSchool.Repository.Contracts;
-using ChurchSchool.Domain.Enum;
-using ChurchSchool.Domain.Comparers;
 
 namespace ChurchSchool.Repository.Repositories
 {
@@ -76,6 +74,29 @@ namespace ChurchSchool.Repository.Repositories
                           select x).Any();
 
             return exists;
+        }
+
+        public IEnumerable<Student> GetPendingEnrollments()
+        {
+            var result = (from student in _context.Students
+                          join person in _context.People on student.PersonId equals person.Id
+                          join course in _context.Courses on student.CourseId equals course.Id                          
+                          where student.Status == EEnrollmentStatus.WAITING_APROVEMENT
+                          select new Student
+                          {
+                              Person = person,
+                              Course = course,
+                              CourseId = course.Id.Value,
+                              EnrollmentDate = student.EnrollmentDate,
+                              EnrollmentID = student.EnrollmentID,
+                              InsertedDate = student.InsertedDate,
+                              UpdatedDate = student.UpdatedDate, 
+                              Status = student.Status
+
+                          }
+                ).Distinct();
+
+            return result;
         }
     }
 }

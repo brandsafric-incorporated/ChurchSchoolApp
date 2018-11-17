@@ -1,0 +1,5 @@
+USE DB_SEMINARIO
+GO
+
+
+SELECT * FROM dbo.

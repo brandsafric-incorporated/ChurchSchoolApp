@@ -1,4 +1,6 @@
-﻿using System;
+﻿using ChurchSchool.Domain.Models;
+using System;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ChurchSchool.Domain.Entities
 {
@@ -6,5 +8,8 @@ namespace ChurchSchool.Domain.Entities
     {
         public Guid StudentId { get; set; }
         public Student Student { get; set; }
+
+        [NotMapped]
+        public FileModel File { get; set; }
     }
 }

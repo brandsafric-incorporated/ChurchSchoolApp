@@ -1,18 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using ChurchSchool.Application.Contracts;
-using ChurchSchool.Application.Models;
+﻿using ChurchSchool.Application.Contracts;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Linq;
 
 namespace ChurchSchool.API.Controllers
 {
+
+    [Authorize]
     [Produces("application/json")]
     [Route("api/[controller]")]
-    [Authorize]
+
     public class EnrollmentController : Controller
     {
         private readonly IEnrollment _enrollment;
@@ -29,9 +27,9 @@ namespace ChurchSchool.API.Controllers
         {
             try
             {
-                var student = new Domain.Entities.Student();              
+                var student = new Domain.Entities.Student();
 
-                
+
                 return null;
             }
             catch (Exception ex)
@@ -54,5 +52,22 @@ namespace ChurchSchool.API.Controllers
             }
         }
 
+        [HttpGet, Route("Pending")]
+        public IActionResult GetPendingEnrollments()
+        {
+            try
+            {
+                var pendingEnrollments = _enrollment.GetPendingEnrollments();
+
+                if (pendingEnrollments.Any())
+                    return Ok(pendingEnrollments);
+                else
+                    return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex);
+            }
+        }
     }
 }

@@ -8,5 +8,6 @@ namespace ChurchSchool.Repository.Contracts
     {
         bool VerifyStudentAlreadyEnrolled(string cpf, Guid courseId);
         long GetTotalActiveStudents();
+        IEnumerable<Student> GetPendingEnrollments();
     }
 }

@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using System.Linq;
 
 namespace ChurchSchool.API.MapperProfiles
 {
@@ -31,6 +30,20 @@ namespace ChurchSchool.API.MapperProfiles
 
             CreateMap<Domain.Entities.Identity.User, Domain.Entities.Identity.Account>()
                 .ForMember(destination => destination.Password, opt => opt.ResolveUsing(source => source.PasswordHash));
+
+            CreateMap<Application.Models.EnrollmentModel, Domain.Entities.Student>()
+                .ForMember(destination => destination.Course, opt => opt.ResolveUsing(source => source.RelatedCourse))
+                .ForMember(destination => destination.CourseId, opt => opt.ResolveUsing(source => source.Student.CourseId))
+                .ForMember(destination => destination.EnrollmentDate, opt => opt.ResolveUsing(source => source.Student.EnrollmentDate))
+                .ForMember(destination => destination.EnrollmentID, opt => opt.ResolveUsing(source => source.Student.EnrollmentID))
+                .ForMember(destination => destination.Id, opt => opt.ResolveUsing(source => source.Student.Id))
+                .ForMember(destination => destination.Person, opt => opt.ResolveUsing(source => source.Student.Person))
+                .ForMember(destination => destination.PersonId, opt => opt.ResolveUsing(source => source.Student.PersonId))
+                .ForMember(destination => destination.InsertedDate, opt => opt.ResolveUsing(source => source.Student.InsertedDate))
+                .ForMember(destination => destination.UpdatedDate, opt => opt.ResolveUsing(source => source.Student.UpdatedDate))
+                .ForMember(destination => destination.Status, opt => opt.ResolveUsing(source => source.Student.Status))
+                ;
+
 
             //TODO - RESCREVER ESTE MAPEAMENTO
             //CreateMap<Domain.Entities.Course, Application.Models.CourseConsolidatedModel>()

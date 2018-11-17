@@ -8,5 +8,6 @@ namespace ChurchSchool.Application.Contracts
 {
     public interface IEnrollment
     {
+        IEnumerable<Models.EnrollmentModel> GetPendingEnrollments();
     }
 }
