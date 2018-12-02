@@ -17,7 +17,7 @@ namespace ChurchSchool.Domain.Entities.Identity
         public string Password { get; set; }
         public bool IsValid()
         {
-            if (PersonId == default(Guid))
+            if ((PersonId ?? default(Guid)) == default(Guid))
                 AddError("Código de usuário é obrigatório");
 
             if (string.IsNullOrEmpty(UserName))

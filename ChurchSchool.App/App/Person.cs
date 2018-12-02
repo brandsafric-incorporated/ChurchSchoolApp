@@ -51,6 +51,16 @@ namespace ChurchSchool.Application
             return newPersonCpf != null && _personRepository.GetByCPF(newPersonCpf.DocumentNumber) != null;
         }
 
+        public Domain.Entities.Person Filter(Domain.Entities.Person personParameters)
+        {
+            return null;   
+        }
+
+        public Domain.Entities.Person FilterByCPF(long cpf)
+        {
+            return _personRepository.GetByCPF(cpf.ToString());
+        }
+
         public IEnumerable<Domain.Entities.Person> GetAll()
         {
             return _personRepository.GetAll();

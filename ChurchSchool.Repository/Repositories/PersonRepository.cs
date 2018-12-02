@@ -1,7 +1,7 @@
-﻿using ChurchSchool.Domain.Contracts;
-using ChurchSchool.Domain.Entities;
+﻿using ChurchSchool.Domain.Entities;
 using ChurchSchool.Domain.Enum;
 using ChurchSchool.Repository.Contracts;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -48,11 +48,17 @@ namespace ChurchSchool.Repository.Repositories
             return _context.People.Where(p => p.Id == model.Id);
         }
 
-        public IEnumerable<Person> GetAll () => _context.People;
+        public IEnumerable<Person> GetAll() => _context.People;
 
         public Person GetByCPF(string cpfNumber)
         {
-            var result = _context.People.FirstOrDefault(y=> y.Documents.Any(x=>x.DocumentTypeId == EDocumentType.CPF && x.DocumentNumber == cpfNumber));
+            var result = _context.People
+                                 .Include(x => x.Documents)
+                                 .Include(x => x.Phones)
+                                 .Include(x => x.Addresses)
+                                 .Include(x => x.Phones)
+                                 .Include(x => x.Email)
+                                 .FirstOrDefault(y => y.Documents.Any(x => x.DocumentTypeId == EDocumentType.CPF && Convert.ToInt64(x.DocumentNumber) == Convert.ToInt64(cpfNumber)));
             return result;
         }
 

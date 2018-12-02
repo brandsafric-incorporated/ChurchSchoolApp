@@ -33,17 +33,18 @@ namespace ChurchSchool.API.Controllers
             try
             {
                 var result = _account.Create(account);
+                
+                if (result.Errors.Any())
+                {
+                    return BadRequest(result.Errors);
+                }
 
                 _unitOfWork.Commit();
-
-                if (result.Errors.Any())
-                    return BadRequest(result.Errors);
 
                 return Ok();
             }
             catch (Exception ex)
             {
-
                 return StatusCode(500, ex);
             }
         }

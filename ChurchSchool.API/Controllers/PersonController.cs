@@ -12,18 +12,21 @@ using Microsoft.AspNetCore.Mvc;
 namespace ChurchSchool.API.Controllers
 {
     [Produces("application/json")]
-    [Route("api/Person")]
-    [Authorize]
+    [Route("api/Person")]    
     public class PersonController : Controller
     {
         private IPerson _person;
         private IAccount _account;
+        private IUnitOfWork _unitOfWork;
 
-
-        public PersonController(IPerson person, IAccount account)
+        public PersonController(
+            IPerson person, 
+            IAccount account,
+            IUnitOfWork unitOfWork)
         {
             _person = person;
             _account = account;
+            _unitOfWork = unitOfWork;
         }
 
         [HttpGet]
@@ -63,6 +66,25 @@ namespace ChurchSchool.API.Controllers
             }
         }
 
+
+        [HttpGet, Route("Filter/CPF/{cpf}")]
+        public IActionResult Filter([FromRoute] long cpf)
+        {
+            try
+            {
+                var person = _person.FilterByCPF(cpf);
+
+                if (person != null)
+                    return Ok(person);
+                else
+                    return NotFound();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex);
+            }
+        }
+
         [HttpPost]
         public IActionResult Post([FromBody]Domain.Entities.Person person)
         {
@@ -75,6 +97,7 @@ namespace ChurchSchool.API.Controllers
                     return BadRequest(result.Errors);
                 }
 
+                _unitOfWork.Commit();
 
                 return Ok(result);
             }
@@ -83,7 +106,5 @@ namespace ChurchSchool.API.Controllers
                 return StatusCode(500, ex);
             }
         }
-
-
     }
 }
