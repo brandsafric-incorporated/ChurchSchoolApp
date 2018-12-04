@@ -13,82 +13,111 @@ namespace ChurchSchool.Repository.Repositories
         private readonly RepositoryContext _context;
 
         private static readonly Func<Course, Course, bool> CourseFilter = (a, b) =>
-                    ((a.Id != null && a.Id == b.Id) || (!string.IsNullOrEmpty(a.Name) && a.Name == b.Name));
+                    ((a.Id != null && a.Id == b.Id) || 
+                     (!string.IsNullOrEmpty(a.Name) && a.Name == b.Name));
 
         public CourseRepository(RepositoryContext context) => _context = context;
 
-        public Course Add(Course model)
-        {
-            _context.Courses.Add(model);
-            return model;
-        }
+        //public Course Add(Course model)
+        //{
+        //    _context.Courses.Add(model);
+        //    return model;
+        //}
 
-        public IEnumerable<Course> Filter(Course model)
-        {
-            return this.GetBaseQuery()
-                       .AsNoTracking()
-                       .Where(x => CourseFilter(x, model));
-        }
+        //public IEnumerable<Course> Filter(Course model)
+        //{
+        //    return this.GetBaseQuery()
+        //               .AsNoTracking()
+        //               .Where(x => CourseFilter(x, model));
+        //}
 
-        public IEnumerable<Course> GetActiveCourses()
-        {
-            return this.GetBaseQuery()
-                            .AsNoTracking()
-                            .Where(c => c.IsActive)
-                            ;
-        }
+        //public IEnumerable<Course> GetActiveCourses()
+        //{
+        //    return this.GetBaseQuery()
+        //                    .AsNoTracking()
+        //                    .Where(c => c.IsActive)
+        //                    ;
+        //}
 
-        public IEnumerable<Course> GetAll() => this.GetBaseQuery().AsNoTracking();
+        //public IEnumerable<Course> GetAll() => this.GetBaseQuery().AsNoTracking();
 
-        public bool Remove(Guid key)
-        {
-            var itemToRemove = _context.Courses.FirstOrDefault(y => y.Id == key);
+        //public bool Remove(Guid key)
+        //{
+        //    var itemToRemove = _context.Courses.FirstOrDefault(y => y.Id == key);
 
-            itemToRemove.RemovedDate = DateTime.Now;
+        //    itemToRemove.RemovedDate = DateTime.Now;
 
-            return true;
-        }
+        //    return true;
+        //}
 
-        public bool Update(Course model)
-        {
-            var course = model;
-            var configuration = model.CurrentConfiguration;
-            var subjects = model.CurrentConfiguration.Subjects;
-            var documents = model.CurrentConfiguration.EnrollDocuments;
+        //public bool Update(Course model)
+        //{
+        //    var course = model;
+        //    var configuration = model.CurrentConfiguration;
+        //    var subjects = model.CurrentConfiguration.Subjects;
+        //    var documents = model.CurrentConfiguration.EnrollDocuments;
 
-            course.CurrentConfiguration = null;
+        //    course.CurrentConfiguration = null;
 
-            course.UpdatedDate = DateTime.Now;
+        //    course.UpdatedDate = DateTime.Now;
 
-            _context.Entry(course).State = EntityState.Modified;
-            _context.Entry(configuration).State = EntityState.Modified;
+        //    _context.Entry(course).State = EntityState.Modified;
+        //    _context.Entry(configuration).State = EntityState.Modified;
 
 
-            if (subjects != null)
-                foreach (var item in subjects)
-                {
-                    _context.Entry(item).State = EntityState.Modified;
-                }
+        //    if (subjects != null)
+        //        foreach (var item in subjects)
+        //        {
+        //            _context.Entry(item).State = EntityState.Modified;
+        //        }
 
-            if (documents != null)
-                foreach (var item in documents)
-                {
-                    _context.Entry(item).State = EntityState.Modified;
-                }
+        //    if (documents != null)
+        //        foreach (var item in documents)
+        //        {
+        //            _context.Entry(item).State = EntityState.Modified;
+        //        }
 
-            return true;
-        }
+        //    return true;
+        //}
 
-        private IIncludableQueryable<Course, Subject> GetBaseQuery()
+        private IEnumerable<Course> GetBaseQuery()
         {
             var response = _context.Courses.Include(t => t.CurrentConfiguration)
                        .ThenInclude(f => f.EnrollDocuments)
                        .Include(q => q.CurrentConfiguration)
-                       .ThenInclude(s => s.Subjects)
-                       .ThenInclude(a => a.Subject)
                        ;
 
             return response;
+        }
+
+        public Course Add(Course model)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<Course> Filter(Course model)
+        {
+            return GetBaseQuery().Where(x => CourseFilter(x, model));
+        }
+
+        public IEnumerable<Course> GetActiveCourses()
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<Course> GetAll()
+        {
+            return GetBaseQuery();
+        }
+
+        public bool Remove(Guid key)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool Update(Course model)
+        {
+            throw new NotImplementedException();
         }
     }
 }

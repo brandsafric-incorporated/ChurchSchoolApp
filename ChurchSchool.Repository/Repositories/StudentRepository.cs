@@ -78,25 +78,28 @@ namespace ChurchSchool.Repository.Repositories
 
         public IEnumerable<Student> GetPendingEnrollments()
         {
-            var result = (from student in _context.Students
-                          join person in _context.People on student.PersonId equals person.Id
-                          join course in _context.Courses on student.CourseId equals course.Id                          
-                          where student.Status == EEnrollmentStatus.WAITING_APROVEMENT
-                          select new Student
-                          {
-                              Person = person,
-                              Course = course,
-                              CourseId = course.Id.Value,
-                              EnrollmentDate = student.EnrollmentDate,
-                              EnrollmentID = student.EnrollmentID,
-                              InsertedDate = student.InsertedDate,
-                              UpdatedDate = student.UpdatedDate, 
-                              Status = student.Status
+            //var result = (from student in _context.Students
+            //              join person in _context.People on student.PersonId equals person.Id
+            //              join course in _context.Courses on student.CourseClassId equals course.Id                          
+            //              where student.Status == EEnrollmentStatus.WAITING_APROVEMENT
+            //              select new Student
+            //              {
+            //                  Person = person,
+            //                  Course = course,
+            //                  CourseClassId = course.Id.Value,
+            //                  EnrollmentDate = student.EnrollmentDate,
+            //                  EnrollmentID = student.EnrollmentID,
+            //                  InsertedDate = student.InsertedDate,
+            //                  UpdatedDate = student.UpdatedDate, 
+            //                  Status = student.Status
 
-                          }
-                ).Distinct();
+            //              }
+            //    ).Distinct();
 
-            return result;
+            //return result;
+
+
+            return null;
         }
     }
 }

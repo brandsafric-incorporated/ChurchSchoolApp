@@ -13,7 +13,7 @@ namespace ChurchSchool.Repository.Repositories
 
         private readonly Func<CourseClass, CourseClass, bool> FilterBaseFunc = (a, b) =>
         {
-            return a.Description == b.Description || a.Id == b.Id;
+            return a.Id == b.Id;
         };
 
         public CourseClassRepository(RepositoryContext context)
@@ -38,12 +38,9 @@ namespace ChurchSchool.Repository.Repositories
 
         private IEnumerable<CourseClass> GetSqlBaseQuery()
         {
-            return _context.Classes.Include(a => a.Course_Subject)
-                                   .ThenInclude(b => b.CourseConfiguration)
-                                   .ThenInclude(c => c.RelatedCourse)
-                                   .Include(d => d.Course_Subject)
-                                   .ThenInclude(e => e.Subject)
-                                   .Include(f => f.Professor)
+            return _context.Classes.Include(x=> x.RelatedCourse)
+                                   .ThenInclude(y=> y.CurrentConfiguration)                                   
+                                   .ThenInclude(k=>k.EnrollDocuments)
                                    ;
         }
 
@@ -54,18 +51,18 @@ namespace ChurchSchool.Repository.Repositories
 
         public IEnumerable<StudentSubject> GetRelatedSubjects(Guid personId)
         {
-            var result = (from student in _context.Students
-                          join courseClass in _context.CourseClass_Student on student.Id equals courseClass.StudentId
-                          join classes in _context.Classes on courseClass.CourseClassId equals classes.Id
-                          join courseSubject in _context.Course_Subject on classes.Course_SubjectId equals courseSubject.Id
-                          where student.PersonId == personId
-                          select new StudentSubject
-                          {
-                              Student = student,
-                              Subject = courseSubject.Subject
-                          });
+            //var result = (from student in _context.Students
+            //              join courseClass in _context.CourseClass_Student on student.Id equals courseClass.StudentId
+            //              join classes in _context.Classes on courseClass.CourseClassId equals classes.Id              
+            //              where student.PersonId == personId
+            //              select new StudentSubject
+            //              {
+            //                  Student = student,
+            //                  Subject = classes.
+            //              });
 
-            return result;
+            //return result;
+            return null;
         }
 
         public bool Remove(Guid key)

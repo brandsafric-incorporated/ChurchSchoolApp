@@ -43,8 +43,8 @@ namespace ChurchSchool.Repository
         public DbSet<Domain.Entities.Frequency> Frequencies { get; set; }
         public DbSet<Domain.Entities.Curriculum_Subject> Curriculum_Subject { get; set; }
         public DbSet<Domain.Entities.CourseClass_Student> CourseClass_Student { get; set; }
-        public DbSet<Domain.Entities.ProfessorSubject> ProfessorSubject { get; set; }
-        public DbSet<Domain.Entities.Course_Subject> Course_Subject { get; set; }
+        
+        //public DbSet<Domain.Entities.Course_Subject> Course_Subject { get; set; }
 
 
         /*  
@@ -73,9 +73,11 @@ namespace ChurchSchool.Repository
             new ModelSettings.Professor_Subject().Configure(modelBuilder);
             new ModelSettings.CourseClass().Configure(modelBuilder);
             new ModelSettings.CourseClass_Student().Configure(modelBuilder);
-            new ModelSettings.Professor_Subject().Configure(modelBuilder);
+            //new ModelSettings.Professor_Subject().Configure(modelBuilder);
+            new ModelSettings.SubjectClass().Configure(modelBuilder);
+            new ModelSettings.SubjectClassStudent().Configure(modelBuilder);
             new ModelSettings.Curriculum_Subject().Configure(modelBuilder);
-            new ModelSettings.Course_Subject().Configure(modelBuilder);
+            //new ModelSettings.Course_Subject().Configure(modelBuilder);
             new ModelSettings.ConfigurationCurriculum().Configure(modelBuilder);
         }
 
@@ -91,7 +93,5 @@ namespace ChurchSchool.Repository
             builder.UseSqlServer("Data Source=(local)\\SERVER_XPS;Initial Catalog=DB_SEMINARIO;Integrated Security=True");
             return new RepositoryContext(builder.Options);
         }
-    }
-
-  
+    }  
 }

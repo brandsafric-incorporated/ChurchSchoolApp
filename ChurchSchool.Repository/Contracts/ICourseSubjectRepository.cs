@@ -1,6 +1,6 @@
 ﻿namespace ChurchSchool.Repository.Contracts
 {
-    public interface ICourseSubjectRepository : IRepository<Domain.Entities.Course_Subject>
-    {
-    }
+    //public interface ICourseSubjectRepository : IRepository<Domain.Entities.Course_Subject>
+    //{
+    //}
 }

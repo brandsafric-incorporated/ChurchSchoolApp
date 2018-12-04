@@ -25,7 +25,7 @@ namespace ChurchSchool.Repository.Repositories
         public long GetTotalPendingEnrollments()
         {
             var result = (from student in _context.Students
-                          join course in _context.Courses on student.CourseId equals course.Id
+                          join course in _context.Courses on student.CourseClassId equals course.Id
                           where student.Status == EEnrollmentStatus.WAITING_APROVEMENT && course.IsActive
                           select student
                           ).LongCount();
