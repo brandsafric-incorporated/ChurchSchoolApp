@@ -38,7 +38,7 @@ namespace ChurchSchool.Repository.Repositories
             return _repositoryContext.Frequencies;
         }
 
-        public async Task<bool> Remove(Guid key)
+        public async Task<bool> Remove(long key)
         {
 
             var itemToRemove = await _repositoryContext.Frequencies.FindAsync(key);

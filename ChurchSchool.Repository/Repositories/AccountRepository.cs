@@ -35,7 +35,7 @@ namespace ChurchSchool.Repository.Repositories
         {
             var result = _context.Users.Where(x =>
                                     (!string.IsNullOrEmpty(x.UserName) && x.UserName.Contains(model.UserName)) ||
-                                        (x.PersonId != default(Guid) && x.PersonId == model.PersonId)
+                                        (x.PersonId == model.PersonId)
                                      ).Select(x => new Account
                                      {
                                          Errors = new List<Error>(),
@@ -81,7 +81,7 @@ namespace ChurchSchool.Repository.Repositories
             return result;
         }
 
-        public bool Remove(Guid key)
+        public bool Remove(long key)
         {
             var user = _mapper.Map<Domain.Entities.Identity.User>(Filter(new Account { PersonId = key }).FirstOrDefault());
 

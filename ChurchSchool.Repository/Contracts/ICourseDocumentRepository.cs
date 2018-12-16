@@ -7,7 +7,7 @@ namespace ChurchSchool.Repository.Contracts
 {
     public interface ICourseDocumentRepository : IRepository<CourseDocuments>
     {
-        bool RemoveByCourseConfiguration(Guid courseConfigurationId);
-        bool AddCourseDocumentRage(IEnumerable<CourseDocuments> documents);
+        bool RemoveByCourseConfiguration(long courseConfigurationId);
+        bool AddCourseDocumentRange(IEnumerable<CourseDocuments> documents);
     }
 }

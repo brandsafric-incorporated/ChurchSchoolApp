@@ -37,7 +37,7 @@ namespace ChurchSchool.Repository.Repositories
     //        return _context.Course_Subject;
     //    }
 
-    //    public bool Remove(Guid key)
+    //    public bool Remove(long key)
     //    {
     //        throw new NotImplementedException();
     //    }

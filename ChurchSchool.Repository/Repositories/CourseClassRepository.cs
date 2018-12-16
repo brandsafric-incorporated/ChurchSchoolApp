@@ -49,7 +49,7 @@ namespace ChurchSchool.Repository.Repositories
             return GetSqlBaseQuery();
         }
 
-        public IEnumerable<StudentSubject> GetRelatedSubjects(Guid personId)
+        public IEnumerable<StudentSubject> GetRelatedSubjects(long personId)
         {
             //var result = (from student in _context.Students
             //              join courseClass in _context.CourseClass_Student on student.Id equals courseClass.StudentId
@@ -65,7 +65,7 @@ namespace ChurchSchool.Repository.Repositories
             return null;
         }
 
-        public bool Remove(Guid key)
+        public bool Remove(long key)
         {
             var row = _context.Classes.FirstOrDefault(q => q.Id == key);
 

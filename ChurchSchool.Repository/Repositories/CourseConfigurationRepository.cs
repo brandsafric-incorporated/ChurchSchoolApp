@@ -13,10 +13,7 @@ namespace ChurchSchool.Repository.Repositories
     {
         private readonly RepositoryContext _context;
 
-        public CourseConfigurationRepository(RepositoryContext context)
-        {
-            _context = context;
-        }
+        public CourseConfigurationRepository(RepositoryContext context) => _context = context;       
 
         public CourseConfiguration Add(CourseConfiguration model)
         {
@@ -24,13 +21,13 @@ namespace ChurchSchool.Repository.Repositories
             return model;
         }
 
-        public IEnumerable<CourseConfiguration> Filter(CourseConfiguration model) => _context.Configurations.Where(x => x == model);
+        public IEnumerable<CourseConfiguration> Filter(CourseConfiguration model) => _context.Configurations.AsNoTracking().Where(x => x == model);
 
-        public IEnumerable<CourseConfiguration> GetByCourse(Guid courseId) => _context.Configurations.Where(x => x.CourseId == courseId);
+        public IEnumerable<CourseConfiguration> GetByCourse(long courseId) => GetBaseQuery().Where(x => Convert.ToInt64(x.CourseId) == courseId);
 
-        public IEnumerable<CourseConfiguration> GetAll() => _context.Configurations;
+        public IEnumerable<CourseConfiguration> GetAll() => GetBaseQuery();
 
-        public bool Remove(Guid key)
+        public bool Remove(long key)
         {
             var itemToRemove = _context.Configurations.FirstOrDefault(x => x.Id == key);
 
@@ -49,9 +46,17 @@ namespace ChurchSchool.Repository.Repositories
             return false;
         }
 
-        public CourseConfiguration Get(Guid configurationId)
+        public CourseConfiguration Get(long configurationId)
         {
-            return _context.Configurations.FirstOrDefault(x => x.Id == configurationId);
+            return _context.Configurations.AsNoTracking().FirstOrDefault(x => x.Id == configurationId);
+        }
+
+        public IEnumerable<CourseConfiguration> GetBaseQuery()
+        {
+            return _context.Configurations.AsNoTracking()
+                                          .Include(x => x.EnrollDocuments)
+                                          .AsNoTracking();
+                                          
         }
     }
 }

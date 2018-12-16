@@ -10,7 +10,7 @@ namespace ChurchSchool.Repository.ModelSettings
     //        builder.Entity<Domain.Entities.Course_Subject>(u =>
     //        {
     //            u.HasKey(k => k.Id);
-    //            u.Property(x => x.Id).HasDefaultValueSql("NEWID()");
+    //            u.Property(x => x.Id).UseSqlServerIdentityColumn();
     //            u.Property(x => x.InsertedDate).HasDefaultValueSql("GETDATE()");
     //        });
 

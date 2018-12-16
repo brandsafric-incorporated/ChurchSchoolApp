@@ -62,7 +62,7 @@ namespace ChurchSchool.Repository.Repositories
             return result;
         }
 
-        public bool Remove(Guid key)
+        public bool Remove(long key)
         {
             var person = _context.People.FirstOrDefault(x => x.Id == key);
 

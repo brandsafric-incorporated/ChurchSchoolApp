@@ -24,7 +24,7 @@ namespace ChurchSchool.Repository.Repositories
             throw new NotImplementedException();
         }
 
-        public bool AddCourseDocumentRage(IEnumerable<CourseDocuments> documents)
+        public bool AddCourseDocumentRange(IEnumerable<CourseDocuments> documents)
         {
             _context.AddRange(documents);
             return true;
@@ -40,12 +40,12 @@ namespace ChurchSchool.Repository.Repositories
             throw new NotImplementedException();
         }
 
-        public bool Remove(Guid key)
+        public bool Remove(long key)
         {
             throw new NotImplementedException();
         }
 
-        public bool RemoveByCourseConfiguration(Guid courseConfigurationId)
+        public bool RemoveByCourseConfiguration(long courseConfigurationId)
         {
             var documents = _context.CourseDocuments.Where(t => t.CourseConfigurationId == courseConfigurationId);
             _context.RemoveRange(documents.ToArray());

@@ -10,7 +10,7 @@ namespace ChurchSchool.Repository.ModelSettings
             builder.Entity<Domain.Entities.Person>(p =>
             {
                 p.HasKey(x => x.Id);
-                p.Property(x => x.Id).HasDefaultValueSql("NEWID()");
+                p.Property(x => x.Id).UseSqlServerIdentityColumn();
                 p.Property(x => x.FirstName).HasColumnType("varchar(50)").IsRequired();
                 p.Property(x => x.MiddleName).HasColumnType("varchar(50)");
                 p.Property(x => x.LastName).HasColumnType("varchar(50)").IsRequired();

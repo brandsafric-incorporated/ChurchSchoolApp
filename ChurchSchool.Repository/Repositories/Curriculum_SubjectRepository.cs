@@ -46,7 +46,7 @@ namespace ChurchSchool.Repository.Repositories
                                               .Include(g => g.Subject);
         }
 
-        public bool Remove(Guid key)
+        public bool Remove(long key)
         {
             var row = Filter(new Curriculum_Subject { Id = key }).FirstOrDefault();
 

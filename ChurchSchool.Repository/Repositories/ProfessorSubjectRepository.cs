@@ -17,7 +17,7 @@ namespace ChurchSchool.Repository.Repositories
             _context = context;
         }
 
-        public IEnumerable<ProfessorSubject> GetRelatedSubjects(Guid professorId)
+        public IEnumerable<ProfessorSubject> GetRelatedSubjects(long professorId)
         {
             //return _context.ProfessorSubject.Where(x => x.ProfessorId == professorId);
             return null;

@@ -17,7 +17,7 @@ namespace ChurchSchool.Repository
         #endregion
 
         #region Constructors
-
+        
         public RepositoryContext(DbContextOptions<RepositoryContext> options) : base(options) { }
 
         #endregion
@@ -43,7 +43,7 @@ namespace ChurchSchool.Repository
         public DbSet<Domain.Entities.Frequency> Frequencies { get; set; }
         public DbSet<Domain.Entities.Curriculum_Subject> Curriculum_Subject { get; set; }
         public DbSet<Domain.Entities.CourseClass_Student> CourseClass_Student { get; set; }
-        
+
         //public DbSet<Domain.Entities.Course_Subject> Course_Subject { get; set; }
 
 
@@ -93,5 +93,5 @@ namespace ChurchSchool.Repository
             builder.UseSqlServer("Data Source=(local)\\SERVER_XPS;Initial Catalog=DB_SEMINARIO;Integrated Security=True");
             return new RepositoryContext(builder.Options);
         }
-    }  
+    }
 }

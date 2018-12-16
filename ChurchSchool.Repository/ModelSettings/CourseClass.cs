@@ -10,7 +10,7 @@ namespace ChurchSchool.Repository.ModelSettings
             builder.Entity<Domain.Entities.CourseClass>(h =>
             {
                 h.HasKey(x => x.Id);
-                h.Property(x => x.Id).HasDefaultValueSql("NEWID()");
+                h.Property(x => x.Id).UseSqlServerIdentityColumn();
                 h.Property(x => x.StartDate).HasColumnType("datetime").IsRequired();
                 h.Property(x => x.FinishDate).HasColumnType("datetime").IsRequired(false);
                 h.Property(x => x.InsertedDate).HasColumnType("datetime").HasDefaultValueSql("GETDATE()");

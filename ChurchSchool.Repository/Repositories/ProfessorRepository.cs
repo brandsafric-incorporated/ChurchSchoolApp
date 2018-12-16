@@ -50,7 +50,7 @@ namespace ChurchSchool.Repository.Repositories
             return 0;
         }
 
-        public bool Remove(Guid key)
+        public bool Remove(long key)
         {
 
             var itemToRemove = _repositoryContext.Professors.FirstOrDefault(t => t.Id == key);

@@ -29,7 +29,7 @@ namespace ChurchSchool.Repository.Repositories
             throw new NotImplementedException();
         }
 
-        public bool Remove(Guid key)
+        public bool Remove(long key)
         {
             throw new NotImplementedException();
         }
