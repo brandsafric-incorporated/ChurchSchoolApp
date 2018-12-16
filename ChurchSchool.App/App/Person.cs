@@ -66,13 +66,13 @@ namespace ChurchSchool.Application
             return _personRepository.GetAll();
         }
 
-        public Domain.Entities.Person GetById(Guid id)
+        public Domain.Entities.Person GetById(long id)
         {
             return _personRepository.Filter(new Domain.Entities.Person { Id = id })
                                     .FirstOrDefault();
         }
 
-        public ValidationResult Remove(Guid id)
+        public ValidationResult Remove(long id)
         {
             _personRepository.Remove(id);
             return new ValidationResult();

@@ -38,7 +38,7 @@ namespace ChurchSchool.API.Controllers
         }
 
         [HttpPut]
-        public IActionResult Put(Guid key, [FromBody] Domain.Entities.Curriculum curriculum)
+        public IActionResult Put(long key, [FromBody] Domain.Entities.Curriculum curriculum)
         {
             try
             {
@@ -90,7 +90,7 @@ namespace ChurchSchool.API.Controllers
         }
 
         [HttpDelete]
-        public IActionResult Delete(Guid key)
+        public IActionResult Delete(long key)
         {
             try
             {

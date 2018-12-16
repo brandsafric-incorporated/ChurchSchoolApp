@@ -49,12 +49,12 @@ namespace ChurchSchool.Application
             return result;
         }
 
-        public Domain.Entities.Curriculum GetById(Guid id)
+        public Domain.Entities.Curriculum GetById(long id)
         {
             return _curriculumRepository.Filter(new Domain.Entities.Curriculum { Id = id }).FirstOrDefault();
         }
 
-        public ValidationResult Remove(Guid id)
+        public ValidationResult Remove(long id)
         {
             _curriculumRepository.Remove(id);
             return new ValidationResult();

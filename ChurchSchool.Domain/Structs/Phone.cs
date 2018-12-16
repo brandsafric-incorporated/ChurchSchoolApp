@@ -8,7 +8,7 @@ namespace ChurchSchool.Domain.Structs
     {
         private const string REGEX_BRAZILIAN_NUMBER = @"[\(?0-9\)?]{2,4}\s{1}?9?[0-9]{4}-?[0-9]{4}";
 
-        public Guid PersonId { get; set; }
+        public long PersonId { get; set; }
         public string AreaCode { get; set; }
         public string Number { get; set; }
 

@@ -67,28 +67,30 @@ namespace ChurchSchool.Application
 
         private ValidationResult VerifyIfProfessorIsACurrentStudentFromClass(Domain.Entities.Professor entity)
         {
-            var result = _courseClassRepository.GetRelatedSubjects(entity.PersonId)
-                                               .Where(y =>
-                                               {
-                                                   return entity.RelatedSubjects.Select(t => t.SubjectId).Contains(y.Subject.Id.Value) &&
-                                                          y.Student.Status == Domain.Enum.EEnrollmentStatus.ACTIVE;
-                                               });
+            //var result = _courseClassRepository.GetRelatedSubjects(entity.PersonId)
+            //                                   .Where(y =>
+            //                                   {
+            //                                       return entity.RelatedSubjects.Select(t => t.SubjectId).Contains(y.Subject.Id.Value) &&
+            //                                              y.Student.Status == Domain.Enum.EEnrollmentStatus.ACTIVE;
+            //                                   });
 
-            var validationResult = new ValidationResult();
+            //var validationResult = new ValidationResult();
 
-            foreach (var data in result)
-            {
-                validationResult.AddError($"O usuário {entity.Person.FirstName} não pode lecionar na disciplina {data.Subject.Name}, pois possui uma matrícula: {data.Student.EnrollmentID} em aberto como aluno nesta disciplina.");
-            }
+            //foreach (var data in result)
+            //{
+            //    validationResult.AddError($"O usuário {entity.Person.FirstName} não pode lecionar na disciplina {data.Subject.Name}, pois possui uma matrícula: {data.Student.EnrollmentID} em aberto como aluno nesta disciplina.");
+            //}
 
-            return validationResult;
+            //return validationResult;
+
+            return null;
         }
 
         public IEnumerable<Domain.Entities.Professor> GetAll() => _professorRepository.GetAll();
 
-        public Domain.Entities.Professor GetById(Guid id) => _professorRepository.Filter(new Domain.Entities.Professor { Id = id }).FirstOrDefault();
+        public Domain.Entities.Professor GetById(long id) => _professorRepository.Filter(new Domain.Entities.Professor { Id = id }).FirstOrDefault();
 
-        public ValidationResult Remove(Guid id)
+        public ValidationResult Remove(long id)
         {
             var operationResult = _professorRepository.Remove(id);
 

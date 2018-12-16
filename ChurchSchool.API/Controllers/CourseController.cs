@@ -53,8 +53,10 @@ namespace ChurchSchool.API.Controllers
 
                 var result = _course.Filter(name);
 
-                if (result == null)
+                if (result == null || !result.Any())
+                {
                     return NotFound();
+                }                    
 
                 return Ok(result);
             }
@@ -65,17 +67,42 @@ namespace ChurchSchool.API.Controllers
         }
         
         [HttpGet, Route("FilterById")]
-        public IActionResult Get([FromQuery]Guid id)
+        public IActionResult Get([FromQuery]long id)
         {
             try
             {
-                if (id == null || id == default(Guid))
-                    return BadRequest();
-
                 var result = _course.GetById(id);
 
                 if (result == null)
+                {
                     return NotFound();
+                }                    
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex);
+            }
+        }
+
+        [HttpGet, Route("Filter")]
+        public IActionResult Get(long? id, string name, bool? isActive)
+        {
+            try
+            {
+                var result = _course.Filter(new Course
+                {
+                    Id = id,
+                    Name = name,
+                    IsActive = isActive
+                });
+
+
+                if(result == null || !result.Any())
+                {
+                    return NotFound();
+                }
 
                 return Ok(result);
             }
@@ -91,11 +118,13 @@ namespace ChurchSchool.API.Controllers
             try
             {
                 var result = _course.Add(course);
+                
+                if (result.Errors.Any())
+                {
+                    return BadRequest(result.Errors);
+                }                    
 
                 _unitOfWork.Commit();
-
-                if (result.Errors.Any())
-                    return BadRequest(result.Errors);
 
                 return Ok(result);
             }
@@ -106,7 +135,7 @@ namespace ChurchSchool.API.Controllers
         }
 
         [HttpPut]
-        public IActionResult Put(Guid key, [FromBody] Course course)
+        public IActionResult Put(long key, [FromBody] Course course)
         {
             try
             {
@@ -134,7 +163,7 @@ namespace ChurchSchool.API.Controllers
         }
 
         [HttpDelete]
-        public IActionResult Delete(Guid key)
+        public IActionResult Delete(long key)
         {
             try
             {
@@ -144,6 +173,8 @@ namespace ChurchSchool.API.Controllers
                     return NotFound();
 
                 var result = _course.Remove(key);
+
+                _unitOfWork.Commit();
 
                 return Ok(result);
             }

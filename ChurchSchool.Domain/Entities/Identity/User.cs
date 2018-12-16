@@ -8,7 +8,7 @@ namespace ChurchSchool.Domain.Entities.Identity
         /// <summary>
         /// Application Person Id related with the inserted login.
         /// </summary>
-        public Guid PersonId { get; set; }
+        public long PersonId { get; set; }
 
         /// <summary>
         /// Indicates the current user is disabled

@@ -34,13 +34,13 @@ namespace ChurchSchool.Application
             return _subjectRepository.GetAll();
         }
 
-        public Domain.Entities.Subject GetById(Guid id)
+        public Domain.Entities.Subject GetById(long id)
         {
             return _subjectRepository.Filter(new Domain.Entities.Subject { Id = id })
                                      .FirstOrDefault();
         }
 
-        public ValidationResult Remove(Guid id)
+        public ValidationResult Remove(long id)
         {
             _subjectRepository.Remove(id);
             return new ValidationResult();

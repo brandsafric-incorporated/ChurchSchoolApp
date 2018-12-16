@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using ChurchSchool.Application.Contracts;
 using ChurchSchool.Application.Models;
+using ChurchSchool.Domain.Entities;
 using ChurchSchool.Repository.Contracts;
 using System;
 using System.Collections.Generic;
@@ -33,6 +34,11 @@ namespace ChurchSchool.Application
             return _courseRepository.Filter(new Domain.Entities.Course { Name = name });
         }
 
+        public IEnumerable<Domain.Entities.Course> Filter(Domain.Entities.Course course)
+        {
+            return _courseRepository.Filter(course);
+        }
+
         public IEnumerable<Domain.Entities.Course> GetAll()
         {
             var result = _courseRepository.GetAll().ToList();
@@ -40,14 +46,14 @@ namespace ChurchSchool.Application
             return result;
         }
 
-        public Domain.Entities.Course GetById(Guid id)
+        public Domain.Entities.Course GetById(long id)
         {
             var result = _courseRepository.Filter(new Domain.Entities.Course { Id = id })
                                           .FirstOrDefault();
             return result;
         }
 
-        public bool Remove(Guid id)
+        public bool Remove(long id)
         {
             return _courseRepository.Remove(id);
         }

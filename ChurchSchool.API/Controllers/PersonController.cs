@@ -53,7 +53,7 @@ namespace ChurchSchool.API.Controllers
                 if (account == null)
                     return NotFound();
 
-                var result = _person.GetById(account.PersonId ?? default(Guid));
+                var result = _person.GetById(account.PersonId ?? 0);
 
                 if (result != null)
                     return Ok(result);

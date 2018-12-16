@@ -8,7 +8,7 @@ namespace ChurchSchool.Application.Models
 {
     public class CurriculumModel
     {
-        public Guid? Id { get; set; }
+        public long? Id { get; set; }
         public string Description { get; set; }
         public IEnumerable<Domain.Entities.Subject> Subjects { get; set; }
     }

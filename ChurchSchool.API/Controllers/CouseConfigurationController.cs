@@ -43,8 +43,8 @@ namespace ChurchSchool.API.Controllers
         }
 
         [HttpGet]
-        [Route("{couse}")]
-        public IActionResult GetByCourse(Guid course)
+        [Route("{course}")]
+        public IActionResult GetByCourse(long course)
         {
             try
             {
@@ -56,7 +56,7 @@ namespace ChurchSchool.API.Controllers
                 }
                 else
                 {
-                    return NoContent();
+                    return NotFound();
                 }
             }
             catch (Exception ex)
@@ -95,7 +95,7 @@ namespace ChurchSchool.API.Controllers
         }
 
         [HttpPut]
-        public IActionResult Put(Guid key, [FromBody]Domain.Entities.CourseConfiguration configuration)
+        public IActionResult Put(long key, [FromBody]Domain.Entities.CourseConfiguration configuration)
         {
             try
             {
@@ -123,7 +123,7 @@ namespace ChurchSchool.API.Controllers
         }
 
         [HttpDelete]
-        public IActionResult Delete(Guid key)
+        public IActionResult Delete(long key)
         {
             try
             {
@@ -142,34 +142,34 @@ namespace ChurchSchool.API.Controllers
             }
         }
 
-        [HttpPost, Route("subject")]
-        public IActionResult Post([FromBody]Domain.Entities.Course_Subject[] model)
-        {
-            try
-            {
-                var result = new List<ValidationResult>();
+        //[HttpPost, Route("subject")]
+        //public IActionResult Post([FromBody]Domain.Entities.Course_Subject[] model)
+        //{
+        //    try
+        //    {
+        //        var result = new List<ValidationResult>();
 
-                foreach (var item in model)
-                {
-                    result.Add(_courseConfiguration.VinculateSubject(item));
-                }
+        //        foreach (var item in model)
+        //        {
+        //            result.Add(_courseConfiguration.VinculateSubject(item));
+        //        }
 
-                _unitOfWork.Commit();
+        //        _unitOfWork.Commit();
 
-                if (!result.Any(x => x.Errors.Any()))
-                {
-                    return Ok();
-                }
-                else
-                {
-                    return BadRequest(result.Select(x => x.Errors));
-                }
+        //        if (!result.Any(x => x.Errors.Any()))
+        //        {
+        //            return Ok();
+        //        }
+        //        else
+        //        {
+        //            return BadRequest(result.Select(x => x.Errors));
+        //        }
 
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, ex);
-            }
-        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return StatusCode(500, ex);
+        //    }
+        //}
     }
 }

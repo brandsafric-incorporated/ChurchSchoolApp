@@ -77,7 +77,7 @@ namespace ChurchSchool.Application
         {
             var enrollmentID = $"{DateTime.Now.Year}{(DateTime.Now.Month < 7 ? "01" : "02")}";
 
-            return $"{enrollmentID}_{(_studentRepository.GetAll().Count(d => d.CourseId == entity.CourseId) + 1)}";
+            return $"{enrollmentID}_{(_studentRepository.GetAll().Count(d => d.CourseClassId == entity.CourseClassId) + 1)}";
         }
 
         private bool VerifyStudentAlreadyEnrolled(Domain.Entities.Student entity)
@@ -87,7 +87,7 @@ namespace ChurchSchool.Application
             if (cpfInformed == null)
                 throw new Exception("CPF não informado");
 
-            return _studentRepository.VerifyStudentAlreadyEnrolled(cpfInformed.DocumentNumber, entity.CourseId);
+            return _studentRepository.VerifyStudentAlreadyEnrolled(cpfInformed.DocumentNumber, entity.CourseClassId);
         }
 
         public IEnumerable<Domain.Entities.Student> GetAll()
@@ -95,12 +95,12 @@ namespace ChurchSchool.Application
             return _studentRepository.GetAll();
         }
 
-        public Domain.Entities.Student GetById(Guid id)
+        public Domain.Entities.Student GetById(long id)
         {
             return _studentRepository.Filter(new Domain.Entities.Student { Id = id }).FirstOrDefault();
         }
 
-        public ValidationResult Remove(Guid id)
+        public ValidationResult Remove(long id)
         {
             var currentStudent = GetById(id);
 

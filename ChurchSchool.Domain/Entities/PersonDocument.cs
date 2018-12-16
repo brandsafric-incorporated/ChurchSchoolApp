@@ -4,7 +4,7 @@ namespace ChurchSchool.Domain.Entities
 {
     public class PersonDocument : Document
     {
-        public Guid PersonId { get; set; }
+        public long PersonId { get; set; }
         public Person Person { get; set; }
     }
 }

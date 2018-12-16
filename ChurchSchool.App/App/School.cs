@@ -29,7 +29,7 @@ namespace ChurchSchool.Application.App
         {
             return new SchoolInfoConsolidated
             {
-                ActiveCoursesAmount = _courseRepository.GetActiveCourses().Count(),
+                ActiveCoursesAmount = _courseRepository.Filter(new Domain.Entities.Course { IsActive = true }).Count(),
                 ActiveStudentsAmount = _studentRepository.GetTotalActiveStudents(),
                 PendingEnrollmentsAmount = _enrollmentRepository.GetTotalPendingEnrollments(),
                 AvaiableTeachersAmount = _professorRepository.GetAvaiableTeacherAmount()

@@ -8,7 +8,7 @@ namespace ChurchSchool.Application.Contracts
 {
     public interface ICourseConfiguration : IBasicOperations<Domain.Entities.CourseConfiguration>
     {
-        IEnumerable<Domain.Entities.CourseConfiguration> GetByCourse(Guid courseId);
-        ValidationResult VinculateSubject(Domain.Entities.Course_Subject model);
+        IEnumerable<Domain.Entities.CourseConfiguration> GetByCourse(long courseId);
+        //ValidationResult VinculateSubject(Domain.Entities.Course_Subject model);
     }
 }

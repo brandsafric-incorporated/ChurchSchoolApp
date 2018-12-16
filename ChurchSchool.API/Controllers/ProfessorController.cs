@@ -39,7 +39,7 @@ namespace ChurchSchool.API.Controllers
         }
 
         [HttpGet, Route("{key}")]
-        public IActionResult Filter(Guid key)
+        public IActionResult Filter(long key)
         {
             try
             {
@@ -73,7 +73,7 @@ namespace ChurchSchool.API.Controllers
         }
 
         [HttpPut]
-        public IActionResult Put(Guid id, [FromBody] Domain.Entities.Professor entity)
+        public IActionResult Put(long id, [FromBody] Domain.Entities.Professor entity)
         {
             try
             {
@@ -93,7 +93,7 @@ namespace ChurchSchool.API.Controllers
         }
 
         [HttpDelete]
-        public IActionResult Delete(Guid key)
+        public IActionResult Delete(long key)
         {
             try
             {

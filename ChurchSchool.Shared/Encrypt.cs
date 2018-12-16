@@ -11,7 +11,7 @@ namespace ChurchSchool.Shared
             var encryptedContent = hashObj.ComputeHash(Encoding.UTF8.GetBytes(content));
 
             var encryptedOutput = new StringBuilder();
-
+            
             foreach (var item in encryptedContent)
             {
                 encryptedOutput.Append(item.ToString("x2"));

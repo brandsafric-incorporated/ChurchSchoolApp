@@ -33,7 +33,7 @@ namespace ChurchSchool.API.MapperProfiles
 
             CreateMap<Application.Models.EnrollmentModel, Domain.Entities.Student>()
                 .ForMember(destination => destination.Course, opt => opt.ResolveUsing(source => source.RelatedCourse))
-                .ForMember(destination => destination.CourseId, opt => opt.ResolveUsing(source => source.Student.CourseId))
+                .ForMember(destination => destination.CourseClassId, opt => opt.ResolveUsing(source => source.Student.CourseClassId))
                 .ForMember(destination => destination.EnrollmentDate, opt => opt.ResolveUsing(source => source.Student.EnrollmentDate))
                 .ForMember(destination => destination.EnrollmentID, opt => opt.ResolveUsing(source => source.Student.EnrollmentID))
                 .ForMember(destination => destination.Id, opt => opt.ResolveUsing(source => source.Student.Id))

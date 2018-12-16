@@ -4,9 +4,9 @@ namespace ChurchSchool.Domain.Entities
 {
     public class Frequency : BaseEntity
     {
-        public Guid SubjectId { get; set; }
-        public Guid StudentId { get; set; }
-        public Guid ProfessorId { get; set; }
+        public long SubjectId { get; set; }
+        public long StudentId { get; set; }
+        public long ProfessorId { get; set; }
 
 
         public Subject Subject { get; set; }
