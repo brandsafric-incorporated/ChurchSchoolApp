@@ -13,12 +13,12 @@ namespace ChurchSchool.API.MapperProfiles
         public MapProfile()
         {
             CreateMap<Domain.Entities.Identity.Account, Domain.Entities.Identity.User>()
-                .ForMember(destination => destination.PasswordHash, opt => opt.ResolveUsing(source => source.Password))
-                .ForMember(destination => destination.PersonId, opt => opt.ResolveUsing(source => source.PersonId))
-                .ForMember(destination => destination.UserName, opt => opt.ResolveUsing(source => source.UserName))                
+                .ForMember(destination => destination.PasswordHash, opt => opt.MapFrom((source, d) => source?.Password)) 
+                .ForMember(destination => destination.PersonId, opt => opt.MapFrom((source,d) => source?.PersonId))
+                .ForMember(destination => destination.UserName, opt => opt.MapFrom((source,d) => source?.UserName))                
                 .ForMember(destinationMember => destinationMember.AccessFailedCount, opt => opt.Ignore())
                 .ForMember(destinationMember => destinationMember.ConcurrencyStamp, opt => opt.Ignore())
-                .ForMember(destinationMember => destinationMember.Email, opt => opt.ResolveUsing(source => source.Email))
+                .ForMember(destinationMember => destinationMember.Email, opt => opt.MapFrom((source,d) => source.Email))
                 .ForMember(destinationMember => destinationMember.EmailConfirmed, opt => opt.Ignore())
                 .ForMember(destinationMember => destinationMember.Id, opt => opt.Ignore())
                 .ForMember(destinationMember => destinationMember.IsDisabled, opt => opt.Ignore())
@@ -30,12 +30,12 @@ namespace ChurchSchool.API.MapperProfiles
                 .ForMember(destinationMember => destinationMember.PhoneNumberConfirmed, opt => opt.Ignore())
                 .ForMember(destinationMember => destinationMember.SecurityStamp, opt => opt.Ignore())
                 .ForMember(destinationMember => destinationMember.TwoFactorEnabled, opt => opt.Ignore())
-                .ForSourceMember(source=> source.Errors, x=> x.Ignore())                
+                .ForSourceMember(source=> source.Errors, x=> x.DoNotValidate())                
                 .ReverseMap()
                 ;
 
             CreateMap<Domain.Entities.Identity.User, Domain.Entities.Identity.Account>()
-                .ForMember(destination => destination.Password, opt => opt.ResolveUsing(source => source.PasswordHash));
+                .ForMember(destination => destination.Password, opt => opt.MapFrom((source, d) => source.PasswordHash));
         }
     }
 }
