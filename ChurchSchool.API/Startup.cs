@@ -1,38 +1,35 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using AutoMapper;
+using ChurchSchool.API.Models;
+using ChurchSchool.Application;
+using ChurchSchool.Application.Contracts;
+using ChurchSchool.Identity;
+using ChurchSchool.Identity.Contracts;
+using ChurchSchool.Identity.Entities;
+using ChurchSchool.Identity.Model;
+using ChurchSchool.Repository;
+using ChurchSchool.Repository.Contracts;
+using ChurchSchool.Repository.Repositories;
+using ChurchSchool.Repository.UOW;
+using ChurchSchool.Service.Contracts;
+using ChurchSchool.Service.Implementations;
+using ChurchSchool.Shared;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.IdentityModel.Tokens;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using System.Text;
-using System;
-
-using Swashbuckle.AspNetCore.Swagger;
-using AutoMapper;
-using Newtonsoft.Json;
-
-using ChurchSchool.Application.Contracts;
-using ChurchSchool.Application;
-using ChurchSchool.Domain.Contracts;
-using ChurchSchool.Repository.UOW;
-using ChurchSchool.Repository.Contracts;
-using ChurchSchool.API.Models;
-using ChurchSchool.Repository;
-using ChurchSchool.Repository.Repositories;
-using ChurchSchool.Identity.Model;
-using ChurchSchool.Identity.Contracts;
-using ChurchSchool.Identity;
-using ChurchSchool.Shared;
-using ChurchSchool.Identity.Entities;
-using ChurchSchool.Service.Implementations;
-using ChurchSchool.Service.Contracts;
-using Microsoft.Extensions.FileProviders;
-using System.Reflection;
-using Microsoft.AspNetCore.Mvc.Razor;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Microsoft.Extensions.FileProviders;
+using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json;
+using Swashbuckle.AspNetCore.Swagger;
+using System;
+using System.Reflection;
+using System.Text;
 
 namespace ChurchSchool.API
 {
@@ -66,10 +63,7 @@ namespace ChurchSchool.API
             var viewAssembly = typeof(EmailService).GetTypeInfo().Assembly;
             var fileProvider = new EmbeddedFileProvider(viewAssembly);
 
-            services.Configure<RazorViewEngineOptions>(options =>
-            {
-                options.FileProviders.Add(fileProvider);
-            });
+            services.Configure<RazorViewEngineOptions>(options => options.FileProviders.Add(fileProvider));
 
             //Configuratons
             services.Configure<ApplicationSettings>(_configuration);
@@ -176,7 +170,7 @@ namespace ChurchSchool.API
             services.AddScoped<IEmailService, EmailService>();
             services.AddScoped<IEmailTemplateService, EmailTemplateService>();
 
-            //Unit of Work | TODO- Improve this part (shoul have a factory method responsible to provide a correct instance)
+            //Unit of Work | TODO- Improve this part (should have a factory method responsible to provide a correct instance)
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IUnitOfWorkIdentity, UnitOfWorkIdentity>();
 
@@ -213,7 +207,7 @@ namespace ChurchSchool.API
                        .AllowAnyOrigin();
             });
 
-            app.UseMvc();            
+            app.UseMvc();
         }
     }
 }

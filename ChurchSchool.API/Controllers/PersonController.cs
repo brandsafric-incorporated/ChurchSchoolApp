@@ -13,17 +13,17 @@ namespace ChurchSchool.API.Controllers
 {
     [Produces("application/json")]
     [Route("api/Person")]
-    [Authorize]
     public class PersonController : Controller
     {
         private IPerson _person;
         private IAccount _account;
+        private readonly IUnitOfWork _unitOfWork;
 
-
-        public PersonController(IPerson person, IAccount account)
+        public PersonController(IPerson person, IAccount account, IUnitOfWork unitOfWork)
         {
             _person = person;
             _account = account;
+            _unitOfWork = unitOfWork;
         }
 
         [HttpGet]
@@ -69,6 +69,8 @@ namespace ChurchSchool.API.Controllers
             try
             {
                 var result = _person.Add(person);
+
+                _unitOfWork.Commit();
 
                 if (result.Errors.Any())
                 {

@@ -18,7 +18,7 @@ namespace ChurchSchool.Repository
         public ApplicationDbContext CreateDbContext(string[] args)
         {
             var builder = new DbContextOptionsBuilder<ApplicationDbContext>();
-            builder.UseSqlServer("Data Source=(local)\\SERVER_XPS;Initial Catalog=DB_SEMINARIO;Integrated Security=True");
+            builder.UseSqlServer("Data Source=G7-GUSTAVO;Initial Catalog=ChurchSchoolApp;Integrated Security=True");
             return new ApplicationDbContext(builder.Options);
         }
     }
