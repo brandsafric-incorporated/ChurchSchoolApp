@@ -8,10 +8,10 @@ namespace ChurchSchool.Application.Contracts
     public interface ICourse
     {
         IEnumerable<Domain.Entities.Course> GetAll();
-        Domain.Entities.Course GetById(Guid id);
+        Domain.Entities.Course GetById(long id);
         IEnumerable<Domain.Entities.Course> Filter(string name);
         Domain.Entities.Course Add(Domain.Entities.Course course);
         bool Update(Domain.Entities.Course course);
-        bool Remove(Guid id);
+        bool Remove(long id);
     }
 }

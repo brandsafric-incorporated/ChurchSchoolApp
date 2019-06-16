@@ -1,17 +1,16 @@
 ﻿using ChurchSchool.Domain.Entities;
-using ChurchSchool.Domain.Contracts;
+using ChurchSchool.Repository.Contracts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using ChurchSchool.Repository.Contracts;
 
 namespace ChurchSchool.Repository.Repositories
 {
     public class CourseRepository : ICourseRepository
     {
-        private readonly RepositoryContext _context;
+        private readonly IDbContext _context;
 
-        public CourseRepository(RepositoryContext context) => _context = context;
+        public CourseRepository(IDbContext context) => _context = context;
 
         public Course Add(Course model)
         {
@@ -23,7 +22,7 @@ namespace ChurchSchool.Repository.Repositories
 
         public IEnumerable<Course> GetAll() => _context.Courses;
 
-        public bool Remove(Guid key)
+        public bool Remove(long key)
         {
             var itemToRemove = _context.Courses.FirstOrDefault(y => y.Id == key);
 

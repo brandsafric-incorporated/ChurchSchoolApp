@@ -36,7 +36,7 @@ namespace ChurchSchool.Repository.Repositories
 
 
 
-        public bool Remove(Guid key)
+        public bool Remove(long key)
         {
             var itemToRemove = _context.Students.Find(key);
 
@@ -52,7 +52,7 @@ namespace ChurchSchool.Repository.Repositories
             return true;
         }
 
-        public bool VerifyStudentAlreadyEnrolled(string cpf, Guid courseId)
+        public bool VerifyStudentAlreadyEnrolled(string cpf, long courseId)
         {
             var person = _personRepository.GetByCPF(cpf);
 

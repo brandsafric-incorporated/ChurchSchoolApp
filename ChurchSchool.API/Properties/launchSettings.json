@@ -2,6 +2,10 @@
   "iisSettings": {
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
+    "iis": {
+      "applicationUrl": "http://localhost/ChurchSchool.API",
+      "sslPort": 0
+    },
     "iisExpress": {
       "applicationUrl": "http://localhost:6000/",
       "sslPort": 44302
@@ -15,12 +19,10 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "newProfile1": {
-      "commandName": "Project",
-      "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
-      },
-      "applicationUrl": "http://localhost:8800"
+    "AppProfile": {
+      "commandName": "Executable",
+      "launchBrowser": true,
+      "applicationUrl": "localhost:9000"
     }
   }
 }

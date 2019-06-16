@@ -49,13 +49,13 @@ namespace ChurchSchool.Application
             return entity;
         }
 
-        private bool CheckIfProfessorIsAuthorized(Guid professorId, Guid subjectId)
+        private bool CheckIfProfessorIsAuthorized(long professorId, long subjectId)
         {
             return _professorSubjectRepository.GetRelatedSubjects(professorId)
                                               .Any(x => x.SubjectId == subjectId);
         }
 
-        private bool CheckIfSubjectIsEnabled(Guid curriculum_SubjectId)
+        private bool CheckIfSubjectIsEnabled(long curriculum_SubjectId)
         {
             var isSubjectEnabled = _curriculum_SubjectRepository.Filter(new Curriculum_Subject { Id = curriculum_SubjectId })
                                                  .Any(y =>
@@ -70,12 +70,12 @@ namespace ChurchSchool.Application
             return _courseClassRepository.GetAll();
         }
 
-        public Domain.Entities.CourseClass GetById(Guid id)
+        public Domain.Entities.CourseClass GetById(long id)
         {
             return _courseClassRepository.Filter(new Domain.Entities.CourseClass { Id = id }).FirstOrDefault();
         }
 
-        public ValidationResult Remove(Guid id)
+        public ValidationResult Remove(long id)
         {
             var operationResult = _courseClassRepository.Remove(id);
 

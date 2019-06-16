@@ -26,11 +26,11 @@ namespace ChurchSchool.Repository.Repositories
 
         public IEnumerable<CourseConfiguration> Filter(CourseConfiguration model) => _context.Configurations.Where(x => x == model);
 
-        public IEnumerable<CourseConfiguration> GetByCourse(Guid courseId) => _context.Configurations.Where(x => x.CourseId == courseId);
+        public IEnumerable<CourseConfiguration> GetByCourse(long courseId) => _context.Configurations.Where(x => x.CourseId == courseId);
 
         public IEnumerable<CourseConfiguration> GetAll() => _context.Configurations;
 
-        public bool Remove(Guid key)
+        public bool Remove(long key)
         {
             var itemToRemove = _context.Configurations.FirstOrDefault(x => x.Id == key);
 

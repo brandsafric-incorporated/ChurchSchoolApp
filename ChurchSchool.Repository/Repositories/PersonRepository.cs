@@ -10,9 +10,9 @@ namespace ChurchSchool.Repository.Repositories
 {
     public class PersonRepository : IPersonRepository
     {
-        private RepositoryContext _context;
+        private IDbContext _context;
 
-        public PersonRepository(RepositoryContext context)
+        public PersonRepository(IDbContext context)
         {
             _context = context;
         }
@@ -52,11 +52,11 @@ namespace ChurchSchool.Repository.Repositories
 
         public Person GetByCPF(string cpfNumber)
         {
-            var result = _context.People.FirstOrDefault(y=> y.Documents.Any(x=>x.DocumentTypeId == EDocumentType.CPF && x.DocumentNumber == cpfNumber));
+            var result = _context.People.FirstOrDefault(y=> y.Documents.Any(x=>x.DocumentType == EDocumentType.CPF && x.DocumentNumber == cpfNumber));
             return result;
         }
 
-        public bool Remove(Guid key)
+        public bool Remove(long key)
         {
             var person = _context.People.FirstOrDefault(x => x.Id == key);
 

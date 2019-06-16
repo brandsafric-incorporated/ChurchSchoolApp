@@ -7,6 +7,6 @@ namespace ChurchSchool.Application.Contracts
 {
     public interface ICourseConfiguration : IBasicOperations<Domain.Entities.CourseConfiguration>
     {
-        IEnumerable<Domain.Entities.CourseConfiguration> GetByCourse(Guid courseId);
+        IEnumerable<Domain.Entities.CourseConfiguration> GetByCourse(long courseId);
     }
 }

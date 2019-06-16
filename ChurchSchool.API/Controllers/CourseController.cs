@@ -86,7 +86,7 @@ namespace ChurchSchool.API.Controllers
         }
 
         [HttpPut]
-        public IActionResult Put(Guid key, [FromBody] Course course)
+        public IActionResult Put(long key, [FromBody] Course course)
         {
             try
             {
@@ -115,7 +115,7 @@ namespace ChurchSchool.API.Controllers
 
 
         [HttpDelete]
-        public IActionResult Delete(Guid key)
+        public IActionResult Delete(long key)
         {
             try
             {

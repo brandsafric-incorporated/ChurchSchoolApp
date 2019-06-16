@@ -7,8 +7,8 @@ namespace ChurchSchool.Domain.Entities
 {
     public class CourseClass : BaseEntity, IValidateObject
     {
-        public Guid Curriculum_SubjectId { get; set; }
-        public Guid ProfessorId { get; set; }
+        public long Curriculum_SubjectId { get; set; }
+        public long ProfessorId { get; set; }
 
         public string Description { get; set; }
         public string ClassName { get; set; }
@@ -21,10 +21,10 @@ namespace ChurchSchool.Domain.Entities
             if (string.IsNullOrEmpty(ClassName))
                 AddError("Nome da turma é obrigatório.");
 
-            if (ProfessorId == Guid.Empty)
+            if (ProfessorId == default(long))
                 AddError("Informe um professor");
 
-            if (Curriculum_SubjectId == Guid.Empty)
+            if (Curriculum_SubjectId == default(long))
                 AddError("Informe uma disciplina");
 
             return !Errors.Any();

@@ -27,7 +27,7 @@ namespace ChurchSchool.Repository.Repositories
 
         public IEnumerable<Curriculum> GetAll() => _context.Curriculums;
 
-        public bool Remove(Guid key)
+        public bool Remove(long key)
         {
             var itemToRemove = _context.Curriculums.FirstOrDefault(y => y.Id == key);
             itemToRemove.RemovedDate = DateTime.Now;

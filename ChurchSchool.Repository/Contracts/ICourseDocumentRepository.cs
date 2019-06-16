@@ -5,9 +5,9 @@ using System.Text;
 
 namespace ChurchSchool.Repository.Contracts
 {
-    public interface ICourseDocumentRepository : IRepository<CourseDocuments>
+    public interface ICourseDocumentRepository : IRepository<CourseDocument>
     {
-        bool RemoveByCourseConfiguration(Guid courseConfigurationId);
-        bool AddCourseDocumentRage(IEnumerable<CourseDocuments> documents);
+        bool RemoveByCourseConfiguration(long courseConfigurationId);
+        bool AddCourseDocumentRage(IEnumerable<CourseDocument> documents);
     }
 }

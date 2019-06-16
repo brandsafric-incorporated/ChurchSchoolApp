@@ -1,18 +1,15 @@
 ﻿using ChurchSchool.Repository;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace ChurchSchool.Test
 {
     public class InMemoryDbHelper
     {
-        public static DbContextOptions<RepositoryContext> GenerateFakeOptionsObject()
+        public static DbContextOptions<InMemoryDbContext> BuildContextOptions()
         {
-            var builder = new DbContextOptionsBuilder<RepositoryContext>();
-            builder.UseInMemoryDatabase("DB_SEMINARIO");
-            return builder.Options;
+            return new DbContextOptionsBuilder<InMemoryDbContext>()
+                                                    .UseInMemoryDatabase(databaseName: "ChurchSchoolAppDb")
+                                                    .Options;
         }
     }
 }

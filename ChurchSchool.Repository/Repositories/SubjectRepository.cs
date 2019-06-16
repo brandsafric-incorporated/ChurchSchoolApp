@@ -34,7 +34,7 @@ namespace ChurchSchool.Repository.Repositories
             return _context.Subjects;
         }
 
-        public bool Remove(Guid key)
+        public bool Remove(long key)
         {
             var itemToRemove = _context.Subjects.FirstOrDefault(x => x.Id == key);
 

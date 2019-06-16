@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ChurchSchool.Repository.Migrations.ApplicationDb
 {
-    public partial class InitialIdentity : Migration
+    public partial class Start : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -41,8 +41,10 @@ namespace ChurchSchool.Repository.Migrations.ApplicationDb
                     LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
                     LockoutEnabled = table.Column<bool>(nullable: false),
                     AccessFailedCount = table.Column<int>(nullable: false),
-                    PersonId = table.Column<Guid>(nullable: false),
-                    IsDisabled = table.Column<bool>(nullable: false)
+                    PersonId = table.Column<long>(nullable: false),
+                    IsDisabled = table.Column<bool>(nullable: false),
+                    PasswordRecoveryToken = table.Column<string>(nullable: true),
+                    PasswordRecoveryRequestedDate = table.Column<DateTime>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -78,7 +80,8 @@ namespace ChurchSchool.Repository.Migrations.ApplicationDb
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     UserId = table.Column<string>(nullable: false),
                     ClaimType = table.Column<string>(nullable: true),
-                    ClaimValue = table.Column<string>(nullable: true)
+                    ClaimValue = table.Column<string>(nullable: true),
+                    DisplayValue = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {

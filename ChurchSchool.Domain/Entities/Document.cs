@@ -5,6 +5,8 @@ namespace ChurchSchool.Domain.Entities
 {
     public abstract class Document : BaseEntity
     {
+        public int DocumentTypeId { get; set; }
+
         public string DocumentNumber { get; set; }
 
         /// <summary>
@@ -20,6 +22,16 @@ namespace ChurchSchool.Domain.Entities
         /// <summary>
         /// Tipo de Documento
         /// </summary>
-        public EDocumentType DocumentTypeId { get; set; }        
+        public EDocumentType DocumentType
+        {
+            get
+            {
+                return (EDocumentType)this.DocumentTypeId;
+            }
+            set
+            {
+                this.DocumentTypeId = (int)value;
+            }
+        }
     }
 }

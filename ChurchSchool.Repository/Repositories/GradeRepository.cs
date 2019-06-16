@@ -37,7 +37,7 @@ namespace ChurchSchool.Repository.Repositories
             return _repositoryContext.Grades;
         }
 
-        public async Task<bool> Remove(Guid key)
+        public async Task<bool> Remove(long key)
         {
 
             var itemToRemove = await _repositoryContext.Grades.FindAsync(key);

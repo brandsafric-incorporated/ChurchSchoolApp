@@ -1,7 +1,5 @@
 ﻿using ChurchSchool.Application.Contracts;
-using ChurchSchool.Domain.Contracts;
 using ChurchSchool.Repository.Contracts;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -18,6 +16,17 @@ namespace ChurchSchool.Application
 
         public Domain.Entities.Course Add(Domain.Entities.Course course)
         {
+            if (!course.IsValid())
+            {
+                return course;
+            }
+
+            if (_courseRepository.GetAll().Any(g => g.Name.Trim().ToLower() == course.Name.Trim().ToLower()))
+            {
+                course.AddError("Já existe um curso cadastrado com esse nome.");
+                return course;
+            }
+
             return _courseRepository.Add(course);
         }
 
@@ -31,14 +40,14 @@ namespace ChurchSchool.Application
             return _courseRepository.GetAll();
         }
 
-        public Domain.Entities.Course GetById(Guid id)
+        public Domain.Entities.Course GetById(long id)
         {
             var result = _courseRepository.Filter(new Domain.Entities.Course { Id = id })
                                           .FirstOrDefault();
             return result;
         }
 
-        public bool Remove(Guid id)
+        public bool Remove(long id)
         {
             return _courseRepository.Remove(id);
         }

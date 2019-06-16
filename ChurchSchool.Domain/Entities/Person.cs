@@ -29,7 +29,7 @@ namespace ChurchSchool.Domain.Entities
                 AddError("Nome é obrigatório");
             }
 
-            if (!Documents.Any(x => x.DocumentTypeId == EDocumentType.CPF))
+            if (!Documents.Any(x => x.DocumentType == EDocumentType.CPF))
                 AddError($"CPF é Obrigatório");
 
             foreach (var phone in Phones)

@@ -65,7 +65,7 @@ namespace ChurchSchool.API.Controllers
         }
 
         [HttpPut]
-        public IActionResult Put(Guid key, [FromBody] Domain.Entities.Student entity)
+        public IActionResult Put(long key, [FromBody] Domain.Entities.Student entity)
         {
             try
             {

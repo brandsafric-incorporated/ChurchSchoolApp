@@ -11,13 +11,13 @@ namespace ChurchSchool.Domain.Entities.Identity
     public class Account : ValidationResult, IValidateObject
     {
         public string Id { get; set; }
-        public Guid? PersonId { get; set; }
+        public long? PersonId { get; set; }
         public string UserName { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
         public bool IsValid()
         {
-            if (PersonId == default(Guid))
+            if (PersonId == default(long))
                 AddError("Código de usuário é obrigatório");
 
             if (string.IsNullOrEmpty(UserName))

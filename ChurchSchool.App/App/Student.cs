@@ -30,8 +30,7 @@ namespace ChurchSchool.Application
             EEnrollmentStatus.ACTIVE
         };
 
-        private IStudentRepository _studentRepository;
-        private IProfessorRepository _professorRepository;
+        private IStudentRepository _studentRepository;        
         private IPerson _person;
 
         public Student(IStudentRepository studentRepository,
@@ -82,7 +81,7 @@ namespace ChurchSchool.Application
 
         private bool VerifyStudentAlreadyEnrolled(Domain.Entities.Student entity)
         {
-            var cpfInformed = entity.Person.Documents.FirstOrDefault(y => y.DocumentTypeId == EDocumentType.CPF);
+            var cpfInformed = entity.Person.Documents.FirstOrDefault(y => y.DocumentType == EDocumentType.CPF);
 
             if (cpfInformed == null)
                 throw new Exception("CPF não informado");
@@ -95,12 +94,12 @@ namespace ChurchSchool.Application
             return _studentRepository.GetAll();
         }
 
-        public Domain.Entities.Student GetById(Guid id)
+        public Domain.Entities.Student GetById(long id)
         {
             return _studentRepository.Filter(new Domain.Entities.Student { Id = id }).FirstOrDefault();
         }
 
-        public ValidationResult Remove(Guid id)
+        public ValidationResult Remove(long id)
         {
             var currentStudent = GetById(id);
 

@@ -10,6 +10,6 @@ namespace ChurchSchool.Repository.Contracts
         IEnumerable<T> Filter(T model);
         T Add(T model);
         bool Update(T model);
-        bool Remove(Guid key);
+        bool Remove(long key);
     }
 }

@@ -9,8 +9,8 @@ namespace ChurchSchool.Domain.Entities
 {
     public class Student : BaseEntity, IValidateObject
     {
-        public Guid PersonId { get; set; }
-        public Guid CourseId { get; set; }
+        public long PersonId { get; set; }
+        public long CourseId { get; set; }
         public string EnrollmentID { get; set; }
         public DateTime? EnrollmentDate { get; set; }
 

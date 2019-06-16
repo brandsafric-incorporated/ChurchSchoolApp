@@ -42,7 +42,7 @@ namespace ChurchSchool.API.Controllers
 
         [HttpGet]
         [Route("{couse}")]
-        public IActionResult GetByCourse(Guid course)
+        public IActionResult GetByCourse(long course)
         {
             try
             {
@@ -93,7 +93,7 @@ namespace ChurchSchool.API.Controllers
         }
 
         [HttpPut]
-        public IActionResult Put(Guid key, [FromBody]Domain.Entities.CourseConfiguration configuration)
+        public IActionResult Put(long key, [FromBody]Domain.Entities.CourseConfiguration configuration)
         {
             try
             {
@@ -121,7 +121,7 @@ namespace ChurchSchool.API.Controllers
         }
 
         [HttpDelete]
-        public IActionResult Delete(Guid key)
+        public IActionResult Delete(long key)
         {
             try
             {

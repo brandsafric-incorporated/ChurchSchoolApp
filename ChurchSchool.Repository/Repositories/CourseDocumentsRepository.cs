@@ -19,40 +19,40 @@ namespace ChurchSchool.Repository.Repositories
             _context = context;
         }
 
-        public CourseDocuments Add(CourseDocuments model)
+        public CourseDocument Add(CourseDocument model)
         {
             throw new NotImplementedException();
         }
 
-        public bool AddCourseDocumentRage(IEnumerable<CourseDocuments> documents)
+        public bool AddCourseDocumentRage(IEnumerable<CourseDocument> documents)
         {
             _context.AddRange(documents);
             return true;
         }
 
-        public IEnumerable<CourseDocuments> Filter(CourseDocuments model)
+        public IEnumerable<CourseDocument> Filter(CourseDocument model)
         {
             throw new NotImplementedException();
         }
 
-        public IEnumerable<CourseDocuments> GetAll()
+        public IEnumerable<CourseDocument> GetAll()
         {
             throw new NotImplementedException();
         }
 
-        public bool Remove(Guid key)
+        public bool Remove(long key)
         {
             throw new NotImplementedException();
         }
 
-        public bool RemoveByCourseConfiguration(Guid courseConfigurationId)
+        public bool RemoveByCourseConfiguration(long courseConfigurationId)
         {
             var documents = _context.CourseDocuments.Where(t => t.CourseConfigurationId == courseConfigurationId);
             _context.RemoveRange(documents.ToArray());
             return true;
         }
 
-        public bool Update(CourseDocuments model)
+        public bool Update(CourseDocument model)
         {
             throw new NotImplementedException();
         }

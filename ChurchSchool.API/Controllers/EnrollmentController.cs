@@ -42,7 +42,7 @@ namespace ChurchSchool.API.Controllers
 
         [HttpGet]
         [Route("Course/{classKey}")]
-        public IActionResult FilterEnrollmentsByCourse(Guid classKey)
+        public IActionResult FilterEnrollmentsByCourse(long classKey)
         {
             try
             {

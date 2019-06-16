@@ -8,10 +8,10 @@ namespace ChurchSchool.Repository.ModelSettings
     {
         public void Configure(ModelBuilder builder)
         {
-            builder.Entity<Domain.Entities.CourseDocuments>(u =>
+            builder.Entity<Domain.Entities.CourseDocument>(u =>
             {
                 u.HasKey(x => x.Id);
-                u.Property(x => x.Id).HasDefaultValueSql("NEWID()");
+                u.Property(x => x.Id).UseSqlServerIdentityColumn();
                 u.Property(x => x.InsertedDate).HasColumnType("datetime").HasDefaultValueSql("GETDATE()");
                 u.Property(x => x.UpdatedDate).HasColumnType("datetime");
                 u.Property(x => x.RemovedDate).HasColumnType("datetime");

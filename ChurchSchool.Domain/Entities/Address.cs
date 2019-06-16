@@ -17,7 +17,7 @@ namespace ChurchSchool.Domain.Entities
 
         public int AddressTypeId { get; set; }
 
-        public Guid PersonId { get; set; }
+        public long PersonId { get; set; }
 
         [NotMapped]
         public EAddressType Type => (EAddressType)AddressTypeId;

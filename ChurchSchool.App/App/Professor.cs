@@ -86,9 +86,9 @@ namespace ChurchSchool.Application
 
         public IEnumerable<Domain.Entities.Professor> GetAll() => _professorRepository.GetAll();
 
-        public Domain.Entities.Professor GetById(Guid id) => _professorRepository.Filter(new Domain.Entities.Professor { Id = id }).FirstOrDefault();
+        public Domain.Entities.Professor GetById(long id) => _professorRepository.Filter(new Domain.Entities.Professor { Id = id }).FirstOrDefault();
 
-        public ValidationResult Remove(Guid id)
+        public ValidationResult Remove(long id)
         {
             var operationResult = _professorRepository.Remove(id);
 

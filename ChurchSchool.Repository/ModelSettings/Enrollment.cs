@@ -11,7 +11,7 @@ namespace ChurchSchool.Repository.ModelSettings
             builder.Entity<Domain.Entities.Enrollment>(x =>
             {
                 x.HasKey(q => q.Id);
-                x.Property(q => q.Id).HasDefaultValueSql("NEWID()");
+                x.Property(q => q.Id).UseSqlServerIdentityColumn();
                 x.Property(q => q.Status).HasColumnType("int").IsRequired();
                 x.Property(q => q.EnrollmentDate).HasColumnType("datetime").IsRequired();
                 x.Property(q => q.InsertedDate).HasColumnType("datetime").IsRequired().HasDefaultValueSql("GETDATE()");

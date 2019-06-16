@@ -6,8 +6,8 @@ namespace ChurchSchool.Domain.Entities
 {
     public class ConfigurationCurriculum : BaseEntity, IValidateObject
     {
-        public Guid ConfigurationId { get; set; }
-        public Guid CurriculumId { get; set; }
+        public long  ConfigurationId { get; set; }
+        public long  CurriculumId { get; set; }
         public bool IsCurrentConfiguration { get; set; }
         public bool IsActive { get; set; }
 
@@ -19,12 +19,12 @@ namespace ChurchSchool.Domain.Entities
         
         public bool IsValid()
         {
-            if (ConfigurationId == Guid.Empty)
+            if (ConfigurationId == default(long))
             {
                 AddError("Configuração Inválida ou vazia");
             }
 
-            if (CurriculumId == Guid.Empty)
+            if (CurriculumId == default(long))
             {
                 AddError("Curriculo Inválido ou não fornecido");
             }

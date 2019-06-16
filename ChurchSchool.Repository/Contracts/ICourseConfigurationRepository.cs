@@ -7,6 +7,6 @@ namespace ChurchSchool.Repository.Contracts
 {
     public interface ICourseConfigurationRepository : IRepository<CourseConfiguration>
     {
-        IEnumerable<CourseConfiguration> GetByCourse(Guid courseId);
+        IEnumerable<CourseConfiguration> GetByCourse(long courseId);
     }
 }

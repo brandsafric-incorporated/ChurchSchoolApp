@@ -51,19 +51,19 @@ namespace ChurchSchool.Application
             return _courseConfigurationRepository.Add(entity);
         }
 
-        public Domain.Entities.CourseConfiguration GetById(Guid id)
+        public Domain.Entities.CourseConfiguration GetById(long id)
         {
             return _courseConfigurationRepository.Filter(new Domain.Entities.CourseConfiguration { Id = id })
                                                  .FirstOrDefault();
 
         }
 
-        public IEnumerable<Domain.Entities.CourseConfiguration> GetByCourse(Guid courseId)
+        public IEnumerable<Domain.Entities.CourseConfiguration> GetByCourse(long courseId)
         {
             return _courseConfigurationRepository.Filter(new Domain.Entities.CourseConfiguration { CourseId = courseId });
         }
 
-        public ValidationResult Remove(Guid id)
+        public ValidationResult Remove(long id)
         {
             if (VerifyRelatedCourses(id))
             {
@@ -113,7 +113,7 @@ namespace ChurchSchool.Application
 
 
 
-        private bool VerifyRelatedCourses(Guid id)
+        private bool VerifyRelatedCourses(long id)
         {
             var result = _courseConfigurationRepository.Filter(new Domain.Entities.CourseConfiguration { Id = id });
 

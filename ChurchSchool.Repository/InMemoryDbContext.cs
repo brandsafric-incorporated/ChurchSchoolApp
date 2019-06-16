@@ -1,26 +1,13 @@
 ﻿using ChurchSchool.Domain.Entities;
 using ChurchSchool.Repository.Contracts;
-using ChurchSchool.Repository.Helpers;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Logging.Console;
 
 namespace ChurchSchool.Repository
 {
-    public class RepositoryContext : DbContext, IDomainTables, IDbContext
+    public class InMemoryDbContext : DbContext, IDomainTables, IDbContext
     {
-        #region Properties
-
-        public static readonly LoggerFactory DbConsoleFactory = new LoggerFactory(new[] {
-            new ConsoleLoggerProvider((category, level)=> category == DbLoggerCategory.Database.Command.Name &&
-                                                          level == LogLevel.Information,true)
-        });
-
-        #endregion
-
-        public RepositoryContext(DbContextOptions<RepositoryContext> options) : base(options) { }
-
-        #region Db Sets
+        public InMemoryDbContext(DbContextOptions<InMemoryDbContext> options) : base(options) { }
+        
         public DbSet<Person> People { get; set; }
         public DbSet<Address> Addresses { get; set; }
         public DbSet<Student> Students { get; set; }
@@ -40,15 +27,8 @@ namespace ChurchSchool.Repository
         public DbSet<Curriculum_Subject> Curriculum_Subject { get; set; }
         public DbSet<CourseClass_Student> CourseClass_Student { get; set; }
         public DbSet<ProfessorSubject> ProfessorSubject { get; set; }
-        #endregion
-
-        #region Overrides
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            ModelBuilderFactory.ConfigureDomainModels(modelBuilder);
-        }
-        #endregion
 
 
+        
     }
 }

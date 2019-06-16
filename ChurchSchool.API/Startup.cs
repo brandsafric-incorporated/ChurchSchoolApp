@@ -46,6 +46,7 @@ namespace ChurchSchool.API
             _configuration = configuration;
             _apiInfo = SwaggerInfoHelper.GetSwaggerInformation();
             _secretKey = configuration.GetSection("SecretKey")?.Value;
+            Console.Write(_secretKey);
             _signingKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(_secretKey));
             _environment = environment;
         }
@@ -79,6 +80,11 @@ namespace ChurchSchool.API
             {
                 options.UseSqlServer(_configuration.GetConnectionString("LocalConnection"), x => x.MigrationsAssembly("ChurchSchool.Repository"));
                 options.EnableSensitiveDataLogging(sensitiveDataLoggingEnabled: true);
+            });
+
+            services.AddDbContext<InMemoryDbContext>(options =>
+            {
+                options.UseInMemoryDatabase(databaseName: "ChurchSchoolAppDB");
             });
 
             var jwtSettings = _configuration.GetSection(nameof(JwtIssuerOptions));
@@ -132,7 +138,7 @@ namespace ChurchSchool.API
             });
 
             //Mapper
-            services.AddAutoMapper();
+            services.AddAutoMapper(typeof(Startup));
 
             //Application DI
             services.AddScoped<ICourse, Course>();
@@ -150,6 +156,10 @@ namespace ChurchSchool.API
             services.AddScoped<IAuthorization, Authorization>();
             services.AddScoped<IJwtFactory, JwtFactory>();
             services.AddScoped<IPasswordRecovery, PasswordRecovery>();
+
+            //DbContext
+            services.AddScoped<IDbContext, InMemoryDbContext>();
+            services.AddScoped<IDbContext, RepositoryContext>();
 
             //Repository DI            
             services.AddScoped<ICourseRepository, CourseRepository>();

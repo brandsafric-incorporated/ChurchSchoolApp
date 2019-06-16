@@ -24,7 +24,7 @@ namespace ChurchSchool.Application
                 return entity;
             }
 
-            var newPersonCpf = entity.Documents.FirstOrDefault(x => x.DocumentTypeId == Domain.Enum.EDocumentType.CPF);
+            var newPersonCpf = entity.Documents.FirstOrDefault(x => x.DocumentType == Domain.Enum.EDocumentType.CPF);
 
             if (newPersonCpf == null)
             {
@@ -46,7 +46,7 @@ namespace ChurchSchool.Application
 
         public bool CheckIfExists(Domain.Entities.Person person)
         {
-            var newPersonCpf = person.Documents.FirstOrDefault(x => x.DocumentTypeId == Domain.Enum.EDocumentType.CPF);
+            var newPersonCpf = person.Documents.FirstOrDefault(x => x.DocumentType == Domain.Enum.EDocumentType.CPF);
 
             return newPersonCpf != null && _personRepository.GetByCPF(newPersonCpf.DocumentNumber) != null;
         }
@@ -56,13 +56,13 @@ namespace ChurchSchool.Application
             return _personRepository.GetAll();
         }
 
-        public Domain.Entities.Person GetById(Guid id)
+        public Domain.Entities.Person GetById(long id)
         {
             return _personRepository.Filter(new Domain.Entities.Person { Id = id })
                                     .FirstOrDefault();
         }
 
-        public ValidationResult Remove(Guid id)
+        public ValidationResult Remove(long id)
         {
             _personRepository.Remove(id);
             return new ValidationResult();
@@ -75,7 +75,7 @@ namespace ChurchSchool.Application
                 return entity;
             }
 
-            var newPersonCpf = entity.Documents.FirstOrDefault(x => x.DocumentTypeId == Domain.Enum.EDocumentType.CPF);
+            var newPersonCpf = entity.Documents.FirstOrDefault(x => x.DocumentType == Domain.Enum.EDocumentType.CPF);
 
             if (newPersonCpf == null)
             {
@@ -83,10 +83,10 @@ namespace ChurchSchool.Application
                 return entity;
             }
 
-            var currentCPFSaved = _personRepository.GetByCPF(newPersonCpf.DocumentNumber);
+            var currentSavedCpf = _personRepository.GetByCPF(newPersonCpf.DocumentNumber);
 
             //TODO - validate all documents, in a later moment
-            if (currentCPFSaved != null && currentCPFSaved.Id != entity.Id)
+            if (currentSavedCpf != null && currentSavedCpf.Id != entity.Id)
             {
                 entity.AddError($"CPF {newPersonCpf.DocumentNumber} já cadastrado");
                 return entity;
@@ -97,12 +97,11 @@ namespace ChurchSchool.Application
             return entity;
         }
 
-        private ValidationResult ValidateForDelete(Guid personId)
+        private ValidationResult ValidateForDelete(long personId)
         {
             //TODO - Implement Validation for Delete, looking situations as Person is already a enrolled student, Person is a person acting as professor
             return new ValidationResult();
         }
-
-
+        
     }
 }

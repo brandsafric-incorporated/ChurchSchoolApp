@@ -9,9 +9,9 @@ namespace ChurchSchool.Application.Contracts
     public interface IBasicOperations<T>
     {
         IEnumerable<T> GetAll();
-        T GetById(Guid id);
+        T GetById(long id);
         T Add(T entity);
         ValidationResult Update(T entity);
-        ValidationResult Remove(Guid id);
+        ValidationResult Remove(long id);
     }
 }

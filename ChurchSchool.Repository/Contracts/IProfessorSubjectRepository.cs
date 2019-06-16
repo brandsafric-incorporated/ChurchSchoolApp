@@ -6,6 +6,6 @@ namespace ChurchSchool.Repository.Contracts
 {
     public interface IProfessorSubjectRepository
     {
-        IEnumerable<Domain.Entities.ProfessorSubject> GetRelatedSubjects(Guid professorId);
+        IEnumerable<Domain.Entities.ProfessorSubject> GetRelatedSubjects(long professorId);
     }
 }

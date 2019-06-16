@@ -7,7 +7,7 @@ namespace ChurchSchool.Domain.Entities
     public class Email : BaseEntity, IValidateObject
     {
         public string Address { get; set; }
-        public Guid PersonId { get; set; }
+        public long PersonId { get; set; }
 
         public Person Person { get; set; }
 
