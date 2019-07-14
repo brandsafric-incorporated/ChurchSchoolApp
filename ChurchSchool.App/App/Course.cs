@@ -8,10 +8,14 @@ namespace ChurchSchool.Application
     public class Course : ICourse
     {
         private readonly ICourseRepository _courseRepository;
+        private readonly IUnitOfWorkIdentity _unitOfWork;
 
-        public Course(ICourseRepository courseRepository)
+        public Course(
+            ICourseRepository courseRepository,
+            IUnitOfWorkIdentity unitOfWork)
         {
             _courseRepository = courseRepository;
+            _unitOfWork = unitOfWork;
         }
 
         public Domain.Entities.Course Add(Domain.Entities.Course course)
@@ -27,7 +31,10 @@ namespace ChurchSchool.Application
                 return course;
             }
 
-            return _courseRepository.Add(course);
+            _courseRepository.Add(course);
+            _unitOfWork.Commit();
+
+            return course;
         }
 
         public IEnumerable<Domain.Entities.Course> Filter(string name)
@@ -49,12 +56,20 @@ namespace ChurchSchool.Application
 
         public bool Remove(long id)
         {
-            return _courseRepository.Remove(id);
+            var wasRemoved = _courseRepository.Remove(id);
+
+            _unitOfWork.Commit();
+
+            return wasRemoved;
         }
 
         public bool Update(Domain.Entities.Course course)
         {
-            return _courseRepository.Update(course);
+            var wasUpdated = _courseRepository.Update(course);
+
+            _unitOfWork.Commit();
+
+            return wasUpdated;
         }
     }
 }

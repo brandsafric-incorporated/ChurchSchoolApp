@@ -24,7 +24,7 @@ namespace ChurchSchool.Test
         {
             using (var context = new InMemoryDbContext(_databaseContextOptions))
             {
-                var repository = new PersonRepository(context);
+                var repository = new PersonRepository(null);
                 repository.Add(new Domain.Entities.Person
                 {
                     Addresses = new List<Address>() {

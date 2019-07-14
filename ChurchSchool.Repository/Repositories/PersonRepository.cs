@@ -1,5 +1,4 @@
-﻿using ChurchSchool.Domain.Contracts;
-using ChurchSchool.Domain.Entities;
+﻿using ChurchSchool.Domain.Entities;
 using ChurchSchool.Domain.Enum;
 using ChurchSchool.Repository.Contracts;
 using System;
@@ -10,9 +9,9 @@ namespace ChurchSchool.Repository.Repositories
 {
     public class PersonRepository : IPersonRepository
     {
-        private IDbContext _context;
+        private RepositoryContext _context;
 
-        public PersonRepository(IDbContext context)
+        public PersonRepository(RepositoryContext context)
         {
             _context = context;
         }
@@ -48,11 +47,11 @@ namespace ChurchSchool.Repository.Repositories
             return _context.People.Where(p => p.Id == model.Id);
         }
 
-        public IEnumerable<Person> GetAll () => _context.People;
+        public IEnumerable<Person> GetAll() => _context.People;
 
         public Person GetByCPF(string cpfNumber)
         {
-            var result = _context.People.FirstOrDefault(y=> y.Documents.Any(x=>x.DocumentType == EDocumentType.CPF && x.DocumentNumber == cpfNumber));
+            var result = _context.People.FirstOrDefault(y => y.Documents.Any(x => x.DocumentType == EDocumentType.CPF && x.DocumentNumber == cpfNumber));
             return result;
         }
 

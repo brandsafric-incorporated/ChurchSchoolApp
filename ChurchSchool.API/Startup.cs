@@ -45,8 +45,7 @@ namespace ChurchSchool.API
         {
             _configuration = configuration;
             _apiInfo = SwaggerInfoHelper.GetSwaggerInformation();
-            _secretKey = configuration.GetSection("SecretKey")?.Value;
-            Console.Write(_secretKey);
+            _secretKey = configuration.GetSection("SecretKey")?.Value;            
             _signingKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(_secretKey));
             _environment = environment;
         }
@@ -191,8 +190,6 @@ namespace ChurchSchool.API
                     });
 
             services.AddSwaggerGen(c => c.SwaggerDoc("v1", _apiInfo));
-
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

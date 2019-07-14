@@ -1,41 +1,42 @@
-﻿using System;
-using System.Linq;
-using Microsoft.AspNetCore.Mvc;
-using ChurchSchool.Application.Contracts;
+﻿using ChurchSchool.Application.Contracts;
 using ChurchSchool.Domain.Entities;
-using ChurchSchool.Repository.Contracts;
-using Microsoft.AspNetCore.Authorization;
 using ChurchSchool.Shared;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace ChurchSchool.API.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [Produces("application/json")]
-    [Route("api/Course")]    
+    [Route("api/Course")]
     public class CourseController : Controller
     {
         private readonly ICourse _course;
-        private readonly IUnitOfWorkIdentity _unitOfWork;
+
         private readonly IOptions<ApplicationSettings> _extendedOptions;
 
         public CourseController(ICourse course,
-                                IUnitOfWorkIdentity unitOfWork,
                                 IOptions<ApplicationSettings> extendedOptions)
         {
-            _course = course;
-            _unitOfWork = unitOfWork;
+            _course = course;            
             _extendedOptions = extendedOptions;
         }
 
         [HttpGet]
-        public IActionResult Get()
+        public async Task<IActionResult> Get()
         {
             try
-            {   
-                var result = _course.GetAll();
+            {
+                return await Task.Run(() =>
+                {
+                    var result = _course.GetAll();
 
-                return Ok(result.ToArray());
+                    return Ok(result.ToArray());
+                });
             }
             catch (Exception ex)
             {
@@ -45,19 +46,34 @@ namespace ChurchSchool.API.Controllers
 
         [HttpGet]
         [Route("{name}")]
-        public IActionResult Get(string name)
+        public async Task<IActionResult> Get(string name)
         {
             try
             {
-                if (string.IsNullOrWhiteSpace(name))
-                    return BadRequest();
+                return await Task.Run(() =>
+                {
+                    IActionResult response = null;
 
-                var result = _course.Filter(name);
+                    if (string.IsNullOrWhiteSpace(name))
+                    {
+                        response = BadRequest();
+                    }
+                    else
+                    {
+                        var result = _course.Filter(name);
 
-                if (result == null)
-                    return NotFound();
+                        if (result == null)
+                        {
+                            response = NotFound();
+                        }
+                        else
+                        {
+                            response = Ok(result);
+                        }
+                    }
 
-                return Ok(result);
+                    return response;
+                });
             }
             catch (Exception ex)
             {
@@ -66,18 +82,27 @@ namespace ChurchSchool.API.Controllers
         }
 
         [HttpPost]
-        public IActionResult Post([FromBody]Course course)
+        public async Task<IActionResult> Post([FromBody]Course course)
         {
             try
             {
-                var result = _course.Add(course);
-                
-                _unitOfWork.Commit();
+                return await Task.Run(() =>
+                {
+                    IActionResult response = null;
 
-                if (result.Errors.Any())
-                    return BadRequest(result.Errors);
+                    var result = _course.Add(course);
 
-                return Ok(result);
+                    if (result.Errors.Any())
+                    {
+                        response = BadRequest(result.Errors);
+                    }
+                    else
+                    {
+                        response = Ok(result);
+                    }
+
+                    return response;
+                });
             }
             catch (Exception ex)
             {
@@ -93,19 +118,25 @@ namespace ChurchSchool.API.Controllers
                 var relatedItem = _course.GetById(key);
 
                 if (relatedItem == null)
+                {
                     return NotFound(key);
+                }
 
                 if (!course.Id.HasValue)
+                {
                     course.Id = key;
+                }
 
                 var result = _course.Update(course);
 
-                _unitOfWork.Commit();
-
                 if (result)
+                {
                     return Ok();
+                }
                 else
+                {
                     return BadRequest(course);
+                }
             }
             catch (Exception ex)
             {

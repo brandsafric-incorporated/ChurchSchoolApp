@@ -8,7 +8,7 @@ namespace ChurchSchool.Shared.Validations
     {
         public static bool ValidatePassword(string password)
         {
-            return !string.IsNullOrEmpty(password) && password.Trim().Length >= 8;
+            return !string.IsNullOrWhiteSpace(password) && password.Trim().Length >= 8;
         }
     }
 }

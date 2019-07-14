@@ -11,7 +11,7 @@ namespace ChurchSchool.API.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
-        private IAccount _account;
+        private readonly IAccount _account;
 
         private IAuthorization _authorization;
 
